@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(cuid())
+  email      String       @unique
+  nome       String?
+  cnpj       String?
+  plano      String       @default("gratis")
+  criadoEm  DateTime     @default(now())
+  documentos Documento[]
+  financeiro Financeiro[]
+  lembretes  Lembrete[]
+  @@map("users")
+}
+
+model Documento {
+  id        String   @id @default(cuid())
+  userId    String
+  tipo      String
+  dadosJson Json
+  status    String   @default("ativo")
+  numero    String?
+  criadoEm DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  @@map("documentos")
+}
+
+model Financeiro {
+  id        String   @id @default(cuid())
+  userId    String
+  tipo      String
+  categoria String?
+  descricao String
+  valor     Decimal
+  carteira  String   @default("negocio")
+  data      DateTime
+  criadoEm DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  @@map("financeiro")
+}
+
+model Lembrete {
+  id         String   @id @default(cuid())
+  userId     String
+  tipo       String
+  descricao  String
+  vencimento DateTime
+  status     String   @default("pendente")
+  criadoEm  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  @@map("lembretes")
+}
