@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Indentação automática
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false, // Força usar as configurações acima
+
+  "eslint.nodePath": "./node_modules",
+  "css.lint.unknownAtRules": "ignore"
+}
