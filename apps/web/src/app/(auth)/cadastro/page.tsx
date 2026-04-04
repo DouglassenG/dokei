@@ -19,27 +19,24 @@ export default function CadastroPage({ searchParams }: CadastroPageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">Criar conta</h2>
-        <p className="text-sm text-gray-500 mt-1">
+        <h2 className="text-xl font-semibold text-white">Criar conta</h2>
+        <p className="text-sm text-white/80 mt-1">
           Comece grátis — sem cartão de crédito
         </p>
       </div>
 
-      {/* Exibe erro vindo da URL — ex: e-mail já cadastrado */}
       {searchParams.error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{searchParams.error}</p>
+        <div className="p-3 bg-red-500/20 border border-red-300/50 rounded-lg backdrop-blur-sm">
+          <p className="text-sm text-white">{searchParams.error}</p>
         </div>
       )}
 
-      {/* Exibe mensagem de sucesso — ex: confirme seu e-mail */}
       {searchParams.message && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-sm text-green-600">{searchParams.message}</p>
+        <div className="p-3 bg-white/20 border border-white/30 rounded-lg backdrop-blur-sm">
+          <p className="text-sm text-white">{searchParams.message}</p>
         </div>
       )}
 
-      {/* action={cadastro} envia o formulário para a Server Action */}
       <form action={cadastro} className="space-y-4">
         <Input
           id="email"
@@ -60,9 +57,9 @@ export default function CadastroPage({ searchParams }: CadastroPageProps) {
         <Button type="submit" label="Criar conta grátis" variant="primary" />
       </form>
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-white/80">
         Já tem conta?{" "}
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-white font-medium hover:underline">
           Entrar
         </Link>
       </p>
