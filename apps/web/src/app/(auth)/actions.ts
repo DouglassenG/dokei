@@ -10,11 +10,12 @@ export async function login(formData: FormData): Promise<void> {
     password: formData.get("password"),
   }
 
-  // Valida dados antes de qualquer operação no banco
   const parsed = loginSchema.safeParse(rawData)
 
+  // parsed.success false → parsed.error sempre existe aqui
   if (!parsed.success) {
-    return redirect(`/login?error=${parsed.error.errors[0].message}`)
+    const mensagem = parsed.error.issues[0]?.message ?? "Dados inválidos"
+    return redirect(`/login?error=${mensagem}`)
   }
 
   const supabase = await createClient()
@@ -24,7 +25,6 @@ export async function login(formData: FormData): Promise<void> {
     password: parsed.data.password,
   })
 
-  // Mensagem genérica — não revela se o e-mail existe ou não
   if (error) {
     return redirect("/login?error=E-mail ou senha inválidos")
   }
@@ -41,7 +41,8 @@ export async function cadastro(formData: FormData): Promise<void> {
   const parsed = cadastroSchema.safeParse(rawData)
 
   if (!parsed.success) {
-    return redirect(`/cadastro?error=${parsed.error.errors[0].message}`)
+    const mensagem = parsed.error.issues[0]?.message ?? "Dados inválidos"
+    return redirect(`/cadastro?error=${mensagem}`)
   }
 
   const supabase = await createClient()
