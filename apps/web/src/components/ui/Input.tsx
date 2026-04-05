@@ -20,7 +20,7 @@ export function Input({
 }: InputProps) {
   return (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className="block text-sm font-medium text-[#1B5E20]">
         {label}
       </label>
       <input
@@ -29,7 +29,7 @@ export function Input({
         type={type}
         required={required}
         placeholder={placeholder}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+        className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] hover:border-[#1B5E20]/40 transition-colors"
       />
     </div>
   )

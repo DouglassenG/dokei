@@ -4,13 +4,16 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-sm">
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">dokei</h1>
-          <p className="text-sm text-gray-500 mt-1">Gestão simples para MEI</p>
+    <div className="min-h-screen flex items-center justify-center bg-[#8BC34A] px-4">
+      <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl ring-1 ring-white/10 overflow-hidden">
+        <div className="h-1 bg-[#1B5E20]" />
+        <div className="p-8">
+          <div className="mb-8 text-center">
+            <h1 className="text-2xl font-bold text-[#1B5E20]">Dokei</h1>
+            <p className="text-sm text-[#2E7D32] mt-1">Gestão simples para MEI</p>
+          </div>
+          {children}
         </div>
-        {children}
       </div>
     </div>
   )

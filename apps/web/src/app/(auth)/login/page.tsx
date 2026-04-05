@@ -2,12 +2,11 @@
 // Lógica de autenticação fica em actions.ts
 
 import Link from "next/link"
+import { LogIn } from "lucide-react"
 import { Input } from "../../../components/ui/Input"
 import { Button } from "../../../components/ui/Button"
 import { login } from "../actions"
 
-// Props tipadas para receber parâmetros da URL
-// Ex: /login?error=Credenciais inválidas
 interface LoginPageProps {
   searchParams: {
     error?: string
@@ -19,19 +18,19 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-white">Entrar</h2>
-        <p className="text-sm text-white/80 mt-1">Acesse sua conta dokei</p>
+        <h2 className="text-xl font-semibold text-[#1B5E20]">Entrar</h2>
+        <p className="text-sm text-[#2E7D32] mt-1">Acesse sua conta Dokei</p>
       </div>
 
       {searchParams.error && (
-        <div className="p-3 bg-red-500/20 border border-red-300/50 rounded-lg backdrop-blur-sm">
-          <p className="text-sm text-white">{searchParams.error}</p>
+        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-700">{searchParams.error}</p>
         </div>
       )}
 
       {searchParams.message && (
-        <div className="p-3 bg-white/20 border border-white/30 rounded-lg backdrop-blur-sm">
-          <p className="text-sm text-white">{searchParams.message}</p>
+        <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-sm text-[#1B5E20]">{searchParams.message}</p>
         </div>
       )}
 
@@ -52,14 +51,19 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           placeholder="••••••••"
           required
         />
-        <Button type="submit" label="Entrar" variant="primary" />
+        <Button
+          type="submit"
+          label="Entrar"
+          variant="primary"
+          icon={<LogIn size={18} />}
+        />
       </form>
 
-      <p className="text-center text-sm text-white/80">
+      <p className="text-center text-sm text-[#2E7D32]">
         Não tem conta?{" "}
         <Link
           href="/cadastro"
-          className="text-white font-medium hover:underline"
+          className="text-[#1B5E20] font-medium hover:underline"
         >
           Cadastre-se grátis
         </Link>
