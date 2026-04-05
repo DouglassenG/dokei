@@ -1,21 +1,14 @@
-// Página de cadastro — só renderiza o formulário
-// Lógica de criação de conta fica em actions.ts
-
 import Link from "next/link"
-import { Input } from "../../../components/ui/Input"
-import { Button } from "../../../components/ui/Button"
-import { cadastro } from "../actions"
 
-// Props tipadas para receber parâmetros da URL
-// Ex: /cadastro?message=Confirme seu e-mail
 interface CadastroPageProps {
-  searchParams: {
-    error?: string
-    message?: string
-  }
+  searchParams: Promise<{ error?: string; message?: string }>
 }
 
-export default function CadastroPage({ searchParams }: CadastroPageProps) {
+export default async function CadastroPage({
+  searchParams,
+}: CadastroPageProps) {
+  const params = await searchParams
+
   return (
     <div className="space-y-6">
       <div>
@@ -25,36 +18,59 @@ export default function CadastroPage({ searchParams }: CadastroPageProps) {
         </p>
       </div>
 
-      {searchParams.error && (
+      {params.error && (
         <div className="p-3 bg-red-500/20 border border-red-300/50 rounded-lg backdrop-blur-sm">
-          <p className="text-sm text-white">{searchParams.error}</p>
+          <p className="text-sm text-white">{params.error}</p>
         </div>
       )}
 
-      {searchParams.message && (
+      {params.message && (
         <div className="p-3 bg-white/20 border border-white/30 rounded-lg backdrop-blur-sm">
-          <p className="text-sm text-white">{searchParams.message}</p>
+          <p className="text-sm text-white">{params.message}</p>
         </div>
       )}
 
-      <form action={cadastro} className="space-y-4">
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          label="E-mail"
-          placeholder="seu@email.com"
-          required
-        />
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          label="Senha"
-          placeholder="mínimo 6 caracteres"
-          required
-        />
-        <Button type="submit" label="Criar conta grátis" variant="primary" />
+      <form className="space-y-4">
+        <div className="space-y-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-white"
+          >
+            E-mail
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="seu@email.com"
+            required
+            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-white"
+          >
+            Senha
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="mínimo 6 caracteres"
+            required
+            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-white text-[#1B5E20] font-medium py-3 px-4 rounded-lg hover:bg-white/90 transition-colors shadow-lg"
+        >
+          Criar conta grátis
+        </button>
       </form>
 
       <p className="text-center text-sm text-white/80">

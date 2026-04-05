@@ -99,7 +99,7 @@ export default function Home() {
       </main>
 
       <footer className="bg-[#1B5E20] px-6 py-8 text-center">
-        <p className="text-sm font-semibold text-white">dokei</p>
+        <p className="text-sm font-semibold text-white">Dokei</p>
         <p className="text-sm text-white/80 mt-1">Gestão simples para MEI</p>
       </footer>
     </div>
