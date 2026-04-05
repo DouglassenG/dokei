@@ -2,6 +2,7 @@ import Link from "next/link"
 import { UserPlus } from "lucide-react"
 import { Input } from "../../../components/ui/Input"
 import { Button } from "../../../components/ui/Button"
+import { cadastro } from "../actions"
 
 interface CadastroPageProps {
   searchParams: Promise<{ error?: string; message?: string }>
@@ -33,7 +34,7 @@ export default async function CadastroPage({
         </div>
       )}
 
-      <form className="space-y-4">
+      <form className="space-y-4" action={cadastro}>
         <Input
           id="email"
           name="email"
@@ -60,7 +61,10 @@ export default async function CadastroPage({
 
       <p className="text-center text-sm text-[#2E7D32]">
         Já tem conta?{" "}
-        <Link href="/login" className="text-[#1B5E20] font-medium hover:underline">
+        <Link
+          href="/login"
+          className="text-[#1B5E20] font-medium hover:underline"
+        >
           Entrar
         </Link>
       </p>
