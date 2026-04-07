@@ -60,7 +60,7 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
       </form>
 
       <p className="text-center text-sm text-[#2E7D32]">
-        Não tem conta?{" "}
+        Não tem conta ?{" "}
         <Link
           href="/cadastro"
           className="text-[#1B5E20] font-medium hover:underline"
