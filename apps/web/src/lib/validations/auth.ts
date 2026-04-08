@@ -9,6 +9,7 @@ export const loginSchema = z.object({
 })
 
 export const cadastroSchema = z.object({
+  name: z.string().min(1, "Nome obrigatório").max(100, "Nome muito longo"),
   email: z.string().min(1, "E-mail obrigatório").email("E-mail inválido"),
   password: z
     .string()

@@ -34,6 +34,7 @@ export async function login(formData: FormData): Promise<void> {
 
 export async function cadastro(formData: FormData): Promise<void> {
   const rawData = {
+    name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
   }
@@ -50,6 +51,7 @@ export async function cadastro(formData: FormData): Promise<void> {
   const { error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
+    options: { data: { full_name: parsed.data.name } },
   })
 
   if (error) {

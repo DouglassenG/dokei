@@ -53,9 +53,10 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Pega só o primeiro nome do e-mail para exibir
-  // ex: douglas@email.com → douglas
-  const primeiroNome = user?.email?.split("@")[0] ?? "MEI"
+  const primeiroNome =
+    user?.user_metadata?.full_name?.split(" ")[0] ??
+    user?.email?.split("@")[0] ??
+    "MEI"
 
   return (
     <div className="space-y-8">
