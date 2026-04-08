@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { loginSchema, cadastroSchema } from "@/lib/validations/auth"
 import { redirect } from "next/navigation"
+import { headers } from "next/headers"
 
 export async function login(formData: FormData): Promise<void> {
   const rawData = {
@@ -12,7 +13,6 @@ export async function login(formData: FormData): Promise<void> {
 
   const parsed = loginSchema.safeParse(rawData)
 
-  // parsed.success false → parsed.error sempre existe aqui
   if (!parsed.success) {
     const mensagem = parsed.error.issues[0]?.message ?? "Dados inválidos"
     return redirect(`/login?error=${mensagem}`)
@@ -57,6 +57,25 @@ export async function cadastro(formData: FormData): Promise<void> {
   }
 
   return redirect("/cadastro?message=Confirme seu e-mail para continuar")
+}
+
+export async function loginGoogle(): Promise<void> {
+  const supabase = await createClient()
+  const headersList = await headers()
+  const origin = headersList.get("origin") ?? "http://localhost:3000"
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  })
+
+  if (error || !data.url) {
+    return redirect("/login?error=Erro ao conectar com Google")
+  }
+
+  return redirect(data.url)
 }
 
 export async function logout(): Promise<void> {
