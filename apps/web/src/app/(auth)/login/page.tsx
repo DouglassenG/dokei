@@ -4,14 +4,19 @@ import { Input } from "../../../components/ui/Input"
 import { Button } from "../../../components/ui/Button"
 import { login, loginGoogle } from "../actions"
 
+// ALTERAÇÃO 1: searchParams agora é Promise — obrigatório no Next.js 16
 interface LoginPageProps {
-  searchParams: {
+  searchParams: Promise<{
     error?: string
     message?: string
-  }
+  }>
 }
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
+// ALTERAÇÃO 2: função virou async para poder usar await
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  // ALTERAÇÃO 3: await "abre" a Promise e entrega o objeto com error e message
+  const params = await searchParams
+
   return (
     <div className="space-y-6">
       <div>
@@ -19,15 +24,17 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
         <p className="text-sm text-[#2E7D32] mt-1">Acesse sua conta Dokei</p>
       </div>
 
-      {searchParams.error && (
+      {/* ALTERAÇÃO 4: trocado searchParams.error por params.error */}
+      {params.error && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-700">{searchParams.error}</p>
+          <p className="text-sm text-red-700">{params.error}</p>
         </div>
       )}
 
-      {searchParams.message && (
+      {/* ALTERAÇÃO 4: trocado searchParams.message por params.message */}
+      {params.message && (
         <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-sm text-[#1B5E20]">{searchParams.message}</p>
+          <p className="text-sm text-[#1B5E20]">{params.message}</p>
         </div>
       )}
 
@@ -48,6 +55,14 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           placeholder="••••••••"
           required
         />
+        <div className="flex justify-end">
+          <Link
+            href="/esqueci-senha"
+            className="text-sm text-[#2E7D32] hover:underline"
+          >
+            Esqueci minha senha
+          </Link>
+        </div>
         <Button
           type="submit"
           label="Entrar"

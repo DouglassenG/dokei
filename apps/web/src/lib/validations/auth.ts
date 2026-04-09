@@ -17,6 +17,19 @@ export const cadastroSchema = z.object({
     .max(72, "Senha muito longa"),
 })
 
+export const esqueceuSenhaSchema = z.object({
+  email: z.string().min(1, "E-mail obrigatório").email("E-mail inválido"),
+})
+
+export const redefinirSenhaSchema = z.object({
+  password: z
+    .string()
+    .min(6, "Senha deve ter no mínimo 6 caracteres")
+    .max(72, "Senha muito longa"),
+})
+
 // Tipos inferidos do schema — sem duplicar código
 export type LoginSchema = z.infer<typeof loginSchema>
 export type CadastroSchema = z.infer<typeof cadastroSchema>
+export type EsqueceuSenhaSchema = z.infer<typeof esqueceuSenhaSchema>
+export type RedefinirSenhaSchema = z.infer<typeof redefinirSenhaSchema>
