@@ -29,7 +29,7 @@ export default async function DashboardLayout({
       {/* Barra superior */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900">dokei</span>
+          <span className="text-lg font-bold text-gray-900">Dokei</span>
 
           <div className="flex items-center gap-4">
             {/* Exibe o e-mail do usuário logado */}
@@ -39,7 +39,7 @@ export default async function DashboardLayout({
             <form action={logout}>
               <button
                 type="submit"
-                className="text-sm text-red-500 hover:text-red-700 transition-colors"
+                className="cursor-pointer text-sm text-red-500 hover:text-red-700 transition-colors"
               >
                 Sair
               </button>

@@ -1,33 +1,77 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import Link from "next/link"
+/**
+ * Calculadora de Precificação — dokei
+ *
+ * Funcionalidades:
+ * 1. Cálculo em tempo real com useMemo (Markup sobre Custo Total)
+ * 2. URL compartilhável — parâmetros sincronizados com os campos
+ */
 
-// Tipagem de custo extra adicionado pelo usuário
+import { useState, useMemo, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import Link from "next/link"
+import {
+  Clock,
+  DollarSign,
+  Percent,
+  Plus,
+  X,
+  TrendingUp,
+  AlertTriangle,
+  Calculator,
+  ArrowRight,
+} from "lucide-react"
+
+// ─── Tipagem ────────────────────────────────────────────────────────────────
+
 interface CustoExtra {
   id: number
   nome: string
   valor: number
 }
 
+// ─── Componente principal ────────────────────────────────────────────────────
+
 export default function CalculadoraPage() {
-  // Estados dos campos de entrada
-  const [custoPorHora, setCustoPorHora] = useState(50)
-  const [horas, setHoras] = useState(2)
-  const [margem, setMargem] = useState(30)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  /**
+   * URL COMPARTILHÁVEL
+   * Lê os parâmetros da URL ao carregar a página.
+   * Se alguém abre o link compartilhado, os campos já vêm preenchidos.
+   * Fallback para valores padrão se o parâmetro não existir.
+   */
+  const [custoPorHora, setCustoPorHora] = useState(
+    Number(searchParams.get("hora") ?? 50),
+  )
+  const [horas, setHoras] = useState(Number(searchParams.get("horas") ?? 2))
+  const [margem, setMargem] = useState(Number(searchParams.get("margem") ?? 30))
   const [custosExtras, setCustosExtras] = useState<CustoExtra[]>([])
 
-  // Adiciona novo custo extra vazio na lista
+  /**
+   * Atualiza a URL sempre que custo/hora, horas ou margem mudam.
+   * Não recarrega a página — apenas troca os parâmetros silenciosamente.
+   */
+  useEffect(() => {
+    const params = new URLSearchParams()
+    params.set("hora", String(custoPorHora))
+    params.set("horas", String(horas))
+    params.set("margem", String(margem))
+    router.replace(`/calculadora-preco?${params.toString()}`, { scroll: false })
+  }, [custoPorHora, horas, margem, router])
+
+  // ─── Manipulação dos custos extras ────────────────────────────────────────
+
   function adicionarCusto() {
     setCustosExtras((prev) => [...prev, { id: Date.now(), nome: "", valor: 0 }])
   }
 
-  // Remove custo extra pelo id
   function removerCusto(id: number) {
     setCustosExtras((prev) => prev.filter((c) => c.id !== id))
   }
 
-  // Atualiza nome ou valor de um custo extra específico
   function atualizarCusto(id: number, campo: "nome" | "valor", valor: string) {
     setCustosExtras((prev) =>
       prev.map((c) =>
@@ -38,8 +82,13 @@ export default function CalculadoraPage() {
     )
   }
 
-  // Cálculo em tempo real — recalcula sempre que um campo muda
-  // Fórmula baseada em Markup sobre Custo Total (método adequado para MEI)
+  // ─── Cálculo em tempo real ────────────────────────────────────────────────
+
+  /**
+   * Método: Markup sobre Custo Total
+   * precoMinimo = custoTotal ÷ (1 - margem ÷ 100)
+   * precoMaximo = precoMinimo × 1,15
+   */
   const resultado = useMemo(() => {
     const custoTempo = custoPorHora * horas
     const totalExtras = custosExtras.reduce((acc, c) => acc + c.valor, 0)
@@ -49,7 +98,6 @@ export default function CalculadoraPage() {
     return { custoTotal, precoMinimo, precoMaximo }
   }, [custoPorHora, horas, margem, custosExtras])
 
-  // Formata número para moeda brasileira
   function formatBRL(valor: number) {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -57,18 +105,25 @@ export default function CalculadoraPage() {
     }).format(valor)
   }
 
+  // ─── Render ───────────────────────────────────────────────────────────────
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold text-[#1B5E20]">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-lg font-bold text-[#1B5E20]"
+        >
+          <Calculator size={20} />
           dokei
         </Link>
         <Link
           href="/cadastro"
-          className="text-sm text-white bg-[#1B5E20] hover:bg-[#145214] px-4 py-2 rounded-lg font-medium transition-colors"
+          className="flex items-center gap-2 text-sm text-white bg-[#1B5E20] hover:bg-[#145214] px-4 py-2 rounded-lg font-medium transition-colors"
         >
           Começar grátis
+          <ArrowRight size={16} />
         </Link>
       </header>
 
@@ -87,7 +142,8 @@ export default function CalculadoraPage() {
         <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6">
           {/* Custo por hora */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#1B5E20]">
+            <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20]">
+              <DollarSign size={16} />
               Quanto vale 1 hora do seu trabalho?
             </label>
             <div className="flex items-center gap-4">
@@ -98,7 +154,7 @@ export default function CalculadoraPage() {
                 step={5}
                 value={custoPorHora}
                 onChange={(e) => setCustoPorHora(Number(e.target.value))}
-                className="flex-1 accent-[#1B5E20]"
+                className="cursor-pointer flex-1 accent-[#1B5E20]"
               />
               <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
                 <span className="px-3 py-2 bg-gray-50 text-sm text-gray-500">
@@ -118,7 +174,8 @@ export default function CalculadoraPage() {
 
           {/* Horas do serviço */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#1B5E20]">
+            <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20]">
+              <Clock size={16} />
               Quantas horas vai levar o serviço?
             </label>
             <input
@@ -133,7 +190,8 @@ export default function CalculadoraPage() {
 
           {/* Custos extras */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#1B5E20]">
+            <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20]">
+              <Plus size={16} />
               Custos extras (material, transporte...)
             </label>
             {custosExtras.map((custo) => (
@@ -163,23 +221,25 @@ export default function CalculadoraPage() {
                 </div>
                 <button
                   onClick={() => removerCusto(custo.id)}
-                  className="px-3 py-2 text-red-400 hover:bg-red-50 rounded-lg text-sm transition-colors"
+                  className="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors"
                 >
-                  ✕
+                  <X size={16} />
                 </button>
               </div>
             ))}
             <button
               onClick={adicionarCusto}
-              className="text-sm text-[#1B5E20] hover:underline"
+              className="flex items-center gap-1 text-sm text-[#1B5E20] hover:underline"
             >
-              + Adicionar custo
+              <Plus size={14} />
+              Adicionar custo
             </button>
           </div>
 
           {/* Margem de lucro */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#1B5E20]">
+            <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20]">
+              <Percent size={16} />
               Margem de lucro desejada:{" "}
               <span className="font-bold">{margem}%</span>
             </label>
@@ -190,7 +250,7 @@ export default function CalculadoraPage() {
               step={5}
               value={margem}
               onChange={(e) => setMargem(Number(e.target.value))}
-              className="w-full accent-[#1B5E20]"
+              className="cursor-pointer w-full accent-[#1B5E20]"
             />
             <div className="flex justify-between text-xs text-gray-400">
               <span>10%</span>
@@ -201,9 +261,12 @@ export default function CalculadoraPage() {
 
         {/* Resultado */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-            Resultado
-          </h2>
+          <div className="flex items-center gap-2">
+            <TrendingUp size={16} className="text-[#1B5E20]" />
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              Resultado
+            </h2>
+          </div>
 
           <div className="flex justify-between text-sm text-gray-500">
             <span>Custo total sem lucro</span>
@@ -221,11 +284,14 @@ export default function CalculadoraPage() {
             </p>
           </div>
 
-          {/* Alerta se margem muito baixa */}
           {margem < 20 && (
-            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="flex items-start gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <AlertTriangle
+                size={16}
+                className="text-yellow-600 mt-0.5 shrink-0"
+              />
               <p className="text-sm text-yellow-700">
-                ⚠️ Margem abaixo de 20% pode não cobrir imprevistos.
+                Margem abaixo de 20% pode não cobrir imprevistos.
               </p>
             </div>
           )}
@@ -236,16 +302,17 @@ export default function CalculadoraPage() {
           </p>
         </div>
 
-        {/* CTA — captura de lead */}
+        {/* CTA */}
         <div className="bg-[#1B5E20]/5 rounded-2xl border border-[#1B5E20]/10 p-6 text-center space-y-4">
           <p className="text-sm font-medium text-gray-700">
             Gostou? Gere um orçamento profissional com esses valores.
           </p>
           <Link
             href="/cadastro"
-            className="inline-block bg-[#1B5E20] text-white hover:bg-[#145214] px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] px-6 py-3 rounded-lg text-sm font-medium transition-colors"
           >
             Criar meu orçamento grátis
+            <ArrowRight size={16} />
           </Link>
         </div>
       </main>
