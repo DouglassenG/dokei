@@ -29,8 +29,14 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Se não está logado e tenta acessar o dashboard → redireciona para login
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // Se não está logado e tenta acessar rotas protegidas → redireciona para login
+  if (
+    !user &&
+    (request.nextUrl.pathname.startsWith("/dashboard") ||
+      request.nextUrl.pathname.startsWith("/recibos") ||
+      request.nextUrl.pathname.startsWith("/financeiro") ||
+      request.nextUrl.pathname.startsWith("/obrigacoes"))
+  ) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
 
@@ -43,5 +49,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/cadastro"],
+  matcher: [
+    "/dashboard/:path*",
+    "/recibos/:path*",
+    "/financeiro/:path*",
+    "/obrigacoes/:path*",
+    "/login",
+    "/cadastro",
+  ],
 }
