@@ -9,11 +9,12 @@ import { prisma } from "@/lib/prisma"
  *
  * Fluxo:
  * 1. Verifica sessão do usuário
- * 2. Valida os campos obrigatórios
- * 3. Gera o número sequencial (DOK-0001, DOK-0002...)
+ * 2. Garante que o usuário existe na tabela users (upsert)
+ * 3. Valida os campos obrigatórios
  * 4. Verifica limite do plano grátis (5 recibos/mês)
- * 5. Salva no banco como Documento com tipo='recibo'
- * 6. Retorna o id gerado para redirecionar o frontend
+ * 5. Gera o número sequencial (DOK-0001, DOK-0002...)
+ * 6. Salva no banco como Documento com tipo='recibo'
+ * 7. Retorna o id gerado para redirecionar o frontend
  */
 export async function POST(request: Request) {
   try {
@@ -27,7 +28,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
     }
 
-    // ─── 2. Validar campos obrigatórios ────────────────────────────────────
+    // ─── 2. Garantir que o usuário existe na tabela users ─────────────────
+    // Usuários do Google OAuth e e-mail são criados no Supabase Auth
+    // mas não automaticamente na nossa tabela users — upsert resolve isso
+    const userDb = await prisma.user.upsert({
+      where: { id: user.id },
+      update: {},
+      create: {
+        id: user.id,
+        email: user.email ?? "",
+        nome: user.user_metadata?.full_name ?? null,
+        plano: "gratis",
+      },
+    })
+
+    // ─── 3. Validar campos obrigatórios ────────────────────────────────────
     const body = await request.json()
     const {
       nomeCliente,
@@ -55,7 +70,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Valor inválido." }, { status: 400 })
     }
 
-    // ─── 3. Verificar limite do plano grátis (5 recibos/mês) ──────────────
+    // ─── 4. Verificar limite do plano grátis (5 recibos/mês) ──────────────
     const inicioMes = new Date()
     inicioMes.setDate(1)
     inicioMes.setHours(0, 0, 0, 0)
@@ -68,26 +83,17 @@ export async function POST(request: Request) {
       },
     })
 
-    // Busca o plano do usuário na tabela users
-    const userDb = await prisma.user.findUnique({
-      where: { id: user.id },
-      select: { plano: true },
-    })
-
-    // Bloqueia se plano grátis e já tem 5 recibos no mês
-    if ((userDb?.plano ?? "gratis") === "gratis" && totalMes >= 5) {
+    if (userDb.plano === "gratis" && totalMes >= 5) {
       return NextResponse.json({ error: "LIMITE_ATINGIDO" }, { status: 403 })
     }
 
-    // ─── 4. Gerar número sequencial DOK-0001 ──────────────────────────────
+    // ─── 5. Gerar número sequencial DOK-0001 ──────────────────────────────
     const ultimoRecibo = await prisma.documento.findFirst({
       where: { userId: user.id, tipo: "recibo" },
       orderBy: { criadoEm: "desc" },
       select: { numero: true },
     })
 
-    // Extrai o número do último recibo e incrementa
-    // Ex: "DOK-0003" → 3 → próximo é 4 → "DOK-0004"
     const ultimoNumero = ultimoRecibo?.numero
       ? parseInt(ultimoRecibo.numero.replace("DOK-", ""), 10)
       : 0
@@ -95,7 +101,7 @@ export async function POST(request: Request) {
     const novoNumero = String(ultimoNumero + 1).padStart(4, "0")
     const numero = `DOK-${novoNumero}`
 
-    // ─── 5. Salvar no banco ───────────────────────────────────────────────
+    // ─── 6. Salvar no banco ───────────────────────────────────────────────
     const recibo = await prisma.documento.create({
       data: {
         userId: user.id,
@@ -113,7 +119,7 @@ export async function POST(request: Request) {
       },
     })
 
-    // ─── 6. Retornar o id para o frontend redirecionar ────────────────────
+    // ─── 7. Retornar o id para o frontend redirecionar ────────────────────
     return NextResponse.json({ id: recibo.id, numero }, { status: 201 })
   } catch (error) {
     console.error("[POST /api/recibos]", error)
@@ -126,13 +132,10 @@ export async function POST(request: Request) {
 
 /**
  * GET /api/recibos
- *
  * Lista todos os recibos do usuário logado.
- * Ordenado do mais recente para o mais antigo.
  */
 export async function GET() {
   try {
-    // Verifica sessão
     const supabase = await createClient()
     const {
       data: { user },
@@ -142,7 +145,6 @@ export async function GET() {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
     }
 
-    // Busca todos os recibos do usuário ordenados por data
     const recibos = await prisma.documento.findMany({
       where: { userId: user.id, tipo: "recibo" },
       orderBy: { criadoEm: "desc" },

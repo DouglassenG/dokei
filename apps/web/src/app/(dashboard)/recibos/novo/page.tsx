@@ -4,7 +4,6 @@
  * Formulário de criação de novo recibo
  *
  * Campos obrigatórios: nome do cliente, descrição do serviço, valor, forma de pagamento
- * Campos pré-preenchidos: dados do prestador (via sessão)
  * Ao submeter: POST /api/recibos → redireciona para /recibos/[id]
  */
 
@@ -12,16 +11,16 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
-  ArrowLeft,      // botão voltar
-  FileText,       // ícone do título
-  User,           // ícone do cliente
-  Briefcase,      // ícone do serviço
-  DollarSign,     // ícone do valor
-  CreditCard,     // ícone da forma de pagamento
-  Calendar,       // ícone da data
-  MessageSquare,  // ícone das observações
-  Loader2,        // ícone de loading
-  Send,           // ícone do botão enviar
+  ArrowLeft,
+  FileText,
+  User,
+  Briefcase,
+  DollarSign,
+  CreditCard,
+  Calendar,
+  MessageSquare,
+  Loader2,
+  Send,
 } from "lucide-react"
 
 // Formas de pagamento disponíveis para o MEI
@@ -37,29 +36,30 @@ const FORMAS_PAGAMENTO = [
 export default function NovoReciboPage() {
   const router = useRouter()
 
-  // ─── Estado do formulário ───────────────────────────────────────────────
-
+  // Estado do formulário
   const [form, setForm] = useState({
     nomeCliente: "",
     servicoDescricao: "",
     valor: "",
     formaPagamento: "Pix",
-    data: new Date().toISOString().split("T")[0], // data de hoje como padrão
+    data: new Date().toISOString().split("T")[0],
     observacoes: "",
   })
 
-  // Estado de envio — controla o loading e erros
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle")
   const [erroMsg, setErroMsg] = useState("")
 
-  // ─── Handlers ───────────────────────────────────────────────────────────
+  // Handler genérico para todos os campos do formulário
+  // Tipagem inline evita o problema de corrupção do union type
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
-  // Atualiza qualquer campo do formulário genericamente
-  function handleChange(
-    e: React.ChangeEvent
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) {
+  function handleChangeTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  function handleChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -75,7 +75,6 @@ export default function NovoReciboPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          // Converte valor para número antes de enviar
           valor: Number(form.valor.replace(",", ".")),
         }),
       })
@@ -88,7 +87,6 @@ export default function NovoReciboPage() {
         return
       }
 
-      // Sucesso — redireciona para a página do recibo criado
       router.push(`/recibos/${data.id}`)
     } catch {
       setErroMsg("Erro de conexão. Tente novamente.")
@@ -96,12 +94,9 @@ export default function NovoReciboPage() {
     }
   }
 
-  // ─── Render ─────────────────────────────────────────────────────────────
-
   return (
     <div className="space-y-6">
-
-      {/* Cabeçalho da página */}
+      {/* Cabeçalho */}
       <div className="flex items-center gap-3">
         <Link
           href="/recibos"
@@ -115,9 +110,7 @@ export default function NovoReciboPage() {
         </div>
       </div>
 
-      {/* Formulário */}
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* Bloco: dados do cliente e serviço */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
@@ -151,7 +144,7 @@ export default function NovoReciboPage() {
               name="servicoDescricao"
               placeholder="Ex: Instalação elétrica residencial"
               value={form.servicoDescricao}
-              onChange={handleChange}
+              onChange={handleChangeTextarea}
               required
               rows={3}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] hover:border-[#1B5E20]/40 transition-colors resize-none"
@@ -169,7 +162,7 @@ export default function NovoReciboPage() {
               name="observacoes"
               placeholder="Ex: Serviço realizado conforme combinado"
               value={form.observacoes}
-              onChange={handleChange}
+              onChange={handleChangeTextarea}
               rows={2}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] hover:border-[#1B5E20]/40 transition-colors resize-none"
             />
@@ -215,7 +208,7 @@ export default function NovoReciboPage() {
             <select
               name="formaPagamento"
               value={form.formaPagamento}
-              onChange={handleChange}
+              onChange={handleChangeSelect}
               required
               className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] hover:border-[#1B5E20]/40 transition-colors bg-white"
             >
@@ -264,7 +257,6 @@ export default function NovoReciboPage() {
           )}
           {status === "loading" ? "Gerando recibo..." : "Gerar recibo"}
         </button>
-
       </form>
     </div>
   )
