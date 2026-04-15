@@ -84,7 +84,7 @@ export default async function RecibosPage() {
       {recibos.length > 0 && (
         <div className="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
           {recibos.map((recibo) => {
-            const dados = recibo.dadosJson as DadosRecibo
+            const dados = recibo.dadosJson as unknown as DadosRecibo
             const dataFormatada = new Date(recibo.criadoEm).toLocaleDateString(
               "pt-BR",
             )

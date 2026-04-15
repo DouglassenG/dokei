@@ -35,7 +35,7 @@ const funcionalidades: FuncionalidadeCard[] = [
     descricao: "Registre entradas e saídas separando negócio do pessoal.",
     href: "/financeiro",
     icon: TrendingUp,
-    disponivel: false,
+    disponivel: true,
   },
   {
     titulo: "Lembretes DAS",
