@@ -104,7 +104,9 @@ export default async function RecibosPage() {
                     <p className="text-sm font-semibold text-gray-900">
                       {recibo.numero}
                     </p>
-                    <p className="text-xs text-gray-500">{dados.nomeCliente}</p>
+                    <p className="text-xs text-gray-500">
+                      {dados?.nomeCliente ?? "Cliente não informado"}
+                    </p>
                   </div>
                 </div>
 
@@ -112,7 +114,7 @@ export default async function RecibosPage() {
                 <div className="flex items-center gap-4">
                   <div className="text-right">
                     <p className="text-sm font-semibold text-[#1B5E20]">
-                      {formatBRL(dados.valor)}
+                      {formatBRL(dados?.valor ?? 0)}
                     </p>
                     <p className="text-xs text-gray-400">{dataFormatada}</p>
                   </div>
