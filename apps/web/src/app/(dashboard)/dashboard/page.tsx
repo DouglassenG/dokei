@@ -1,17 +1,10 @@
 // Página inicial do dashboard
-// Mostra boas vindas e atalhos para as 4 funcionalidades do MVP
+// Mostra boas vindas e atalhos para as funcionalidades do MVP
 
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import {
-  FileText, // ícone de Emitir Recibo
-  TrendingUp, // ícone de Controle Financeiro
-  Bell, // ícone de Lembretes DAS
-  Calculator, // ícone de Calculadora de Preço
-} from "lucide-react"
+import { FileText, TrendingUp, Bell, Calculator, BarChart2 } from "lucide-react"
 
-// Tipagem do card de funcionalidade
-// Substituído 'emoji' por 'icon' para usar lucide-react
 interface FuncionalidadeCard {
   titulo: string
   descricao: string
@@ -20,8 +13,6 @@ interface FuncionalidadeCard {
   disponivel: boolean
 }
 
-// Lista das 4 funcionalidades do MVP
-// disponivel: false → mostra como "em breve" sem link
 const funcionalidades: FuncionalidadeCard[] = [
   {
     titulo: "Emitir Recibo",
@@ -51,16 +42,21 @@ const funcionalidades: FuncionalidadeCard[] = [
     icon: Calculator,
     disponivel: true,
   },
+  {
+    titulo: "Declaração de Rendimentos",
+    descricao: "Veja quanto movimentou no ano e declare seu faturamento MEI.",
+    href: "/rendimentos",
+    icon: BarChart2,
+    disponivel: true,
+  },
 ]
 
 export default async function DashboardPage() {
-  // Busca dados do usuário logado para personalizar a tela
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Pega o primeiro nome do usuário — do Google ou do e-mail
   const primeiroNome =
     user?.user_metadata?.full_name?.split(" ")[0] ??
     user?.email?.split("@")[0] ??
@@ -68,7 +64,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Boas vindas */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
           Olá, {primeiroNome}!
@@ -76,7 +71,6 @@ export default async function DashboardPage() {
         <p className="text-gray-500 mt-1">O que você precisa fazer hoje?</p>
       </div>
 
-      {/* Grid de funcionalidades */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {funcionalidades.map((item) => (
           <Card key={item.href} {...item} />
@@ -86,7 +80,6 @@ export default async function DashboardPage() {
   )
 }
 
-// Componente do card — separado para manter o código limpo
 function Card({
   titulo,
   descricao,
@@ -94,7 +87,6 @@ function Card({
   icon: Icon,
   disponivel,
 }: FuncionalidadeCard) {
-  // Card desabilitado — funcionalidade ainda não disponível
   if (!disponivel) {
     return (
       <div className="p-6 bg-white rounded-2xl border border-gray-100 opacity-60 cursor-not-allowed">
@@ -110,7 +102,6 @@ function Card({
     )
   }
 
-  // Card habilitado — leva para a funcionalidade
   return (
     <Link
       href={href}
