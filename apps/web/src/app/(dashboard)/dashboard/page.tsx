@@ -42,7 +42,7 @@ const funcionalidades: FuncionalidadeCard[] = [
     descricao: "Nunca perca o prazo do seu DAS e obrigações fiscais.",
     href: "/obrigacoes",
     icon: Bell,
-    disponivel: false,
+    disponivel: true,
   },
   {
     titulo: "Calculadora de Preço",
