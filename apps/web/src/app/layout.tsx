@@ -1,20 +1,18 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Montserrat } from "next/font/google"
 import "./globals.css"
 
-const geistSans = Geist({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
-})
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-sans",
 })
 
 export const metadata: Metadata = {
-  title: "dokei — Gestão simples para MEI",
-  description: "Emita recibos, controle finanças e nunca perca o prazo do DAS.",
+  title: "Dokei - Gestão Simples para MEI",
+  description:
+    "Simplifique sua gestão como MEI. Emita recibos, controle finanças, lembre do DAS e muito mais. Comece grátis!",
+  keywords: ["MEI", "gestão", "microempreendedor", "recibo", "DAS", "controle financeiro"],
 }
 
 export default function RootLayout({
@@ -23,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="pt-BR" className="scroll-smooth bg-background">
+      <body className={`${montserrat.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
