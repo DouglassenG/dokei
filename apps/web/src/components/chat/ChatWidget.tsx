@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, Send, Bot, Loader2 } from "lucide-react"
+import { MessageCircle, X, Send, Bot } from "lucide-react"
 
 interface Message {
   role: "user" | "assistant"
@@ -11,7 +11,26 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Olá! Sou a **Kai**, assistente do Dokei 👋\nPosso te ajudar com dúvidas sobre MEI, recibos, DAS, planos e muito mais. Como posso te ajudar hoje?",
+    "Olá! Sou a **Kauane**, assistente do Dokei 😊\nEstou aqui pra te ajudar com dúvidas sobre MEI, recibos, DAS, planos e muito mais. Como posso te ajudar hoje?",
+}
+
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 px-1 py-1">
+      <span
+        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        style={{ animationDelay: "0ms" }}
+      />
+      <span
+        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        style={{ animationDelay: "150ms" }}
+      />
+      <span
+        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        style={{ animationDelay: "300ms" }}
+      />
+    </div>
+  )
 }
 
 export function ChatWidget() {
@@ -19,20 +38,36 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [typingText, setTypingText] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+  }, [messages, typingText, isLoading])
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus()
   }, [isOpen])
 
+  function typewriterEffect(text: string, onDone: () => void) {
+    let index = 0
+    setTypingText("")
+
+    const interval = setInterval(() => {
+      index++
+      setTypingText(text.slice(0, index))
+
+      if (index >= text.length) {
+        clearInterval(interval)
+        onDone()
+      }
+    }, 18)
+  }
+
   async function sendMessage() {
     const text = input.trim()
-    if (!text || isLoading) return
+    if (!text || isLoading || typingText !== null) return
 
     const userMessage: Message = { role: "user", content: text }
     const updatedMessages = [...messages, userMessage]
@@ -56,18 +91,24 @@ export function ChatWidget() {
       const data = await res.json()
       const reply = data.reply ?? "Não consegui processar. Tente novamente."
 
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }])
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "Ocorreu um erro de conexão. Por favor, tente novamente em instantes.",
-        },
-      ])
-    } finally {
       setIsLoading(false)
+
+      typewriterEffect(reply, () => {
+        setMessages((prev) => [...prev, { role: "assistant", content: reply }])
+        setTypingText(null)
+      })
+    } catch {
+      setIsLoading(false)
+      const errorMsg =
+        "Ocorreu um erro de conexão. Por favor, tente novamente em instantes."
+
+      typewriterEffect(errorMsg, () => {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: errorMsg },
+        ])
+        setTypingText(null)
+      })
     }
   }
 
@@ -79,7 +120,6 @@ export function ChatWidget() {
   }
 
   function renderContent(text: string) {
-    // Suporte básico a **negrito**
     return text.split("\n").map((line, i) => {
       const parts = line.split(/\*\*(.*?)\*\*/g)
       return (
@@ -113,7 +153,7 @@ export function ChatWidget() {
             </div>
             <div>
               <p className="text-white font-semibold text-sm leading-tight">
-                Kai
+                Kauane - Assistente do Dokei
               </p>
               <p className="text-white/70 text-xs">Assistente Dokei • Online</p>
             </div>
@@ -138,10 +178,20 @@ export function ChatWidget() {
               </div>
             ))}
 
+            {/* Três pontinhos enquanto aguarda a API */}
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
-                  <Loader2 size={16} className="text-[#2E7D32] animate-spin" />
+                  <TypingDots />
+                </div>
+              </div>
+            )}
+
+            {/* Typewriter da resposta chegando */}
+            {typingText !== null && (
+              <div className="flex justify-start">
+                <div className="max-w-[85%] px-3 py-2 rounded-2xl rounded-bl-sm text-sm leading-relaxed bg-white text-gray-800 shadow-sm border border-gray-100">
+                  {renderContent(typingText)}
                 </div>
               </div>
             )}
@@ -158,11 +208,12 @@ export function ChatWidget() {
               onKeyDown={handleKeyDown}
               placeholder="Digite sua mensagem..."
               rows={1}
-              className="flex-1 resize-none text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 max-h-24 overflow-y-auto"
+              disabled={isLoading || typingText !== null}
+              className="flex-1 resize-none text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 max-h-24 overflow-y-auto disabled:opacity-50"
             />
             <button
               onClick={sendMessage}
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isLoading || typingText !== null}
               className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-gray-200 text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
             >
               <Send size={15} />
