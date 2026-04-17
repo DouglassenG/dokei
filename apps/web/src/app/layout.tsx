@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import "./globals.css"
+import { ChatWidget } from "@/components/chat/ChatWidget"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -12,7 +13,14 @@ export const metadata: Metadata = {
   title: "Dokei - Gestão Simples para MEI",
   description:
     "Simplifique sua gestão como MEI. Emita recibos, controle finanças, lembre do DAS e muito mais. Comece grátis!",
-  keywords: ["MEI", "gestão", "microempreendedor", "recibo", "DAS", "controle financeiro"],
+  keywords: [
+    "MEI",
+    "gestão",
+    "microempreendedor",
+    "recibo",
+    "DAS",
+    "controle financeiro",
+  ],
 }
 
 export default function RootLayout({
@@ -24,6 +32,7 @@ export default function RootLayout({
     <html lang="pt-BR" className="scroll-smooth bg-background">
       <body className={`${montserrat.variable} font-sans antialiased`}>
         {children}
+        <ChatWidget />
       </body>
     </html>
   )
