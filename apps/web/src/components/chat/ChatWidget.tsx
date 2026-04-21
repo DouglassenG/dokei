@@ -16,9 +16,9 @@ const WELCOME_MESSAGE: Message = {
 
 function TypingDots() {
   return (
-    <div className="flex items-center gap-1 px-1 py-1">
+    <div className="flex items-center gap-1 px-1 py-1 cursor-pointer">
       <span
-        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        className=" w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
         style={{ animationDelay: "0ms" }}
       />
       <span

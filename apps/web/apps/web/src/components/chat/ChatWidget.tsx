@@ -98,14 +98,14 @@ export function ChatWidget() {
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="Abrir chat de suporte"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#2E7D32] hover:bg-[#1B5E20] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+        className="cursor-pointer fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#2E7D32] hover:bg-[#1B5E20] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
 
       {/* Janela do chat */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-h-[70vh]">
+        <div className="cursor-pointer fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-h-[70vh]">
           {/* Header */}
           <div className="bg-[#2E7D32] px-4 py-3 flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">

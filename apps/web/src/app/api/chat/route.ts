@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const { messages } = await req.json()
 
     if (!messages || !Array.isArray(messages)) {
-      return NextResponse.json({ error: "messages inválido" }, { status: 400 })
+      return NextResponse.json({ error: "mensagem inválida" }, { status: 400 })
     }
 
     // Limita histórico a 10 mensagens para economizar tokens
