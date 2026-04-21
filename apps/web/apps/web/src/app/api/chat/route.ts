@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [{ role: "system", content: SYSTEM_PROMPT }, ...recentMessages],
-      max_tokens: 512,
-      temperature: 0.7,
+      max_tokens: 300, // era 512 — mensagens curtas não precisam de mais
+      temperature: 0.8, // era 0.7 — um pouco mais natural e menos "robótico"
     })
 
     const reply =

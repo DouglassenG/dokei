@@ -1,17 +1,31 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, Send, Bot, Loader2 } from "lucide-react"
+import { MessageCircle, X, Send, Bot } from "lucide-react"
 
 interface Message {
   role: "user" | "assistant"
   content: string
 }
 
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 px-1 py-1">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+          style={{ animationDelay: `${i * 150}ms`, animationDuration: "900ms" }}
+        />
+      ))}
+    </div>
+  )
+}
+
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Olá! Sou a **Kai**, assistente do Dokei 👋\nPosso te ajudar com dúvidas sobre MEI, recibos, DAS, planos e muito mais. Como posso te ajudar hoje?",
+    "Oi! Sou a Kauane, do Dokei.\nSe tiver dúvida sobre MEI, recibo, DAS ou qualquer coisa do app — é só falar. O que você precisa?",
 }
 
 export function ChatWidget() {
@@ -19,20 +33,49 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+  }, [messages, isTyping])
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus()
   }, [isOpen])
 
+  async function revealParagraphs(fullReply: string) {
+    const paragraphs = fullReply
+      .split("\n")
+      .map((p) => p.trim())
+      .filter((p) => p.length > 0)
+
+    for (let i = 0; i < paragraphs.length; i++) {
+      // FIX 1: extrai em const tipada — elimina string | undefined em .length e no setMessages
+      const paragrafo: string = paragraphs[i] ?? ""
+
+      setIsTyping(true)
+
+      const delay = Math.min(600 + paragrafo.length * 18, 2200)
+      await new Promise((resolve) => setTimeout(resolve, delay))
+
+      setIsTyping(false)
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: paragrafo },
+      ])
+
+      if (i < paragraphs.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 300))
+      }
+    }
+  }
+
   async function sendMessage() {
     const text = input.trim()
-    if (!text || isLoading) return
+    if (!text || isLoading || isTyping) return
 
     const userMessage: Message = { role: "user", content: text }
     const updatedMessages = [...messages, userMessage]
@@ -56,18 +99,17 @@ export function ChatWidget() {
       const data = await res.json()
       const reply = data.reply ?? "Não consegui processar. Tente novamente."
 
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }])
+      setIsLoading(false)
+      await revealParagraphs(reply)
     } catch {
+      setIsLoading(false)
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content:
-            "Ocorreu um erro de conexão. Por favor, tente novamente em instantes.",
+          content: "Erro de conexão. Tenta de novo daqui a pouco.",
         },
       ])
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -78,8 +120,11 @@ export function ChatWidget() {
     }
   }
 
+  // FIX 2: restaura o split por \n — necessário para a WELCOME_MESSAGE e para qualquer
+  // mensagem que tenha quebra de linha. Cada linha vira um <p> separado.
+  // Consequência: mensagens normais do assistente (que chegam como parágrafo único via
+  // revealParagraphs) renderizam um único <p> — comportamento idêntico ao anterior.
   function renderContent(text: string) {
-    // Suporte básico a **negrito**
     return text.split("\n").map((line, i) => {
       const parts = line.split(/\*\*(.*?)\*\*/g)
       return (
@@ -94,7 +139,6 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Botão flutuante */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="Abrir chat de suporte"
@@ -103,23 +147,20 @@ export function ChatWidget() {
         {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
 
-      {/* Janela do chat */}
       {isOpen && (
-        <div className="cursor-pointer fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-h-[70vh]">
-          {/* Header */}
+        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-h-[70vh]">
           <div className="bg-[#2E7D32] px-4 py-3 flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
               <Bot size={18} className="text-white" />
             </div>
             <div>
               <p className="text-white font-semibold text-sm leading-tight">
-                Kai
+                Kauane
               </p>
               <p className="text-white/70 text-xs">Assistente Dokei • Online</p>
             </div>
           </div>
 
-          {/* Mensagens */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
             {messages.map((msg, i) => (
               <div
@@ -138,10 +179,10 @@ export function ChatWidget() {
               </div>
             ))}
 
-            {isLoading && (
+            {(isLoading || isTyping) && (
               <div className="flex justify-start">
                 <div className="bg-white px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
-                  <Loader2 size={16} className="text-[#2E7D32] animate-spin" />
+                  <TypingDots />
                 </div>
               </div>
             )}
@@ -149,7 +190,6 @@ export function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div className="p-3 bg-white border-t border-gray-100 flex items-end gap-2">
             <textarea
               ref={inputRef}
@@ -158,11 +198,12 @@ export function ChatWidget() {
               onKeyDown={handleKeyDown}
               placeholder="Digite sua mensagem..."
               rows={1}
-              className="flex-1 resize-none text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 max-h-24 overflow-y-auto"
+              disabled={isLoading || isTyping}
+              className="flex-1 resize-none text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 max-h-24 overflow-y-auto disabled:bg-gray-50 disabled:text-gray-400"
             />
             <button
               onClick={sendMessage}
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isLoading || isTyping}
               className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-gray-200 text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
             >
               <Send size={15} />
