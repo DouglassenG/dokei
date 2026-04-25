@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 export function LandingNavbar() {
@@ -26,10 +27,16 @@ export function LandingNavbar() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <a href="#" className="flex items-center space-x-2">
-            <span className="text-xl lg:text-2xl font-bold text-white">Dokei</span>
+          <a href="#" className="flex items-center">
+            <Image
+              src="/logotipo_site_2.png"
+              alt="Dokei"
+              width={120}
+              height={40}
+              className="h-9 w-auto lg:h-11 object-contain rounded-md"
+              priority
+            />
           </a>
-
           <nav className="hidden md:flex items-center space-x-8">
             <a
               href="#servicos"
@@ -50,7 +57,6 @@ export function LandingNavbar() {
               FAQ
             </a>
           </nav>
-
           <div className="hidden md:flex items-center space-x-4">
             <Link
               href="/login"
@@ -65,7 +71,6 @@ export function LandingNavbar() {
               Começar grátis
             </Link>
           </div>
-
           <button
             className="md:hidden text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
