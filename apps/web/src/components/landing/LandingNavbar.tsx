@@ -31,9 +31,9 @@ export function LandingNavbar() {
             <Image
               src="/logotipo_site_2.png"
               alt="Dokei"
-              width={120}
+              width={232}
               height={40}
-              className="h-9 w-auto lg:h-11 object-contain rounded-md"
+              className="h-12 w-auto lg:h-20 object-contain rounded-md"
               priority
             />
           </a>
