@@ -29,7 +29,7 @@ export function LandingNavbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <a href="#" className="flex items-center">
             <Image
-              src="/logotipo_site_2.png"
+              src="/vetor_site.svg"
               alt="Dokei"
               width={232}
               height={40}
