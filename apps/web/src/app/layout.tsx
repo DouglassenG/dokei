@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     "DAS",
     "controle financeiro",
   ],
+  icons: {
+    icon: "/logotipo_site_2.png",
+  },
 }
 
 export default function RootLayout({
