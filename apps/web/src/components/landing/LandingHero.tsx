@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -24,23 +25,30 @@ export function LandingHero() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+          {/* <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
             <CheckCircle size={16} />
             <span>+10.000 MEIs já confiam na Dokei</span>
+          </div> */}
+
+          <div className="mb-6 flex justify-center">
+            <Image
+              src="/vetor_site.svg"
+              alt="Dokei"
+              width={400}
+              height={100}
+              className="w-64 sm:w-80 lg:w-[480px] h-auto object-contain drop-shadow-[0_4px_32px_rgba(27,94,32,0.7)] [filter:brightness(0)_saturate(100%)_invert(25%)_sepia(76%)_saturate(600%)_hue-rotate(86deg)_brightness(60%)]"
+              priority
+            />
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 text-balance">
-            Dokei
-          </h1>
-
-          <p className="text-xl sm:text-2xl lg:text-3xl text-white/95 mb-4 font-medium">
+          <p className="text-xl sm:text-2xl lg:text-3xl text-white mb-4 font-medium">
             Gestão simples para MEI
           </p>
-
-          <p className="text-base sm:text-lg text-white/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Chega de planilhas confusas e burocracia. Organize seu negócio, emita recibos e mantenha suas obrigações em dia — tudo em um só lugar.
+          <p className="text-base sm:text-lg text-white mb-10 max-w-2xl mx-auto leading-relaxed">
+            Chega de planilhas confusas e burocracia. Organize seu negócio,
+            emita recibos e mantenha suas obrigações em dia — tudo em um só
+            lugar.
           </p>
-
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/cadastro"
@@ -59,7 +67,6 @@ export function LandingHero() {
               Já tenho conta
             </Link>
           </div>
-
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm">
             <div className="flex items-center gap-2">
               <CheckCircle size={16} className="text-white" />

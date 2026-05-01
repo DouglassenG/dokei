@@ -33,7 +33,7 @@ export function LandingNavbar() {
               alt="Dokei"
               width={232}
               height={40}
-              className="h-12 w-auto lg:h-20 object-contain rounded-md"
+              className="h-12 w-auto lg:h-20 object-contain rounded-md brightness-0 invert drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
               priority
             />
           </a>
