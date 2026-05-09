@@ -12,6 +12,7 @@ interface InputProps {
   type: "text" | "email" | "password"
   label: string
   placeholder?: string
+  maxLength?: number
   required?: boolean
 }
 
@@ -21,6 +22,7 @@ export function Input({
   type,
   label,
   placeholder,
+  maxLength,
   required = false,
 }: InputProps) {
   // Controla visibilidade da senha — só usado quando type="password"
@@ -41,6 +43,7 @@ export function Input({
           type={inputType}
           required={required}
           placeholder={placeholder}
+          maxLength={maxLength}
           className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] hover:border-[#1B5E20]/40 transition-colors pr-10"
         />
         {/* Olhinho aparece apenas em campos de senha */}

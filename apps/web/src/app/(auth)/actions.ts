@@ -9,6 +9,8 @@ import {
 } from "@/lib/validations/auth"
 import { redirect } from "next/navigation"
 import { headers } from "next/headers"
+import { prisma } from "@/lib/prisma"
+import { normalizeCnpj, validateCnpj } from "@/lib/validations/cnpj"
 
 export async function login(formData: FormData): Promise<void> {
   const rawData = {
@@ -42,6 +44,7 @@ export async function cadastro(formData: FormData): Promise<void> {
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    cnpj: formData.get("cnpj"),
   }
 
   const parsed = cadastroSchema.safeParse(rawData)
@@ -49,6 +52,29 @@ export async function cadastro(formData: FormData): Promise<void> {
   if (!parsed.success) {
     const mensagem = parsed.error.issues[0]?.message ?? "Dados inválidos"
     return redirect(`/cadastro?error=${mensagem}`)
+  }
+
+  // Remove pontos, barras e traço — salva sempre com 14 dígitos puros
+  const cnpjNormalizado = normalizeCnpj(parsed.data.cnpj as string)
+
+  // Valida matematicamente os dígitos verificadores
+  if (!validateCnpj(cnpjNormalizado)) {
+    return redirect(
+      "/cadastro?error=CNPJ inválido. Verifique e tente novamente.",
+    )
+  }
+
+  // Verifica se o CNPJ já usou o trial de 1 mês
+  const cnpjExistente = await prisma.user.findUnique({
+    where: { cnpj: cnpjNormalizado },
+    select: { trialUsado: true },
+  })
+
+  // Bloqueia se o trial já foi consumido — impede múltiplos e-mails com mesmo CNPJ
+  if (cnpjExistente?.trialUsado) {
+    return redirect(
+      "/cadastro?error=Este CNPJ já utilizou o período de teste. Assine por R$39,90/mês para continuar.",
+    )
   }
 
   const supabase = await createClient()
@@ -70,6 +96,20 @@ export async function cadastro(formData: FormData): Promise<void> {
     }
     return redirect("/cadastro?error=Erro ao criar conta. Tente novamente.")
   }
+
+  // Salva o CNPJ normalizado no banco vinculado ao e-mail
+  // trialUsado: false — trial começa agora, será marcado true após 30 dias
+  await prisma.user.upsert({
+    where: { email: parsed.data.email },
+    update: { cnpj: cnpjNormalizado },
+    create: {
+      email: parsed.data.email,
+      nome: parsed.data.name,
+      cnpj: cnpjNormalizado,
+      plano: "gratis",
+      trialUsado: false,
+    },
+  })
 
   return redirect(
     "/cadastro?message=Conta criada! Verifique seu e-mail para confirmar o acesso.",

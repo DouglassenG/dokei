@@ -15,6 +15,7 @@ export const cadastroSchema = z.object({
     .string()
     .min(6, "Senha deve ter no mínimo 6 caracteres")
     .max(72, "Senha muito longa"),
+  cnpj: z.string().min(1, "CNPJ obrigatório"),
 })
 
 export const esqueceuSenhaSchema = z.object({

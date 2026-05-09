@@ -70,7 +70,7 @@ export default async function CadastroPage({
         </div>
       </div>
 
-      <form className="space-y-4" action={cadastro}>
+      <form className="space-y-4">
         <Input
           id="name"
           name="name"
@@ -95,8 +95,21 @@ export default async function CadastroPage({
           placeholder="mínimo 6 caracteres"
           required
         />
+        <Input
+          id="cnpj"
+          name="cnpj"
+          type="text"
+          label="CNPJ"
+          placeholder="00.000.000/0001-00"
+          maxLength={18}
+          required
+        />
+        <p className="text-xs text-gray-400 -mt-2">
+          Usado para garantir um período de teste por empresa.
+        </p>
         <Button
           type="submit"
+          formAction={cadastro}
           label="Começar grátis"
           variant="primary"
           icon={<UserPlus size={18} />}

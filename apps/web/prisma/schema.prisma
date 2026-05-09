@@ -12,6 +12,8 @@ model User {
   email      String       @unique
   nome       String?
   mei        String?
+  cnpj       String?      @unique
+  trialUsado Boolean      @default(false)
   plano      String       @default("gratis")
   criadoEm   DateTime     @default(now())
   documentos Documento[]
