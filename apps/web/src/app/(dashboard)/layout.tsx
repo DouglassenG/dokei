@@ -5,6 +5,10 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { logout } from "@/app/(auth)/actions"
 
+import { Sidebar } from "@/components/dashboard/Sidebar"
+import { ThemeToggle } from "@/components/dashboard/ThemeToggle"
+import { LogOut } from "lucide-react"
+
 // Tipagem do layout — children é obrigatório
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -25,31 +29,40 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Barra superior */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900">Dokei</span>
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="flex">
+        {/* Sidebar fixa à esquerda */}
+        <Sidebar userEmail={user.email ?? ""} />
 
-          <div className="flex items-center gap-4">
-            {/* Exibe o e-mail do usuário logado */}
-            <span className="text-sm text-gray-500">{user.email}</span>
+        {/* Área de conteúdo */}
+        <div className="flex-1 ml-64">
+          {/* Barra superior */}
+          <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
+            <div className="px-8 py-4 flex items-center justify-end gap-4">
+              <ThemeToggle />
 
-            {/* Logout — chama Server Action diretamente */}
-            <form action={logout}>
-              <button
-                type="submit"
-                className="cursor-pointer text-sm text-red-500 hover:text-red-700 transition-colors"
-              >
-                Sair
-              </button>
-            </form>
-          </div>
+              <div className="h-6 w-px bg-border" />
+
+              <span className="text-sm text-muted-foreground hidden sm:inline">
+                {user.email}
+              </span>
+
+              <form action={logout}>
+                <button
+                  type="submit"
+                  className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-destructive transition-colors flex items-center gap-1.5"
+                >
+                  <LogOut size={16} />
+                  Sair
+                </button>
+              </form>
+            </div>
+          </header>
+
+          {/* Conteúdo da página */}
+          <main className="px-8 py-8 max-w-6xl">{children}</main>
         </div>
-      </header>
-
-      {/* Conteúdo da página */}
-      <main className="max-w-5xl mx-auto px-6 py-8">{children}</main>
+      </div>
     </div>
   )
 }

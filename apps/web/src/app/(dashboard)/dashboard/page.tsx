@@ -63,15 +63,17 @@ export default async function DashboardPage() {
     "MEI"
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">
           Olá, {primeiroNome}!
         </h1>
-        <p className="text-gray-500 mt-1">O que você precisa fazer hoje?</p>
+        <p className="text-muted-foreground mt-2 text-base">
+          O que você precisa fazer hoje?
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {funcionalidades.map((item) => (
           <Card key={item.href} {...item} />
         ))}
@@ -89,13 +91,17 @@ function Card({
 }: FuncionalidadeCard) {
   if (!disponivel) {
     return (
-      <div className="p-6 bg-white rounded-2xl border border-gray-100 opacity-60 cursor-not-allowed">
-        <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-          <Icon size={20} className="text-gray-400" />
+      <div className="group relative p-6 bg-card rounded-xl border border-border opacity-60 cursor-not-allowed">
+        <div className="w-11 h-11 bg-muted rounded-xl flex items-center justify-center">
+          <Icon size={20} className="text-muted-foreground" />
         </div>
-        <h2 className="text-base font-semibold text-gray-900 mt-3">{titulo}</h2>
-        <p className="text-sm text-gray-500 mt-1">{descricao}</p>
-        <span className="inline-block mt-3 text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+        <h2 className="text-base font-semibold text-card-foreground mt-4">
+          {titulo}
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+          {descricao}
+        </p>
+        <span className="inline-block mt-4 text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
           Em breve
         </span>
       </div>
@@ -105,13 +111,22 @@ function Card({
   return (
     <Link
       href={href}
-      className="p-6 bg-white rounded-2xl border border-gray-100 hover:border-[#1B5E20]/20 hover:shadow-sm transition-all"
+      className="
+        group relative p-6 bg-card rounded-xl border border-border
+        shadow-sm hover:shadow-md
+        hover:border-primary/30 hover:-translate-y-0.5
+        transition-all duration-200
+      "
     >
-      <div className="w-10 h-10 bg-[#1B5E20]/10 rounded-xl flex items-center justify-center">
-        <Icon size={20} className="text-[#1B5E20]" />
+      <div className="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+        <Icon size={20} className="text-primary" />
       </div>
-      <h2 className="text-base font-semibold text-gray-900 mt-3">{titulo}</h2>
-      <p className="text-sm text-gray-500 mt-1">{descricao}</p>
+      <h2 className="text-base font-semibold text-card-foreground mt-4">
+        {titulo}
+      </h2>
+      <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+        {descricao}
+      </p>
     </Link>
   )
 }
