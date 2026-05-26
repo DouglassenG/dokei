@@ -31,7 +31,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </div>
       )}
 
-      {/* ALTERAÇÃO 4: trocado searchParams.message por params.message */}
+      {/*ALTERAÇÃO 4: trocado searchParams.message por params.message */}
       {params.message && (
         <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
           <p className="text-sm text-[#1B5E20]">{params.message}</p>
