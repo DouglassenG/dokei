@@ -8,7 +8,7 @@
  * 2. URL compartilhável — parâmetros sincronizados com os campos
  */
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import {
@@ -33,7 +33,7 @@ interface CustoExtra {
 
 // ─── Componente principal ────────────────────────────────────────────────────
 
-export default function CalculadoraPage() {
+function CalculadoraConteudo() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -317,5 +317,13 @@ export default function CalculadoraPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function CalculadoraPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
+      <CalculadoraConteudo />
+    </Suspense>
   )
 }
