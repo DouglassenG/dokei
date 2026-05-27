@@ -46,7 +46,7 @@ const services = [
 
 export function LandingServices() {
   const [visibleCards, setVisibleCards] = useState<boolean[]>(
-    new Array(services.length).fill(false)
+    new Array(services.length).fill(false),
   )
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
@@ -57,7 +57,7 @@ export function LandingServices() {
       if (card) {
         const observer = new IntersectionObserver(
           ([entry]) => {
-            if (entry.isIntersecting) {
+            if (entry?.isIntersecting) {
               setVisibleCards((prev) => {
                 const newState = [...prev]
                 newState[index] = true
@@ -65,7 +65,7 @@ export function LandingServices() {
               })
             }
           },
-          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
         )
         observer.observe(card)
         observers.push(observer)
@@ -86,7 +86,8 @@ export function LandingServices() {
             Tudo que você precisa para gerir seu MEI
           </h2>
           <p className="text-lg text-[#4a6741] leading-relaxed">
-            Ferramentas simples e poderosas pensadas especialmente para quem empreende sozinho. Foque no que importa: fazer seu negócio crescer.
+            Ferramentas simples e poderosas pensadas especialmente para quem
+            empreende sozinho. Foque no que importa: fazer seu negócio crescer.
           </p>
         </div>
 
