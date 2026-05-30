@@ -12,13 +12,13 @@ import {
 import { LancamentoRapido } from "./LancamentoRapido"
 
 /**
- * Página principal do Controle Financeiro
+ * Pagina principal do Controle Financeiro
  *
  * Exibe:
- * 1. 3 cards: entradas totais, saídas totais, saldo do mês
- * 2. 2 carteiras visuais: Negócio e Pessoal
- * 3. Últimos 10 lançamentos
- * 4. Botão flutuante para novo lançamento (LancamentoRapido)
+ * 1. 3 cards: entradas totais, saidas totais, saldo do mes
+ * 2. 2 carteiras visuais: Negocio e Pessoal
+ * 3. Ultimos 10 lancamentos
+ * 4. Botao flutuante para novo lancamento (LancamentoRapido)
  */
 
 // Tipagem do resumo retornado pela API
@@ -31,14 +31,14 @@ interface Resumo {
 }
 
 export default async function FinanceiroPage() {
-  // ─── Verificar sessão ──────────────────────────────────────────────────
+  // --- Verificar sessao ---
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
   if (!user) return null
 
-  // ─── Buscar resumo do mês ──────────────────────────────────────────────
+  // --- Buscar resumo do mes ---
   const hoje = new Date()
   const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
   const fimMes = new Date(
@@ -79,7 +79,7 @@ export default async function FinanceiroPage() {
       _sum: { valor: true },
       where: { ...filtroBase, tipo: "saida", carteira: "pessoal" },
     }),
-    // Últimos 10 lançamentos para o feed
+    // Ultimos 10 lancamentos para o feed
     prisma.financeiro.findMany({
       where: { userId: user.id },
       orderBy: { data: "desc" },
@@ -119,7 +119,7 @@ export default async function FinanceiroPage() {
     }).format(valor)
   }
 
-  // Nome do mês atual
+  // Nome do mes atual
   const nomeMes = hoje.toLocaleDateString("pt-BR", {
     month: "long",
     year: "numeric",
@@ -127,7 +127,7 @@ export default async function FinanceiroPage() {
 
   return (
     <div className="space-y-6 pb-24">
-      {/* Cabeçalho */}
+      {/* Cabecalho */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-gray-900">
@@ -144,8 +144,8 @@ export default async function FinanceiroPage() {
         </Link>
       </div>
 
-      {/* 3 Cards — entradas, saídas, saldo */}
-      <div className="grid grid-cols-3 gap-3">
+      {/* 3 Cards — entradas, saidas, saldo */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Entradas */}
         <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
           <div className="flex items-center gap-1">
@@ -157,11 +157,11 @@ export default async function FinanceiroPage() {
           </p>
         </div>
 
-        {/* Saídas */}
+        {/* Saidas */}
         <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500" />
-            <p className="text-xs text-gray-400">Saídas</p>
+            <p className="text-xs text-gray-400">Saidas</p>
           </div>
           <p className="text-base font-bold text-red-500">
             {formatBRL(resumo.totalSaidas)}
@@ -182,13 +182,13 @@ export default async function FinanceiroPage() {
         </div>
       </div>
 
-      {/* 2 Carteiras — Negócio e Pessoal */}
-      <div className="grid grid-cols-2 gap-3">
-        {/* Carteira Negócio */}
+      {/* 2 Carteiras — Negocio e Pessoal */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* Carteira Negocio */}
         <div className="bg-blue-50 rounded-2xl border border-blue-100 p-4 space-y-3">
           <div className="flex items-center gap-2">
             <Briefcase size={16} className="text-blue-600" />
-            <p className="text-sm font-semibold text-blue-700">Negócio</p>
+            <p className="text-sm font-semibold text-blue-700">Negocio</p>
           </div>
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
@@ -198,7 +198,7 @@ export default async function FinanceiroPage() {
               </span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Saídas</span>
+              <span className="text-gray-500">Saidas</span>
               <span className="text-red-500 font-medium">
                 {formatBRL(resumo.negocio.saidas)}
               </span>
@@ -232,7 +232,7 @@ export default async function FinanceiroPage() {
               </span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Saídas</span>
+              <span className="text-gray-500">Saidas</span>
               <span className="text-red-500 font-medium">
                 {formatBRL(resumo.pessoal.saidas)}
               </span>
@@ -253,24 +253,24 @@ export default async function FinanceiroPage() {
         </div>
       </div>
 
-      {/* Últimos lançamentos */}
+      {/* Ultimos lancamentos */}
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          Últimos lançamentos
+          Ultimos lancamentos
         </h2>
 
         {/* Lista vazia */}
         {ultimosLancamentos.length === 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center space-y-2">
             <DollarSign size={32} className="text-gray-300 mx-auto" />
-            <p className="text-sm text-gray-500">Nenhum lançamento ainda</p>
+            <p className="text-sm text-gray-500">Nenhum lancamento ainda</p>
             <p className="text-xs text-gray-400">
-              Clique em "Novo lançamento" para começar.
+              Clique em "Novo lancamento" para comecar.
             </p>
           </div>
         )}
 
-        {/* Lista de lançamentos */}
+        {/* Lista de lancamentos */}
         {ultimosLancamentos.length > 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
             {ultimosLancamentos.map((item) => {
@@ -285,10 +285,10 @@ export default async function FinanceiroPage() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between px-4 py-3"
+                  className="flex items-center justify-between px-3 sm:px-4 py-3"
                 >
-                  {/* Lado esquerdo — ícone + descrição */}
-                  <div className="flex items-center gap-3">
+                  {/* Lado esquerdo — icone + descricao */}
+                  <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                         isEntrada ? "bg-green-50" : "bg-red-50"
@@ -300,8 +300,8 @@ export default async function FinanceiroPage() {
                         <TrendingDown size={15} className="text-red-500" />
                       )}
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 truncate max-w-[160px]">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
                         {item.descricao}
                       </p>
                       <div className="flex items-center gap-2">
@@ -315,7 +315,7 @@ export default async function FinanceiroPage() {
                               : "bg-gray-100 text-gray-500"
                           }`}
                         >
-                          {item.carteira === "negocio" ? "Negócio" : "Pessoal"}
+                          {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
                         </span>
                       </div>
                     </div>
@@ -323,7 +323,7 @@ export default async function FinanceiroPage() {
 
                   {/* Lado direito — valor */}
                   <p
-                    className={`text-sm font-semibold shrink-0 ${
+                    className={`text-sm font-semibold shrink-0 ml-3 ${
                       isEntrada ? "text-green-600" : "text-red-500"
                     }`}
                   >
@@ -337,7 +337,7 @@ export default async function FinanceiroPage() {
         )}
       </div>
 
-      {/* Componente client de lançamento rápido */}
+      {/* Componente client de lancamento rapido */}
       <LancamentoRapido />
     </div>
   )

@@ -13,13 +13,13 @@ import { GraficoRendimentos } from "./GraficoRendimentos"
 import { BotaoDeclarar } from "./BotaoDeclarar"
 
 /**
- * Página de Declaração de Rendimentos
+ * Pagina de Declaracao de Rendimentos
  *
  * Exibe:
- * 1. Totais do ano (entradas, saídas, saldo)
- * 2. Gráfico mensal de entradas vs saídas
- * 3. Histórico mês a mês
- * 4. Botão para ir ao gov.br fazer a declaração
+ * 1. Totais do ano (entradas, saidas, saldo)
+ * 2. Grafico mensal de entradas vs saidas
+ * 3. Historico mes a mes
+ * 4. Botao para ir ao gov.br fazer a declaracao
  */
 
 export default async function RendimentosPage({
@@ -31,7 +31,7 @@ export default async function RendimentosPage({
   const anoAtual = new Date().getFullYear()
   const ano = Number(params.ano ?? anoAtual)
 
-  // Verificar sessão
+  // Verificar sessao
   const supabase = await createClient()
   const {
     data: { user },
@@ -41,7 +41,7 @@ export default async function RendimentosPage({
   const inicioAno = new Date(ano, 0, 1)
   const fimAno = new Date(ano, 11, 31, 23, 59, 59)
 
-  // Busca lançamentos do ano — apenas carteira negócio
+  // Busca lancamentos do ano — apenas carteira negocio
   const lancamentos = await prisma.financeiro.findMany({
     where: {
       userId: user.id,
@@ -52,11 +52,11 @@ export default async function RendimentosPage({
     orderBy: { data: "asc" },
   })
 
-  // Agrupa por mês
+  // Agrupa por mes
   const nomesMeses = [
     "Janeiro",
     "Fevereiro",
-    "Março",
+    "Marco",
     "Abril",
     "Maio",
     "Junho",
@@ -102,12 +102,12 @@ export default async function RendimentosPage({
     }).format(valor)
   }
 
-  // Meses com movimento para a tabela histórico
+  // Meses com movimento para a tabela historico
   const mesesComMovimento = meses.filter((m) => m.entradas > 0 || m.saidas > 0)
 
   return (
     <div className="space-y-6 pb-10">
-      {/* Cabeçalho */}
+      {/* Cabecalho */}
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard"
@@ -117,10 +117,10 @@ export default async function RendimentosPage({
         </Link>
         <div>
           <h1 className="text-xl font-bold text-gray-900">
-            Declaração de Rendimentos
+            Declaracao de Rendimentos
           </h1>
           <p className="text-sm text-gray-500">
-            Carteira Negócio — base para sua declaração MEI
+            Carteira Negocio — base para sua declaracao MEI
           </p>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default async function RendimentosPage({
       </div>
 
       {/* 3 Cards totais do ano */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingUp size={14} className="text-green-500" />
@@ -160,7 +160,7 @@ export default async function RendimentosPage({
         <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500" />
-            <p className="text-xs text-gray-400">Saídas</p>
+            <p className="text-xs text-gray-400">Saidas</p>
           </div>
           <p className="text-sm font-bold text-red-500">
             {formatBRL(totalSaidas)}
@@ -179,26 +179,26 @@ export default async function RendimentosPage({
         </div>
       </div>
 
-      {/* Gráfico mensal */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
+      {/* Grafico mensal */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-4">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          Movimentação Mensal {ano}
+          Movimentacao Mensal {ano}
         </h2>
         <GraficoRendimentos meses={meses} />
       </div>
 
-      {/* Histórico mês a mês */}
+      {/* Historico mes a mes */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
+        <div className="px-4 sm:px-6 py-4 border-b border-gray-100">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-            Histórico por Mês
+            Historico por Mes
           </h2>
         </div>
 
         {mesesComMovimento.length === 0 && (
           <div className="p-10 text-center">
             <p className="text-sm text-gray-500">
-              Nenhum lançamento registrado em {ano}.
+              Nenhum lancamento registrado em {ano}.
             </p>
             <Link
               href="/financeiro"
@@ -212,12 +212,12 @@ export default async function RendimentosPage({
         {mesesComMovimento.map((m) => (
           <div
             key={m.mes}
-            className="flex items-center justify-between px-6 py-4 border-b border-gray-100 last:border-0"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-b border-gray-100 last:border-0 gap-2 sm:gap-0"
           >
-            <p className="text-sm font-medium text-gray-900 w-28">
+            <p className="text-sm font-medium text-gray-900 sm:w-28">
               {m.nomeMes}
             </p>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 sm:gap-6">
               <div className="text-right">
                 <p className="text-xs text-gray-400">Entradas</p>
                 <p className="text-sm font-medium text-green-600">
@@ -225,12 +225,12 @@ export default async function RendimentosPage({
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-400">Saídas</p>
+                <p className="text-xs text-gray-400">Saidas</p>
                 <p className="text-sm font-medium text-red-500">
                   {formatBRL(m.saidas)}
                 </p>
               </div>
-              <div className="text-right w-24">
+              <div className="text-right sm:w-24">
                 <p className="text-xs text-gray-400">Saldo</p>
                 <p
                   className={`text-sm font-bold ${m.saldo >= 0 ? "text-[#1B5E20]" : "text-red-500"}`}
@@ -243,15 +243,15 @@ export default async function RendimentosPage({
         ))}
       </div>
 
-      {/* CTA — ir para a declaração */}
-      <div className="bg-[#1B5E20]/5 rounded-2xl border border-[#1B5E20]/10 p-6 space-y-3">
+      {/* CTA — ir para a declaracao */}
+      <div className="bg-[#1B5E20]/5 rounded-2xl border border-[#1B5E20]/10 p-4 sm:p-6 space-y-3">
         <div>
           <p className="text-sm font-semibold text-gray-900">
-            Pronto para fazer sua declaração?
+            Pronto para fazer sua declaracao?
           </p>
           <p className="text-xs text-gray-500 mt-1">
             Use os valores acima como base para preencher a DASN-SIMEI no portal
-            do governo. O total de entradas da carteira Negócio é o seu
+            do governo. O total de entradas da carteira Negocio e o seu
             faturamento bruto anual.
           </p>
         </div>

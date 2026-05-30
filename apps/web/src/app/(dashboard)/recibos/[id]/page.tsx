@@ -61,8 +61,8 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho */}
-      <div className="flex items-center justify-between">
+      {/* Cabecalho */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Link
             href="/recibos"
@@ -82,15 +82,15 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
             </div>
           </div>
         </div>
-        <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700">
+        <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700 self-start sm:self-auto">
           Ativo
         </span>
       </div>
 
-      {/* Dados do serviço */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+      {/* Dados do servico */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-5">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          Dados do Serviço
+          Dados do Servico
         </h2>
         <div className="flex items-start gap-3">
           <User size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
@@ -104,7 +104,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <Briefcase size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
           <div>
-            <p className="text-xs text-gray-400">Serviço</p>
+            <p className="text-xs text-gray-400">Servico</p>
             <p className="text-sm font-medium text-gray-900">
               {dados.servicoDescricao}
             </p>
@@ -117,7 +117,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
               className="text-[#1B5E20] mt-0.5 shrink-0"
             />
             <div>
-              <p className="text-xs text-gray-400">Observações</p>
+              <p className="text-xs text-gray-400">Observacoes</p>
               <p className="text-sm font-medium text-gray-900">
                 {dados.observacoes}
               </p>
@@ -127,7 +127,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
       </div>
 
       {/* Valor e pagamento */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-5">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
           Valor e Pagamento
         </h2>
@@ -152,20 +152,20 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <Calendar size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
           <div>
-            <p className="text-xs text-gray-400">Data de emissão</p>
+            <p className="text-xs text-gray-400">Data de emissao</p>
             <p className="text-sm font-medium text-gray-900">{dataFormatada}</p>
           </div>
         </div>
       </div>
 
-      {/* Ações de compartilhamento */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-3">
+      {/* Acoes de compartilhamento */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-3">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
           Compartilhar
         </h2>
         <BotoesCompartilhar msgWhatsApp={msgWhatsApp} linkPdf={linkPdf} />
         <div className="pt-2 border-t border-gray-100">
-          <p className="text-xs text-gray-400 mb-1">Link público do recibo</p>
+          <p className="text-xs text-gray-400 mb-1">Link publico do recibo</p>
           <BotaoCopiarLink link={linkPublico} />
         </div>
       </div>

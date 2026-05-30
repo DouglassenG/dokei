@@ -5,8 +5,8 @@ import { ArrowLeft, TrendingUp, TrendingDown, Trash2 } from "lucide-react"
 import { BotaoDeletar } from "./BotaoDeletar"
 
 /**
- * Página de extrato completo
- * Lista todos os lançamentos com filtros por carteira e tipo
+ * Pagina de extrato completo
+ * Lista todos os lancamentos com filtros por carteira e tipo
  */
 
 export default async function ExtratoPage({
@@ -18,14 +18,14 @@ export default async function ExtratoPage({
   const carteira = params.carteira ?? "todos"
   const tipo = params.tipo ?? "todos"
 
-  // Verificar sessão
+  // Verificar sessao
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
   if (!user) return null
 
-  // Buscar lançamentos com filtros
+  // Buscar lancamentos com filtros
   const lancamentos = await prisma.financeiro.findMany({
     where: {
       userId: user.id,
@@ -53,7 +53,7 @@ export default async function ExtratoPage({
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho */}
+      {/* Cabecalho */}
       <div className="flex items-center gap-3">
         <Link
           href="/financeiro"
@@ -77,7 +77,7 @@ export default async function ExtratoPage({
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
-            {c === "todos" ? "Todas" : c === "negocio" ? "Negócio" : "Pessoal"}
+            {c === "todos" ? "Todas" : c === "negocio" ? "Negocio" : "Pessoal"}
           </Link>
         ))}
 
@@ -94,15 +94,15 @@ export default async function ExtratoPage({
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
-            {t === "todos" ? "Todos" : t === "entrada" ? "Entradas" : "Saídas"}
+            {t === "todos" ? "Todos" : t === "entrada" ? "Entradas" : "Saidas"}
           </Link>
         ))}
       </div>
 
       {/* Totais dos filtros */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 flex justify-between text-sm">
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 flex flex-col sm:flex-row sm:justify-between gap-2 text-sm">
         <span className="text-gray-500">
-          {lancamentos.length} lançamento{lancamentos.length !== 1 ? "s" : ""}
+          {lancamentos.length} lancamento{lancamentos.length !== 1 ? "s" : ""}
         </span>
         <div className="flex gap-4">
           <span className="text-green-600 font-medium">
@@ -117,11 +117,11 @@ export default async function ExtratoPage({
       {/* Lista vazia */}
       {lancamentos.length === 0 && (
         <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-          <p className="text-sm text-gray-500">Nenhum lançamento encontrado.</p>
+          <p className="text-sm text-gray-500">Nenhum lancamento encontrado.</p>
         </div>
       )}
 
-      {/* Lista de lançamentos */}
+      {/* Lista de lancamentos */}
       {lancamentos.length > 0 && (
         <div className="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
           {lancamentos.map((item) => {
@@ -136,10 +136,10 @@ export default async function ExtratoPage({
             return (
               <div
                 key={item.id}
-                className="flex items-center justify-between px-4 py-3"
+                className="flex items-center justify-between px-3 sm:px-4 py-3"
               >
-                {/* Ícone + descrição */}
-                <div className="flex items-center gap-3">
+                {/* Icone + descricao */}
+                <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                       isEntrada ? "bg-green-50" : "bg-red-50"
@@ -151,11 +151,11 @@ export default async function ExtratoPage({
                       <TrendingDown size={15} className="text-red-500" />
                     )}
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 truncate max-w-[180px]">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">
                       {item.descricao}
                     </p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-xs text-gray-400">
                         {dataFormatada}
                       </span>
@@ -171,14 +171,14 @@ export default async function ExtratoPage({
                             : "bg-gray-100 text-gray-500"
                         }`}
                       >
-                        {item.carteira === "negocio" ? "Negócio" : "Pessoal"}
+                        {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Valor + deletar */}
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-3">
                   <p
                     className={`text-sm font-semibold ${
                       isEntrada ? "text-green-600" : "text-red-500"

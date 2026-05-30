@@ -5,7 +5,7 @@ import { BotaoMarcarFeito } from "./BotaoMarcarFeito"
 import { LinkDAS, LinkDASN } from "./LinksExternos"
 
 /**
- * Página de Obrigações Fiscais do MEI
+ * Pagina de Obrigacoes Fiscais do MEI
  * Exibe checklist de lembretes (DAS + DASN) e monitor de faturamento anual
  */
 export default async function ObrigacoesPage() {
@@ -82,16 +82,16 @@ export default async function ObrigacoesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho */}
+      {/* Cabecalho */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900">Obrigações Fiscais</h1>
+        <h1 className="text-xl font-bold text-gray-900">Obrigacoes Fiscais</h1>
         <p className="text-sm text-gray-500 mt-1">
           Nunca perca um prazo importante do seu MEI.
         </p>
       </div>
 
       {/* Monitor de faturamento anual */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-3">
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-3">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
           Faturamento Anual {new Date().getFullYear()}
         </h2>
@@ -123,27 +123,27 @@ export default async function ObrigacoesPage() {
           }`}
         >
           {percentualFaturamento >= 90
-            ? "Procure um contador para entender suas opções."
+            ? "Procure um contador para entender suas opcoes."
             : percentualFaturamento >= 70
-              ? "Você está se aproximando do limite anual."
+              ? "Voce esta se aproximando do limite anual."
               : `${percentualFaturamento.toFixed(1)}% do limite anual utilizado.`}
         </p>
       </div>
 
-      {/* Checklist de obrigações */}
+      {/* Checklist de obrigacoes */}
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          Obrigações
+          Obrigacoes
         </h2>
 
         {lembretes.length === 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
             <Clock size={32} className="text-gray-300 mx-auto mb-2" />
             <p className="text-sm text-gray-500">
-              Nenhuma obrigação cadastrada ainda.
+              Nenhuma obrigacao cadastrada ainda.
             </p>
             <p className="text-xs text-gray-400 mt-1">
-              Os lembretes são gerados automaticamente no dia 1 de cada mês.
+              Os lembretes sao gerados automaticamente no dia 1 de cada mes.
             </p>
           </div>
         )}
@@ -156,9 +156,9 @@ export default async function ObrigacoesPage() {
           return (
             <div
               key={lembrete.id}
-              className={`rounded-2xl border p-5 space-y-3 ${getCardStyle(lembrete.status, lembrete.vencimento)}`}
+              className={`rounded-2xl border p-4 sm:p-5 space-y-3 ${getCardStyle(lembrete.status, lembrete.vencimento)}`}
             >
-              <div className="flex items-start justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
                 <div className="flex items-center gap-2">
                   {concluido ? (
                     <CheckCircle
@@ -177,7 +177,7 @@ export default async function ObrigacoesPage() {
                     <p className="text-sm font-semibold text-gray-900">
                       {lembrete.tipo === "DAS"
                         ? "DAS — Pagamento Mensal"
-                        : "DASN-SIMEI — Declaração Anual"}
+                        : "DASN-SIMEI — Declaracao Anual"}
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5">
                       Vence em {formatData(lembrete.vencimento)}
@@ -200,7 +200,7 @@ export default async function ObrigacoesPage() {
                   </div>
                 </div>
                 <span
-                  className={`text-xs px-2 py-1 rounded-full font-medium ${
+                  className={`text-xs px-2 py-1 rounded-full font-medium self-start ${
                     concluido
                       ? "bg-green-100 text-green-700"
                       : atrasado
@@ -215,7 +215,7 @@ export default async function ObrigacoesPage() {
               <p className="text-xs text-gray-500">{lembrete.descricao}</p>
 
               {!concluido && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   {lembrete.tipo === "DAS" && <LinkDAS />}
                   {lembrete.tipo === "DASN" && <LinkDASN />}
                   <BotaoMarcarFeito id={lembrete.id} />
