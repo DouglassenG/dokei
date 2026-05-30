@@ -83,7 +83,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <form action={loginGoogle}>
         <button
           type="submit"
-          className="cursor-pointer w-full py-3 px-4 rounded-lg text-sm font-medium border border-gray-200 bg-white hover:bg-gray-50 transition-all flex items-center justify-center gap-3"
+          className=" text-gray-900 cursor-pointer w-full py-3 px-4 rounded-lg text-sm font-medium border border-gray-200 bg-white hover:bg-gray-50 transition-all flex items-center justify-center gap-3"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
