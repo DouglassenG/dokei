@@ -66,11 +66,10 @@ export function LandingCTA() {
             </button>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-8">
             {[
-              { value: "10k+", label: "MEIs ativos", delay: "200" },
-              { value: "500k+", label: "Recibos emitidos", delay: "300" },
-              { value: "4.9/5", label: "Avaliação média", delay: "400" },
+              { value: "100+", label: "MEIs ativos", delay: "200" },
+              { value: "379+", label: "Recibos emitidos", delay: "300" },
             ].map((stat) => (
               <div
                 key={stat.label}
