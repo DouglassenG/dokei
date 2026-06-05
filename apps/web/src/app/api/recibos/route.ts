@@ -1,48 +1,29 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth" // CLERK
 import { prisma } from "@/lib/prisma"
 
-/**
- * POST /api/recibos
- *
- * Cria um novo recibo no banco para o usuário logado.
- *
- * Fluxo:
- * 1. Verifica sessão do usuário
- * 2. Garante que o usuário existe na tabela users (upsert)
- * 3. Valida os campos obrigatórios
- * 4. Verifica limite do plano grátis (5 recibos/mês)
- * 5. Gera o número sequencial (DOK-0001, DOK-0002...)
- * 6. Salva no banco como Documento com tipo='recibo'
- * 7. Retorna o id gerado para redirecionar o frontend
- */
 export async function POST(request: Request) {
   try {
-    // ─── 1. Verificar sessão ───────────────────────────────────────────────
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    // ─── 1. Verificar sessao via Clerk ────────────────────────────────────
+    const user = await getAuthUser() // CLERK
 
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
     }
 
-    // ─── 2. Garantir que o usuário existe na tabela users ─────────────────
-    // Usuários do Google OAuth e e-mail são criados no Supabase Auth
-    // mas não automaticamente na nossa tabela users — upsert resolve isso
+    // ─── 2. Garantir que o usuario existe na tabela users ─────────────────
     const userDb = await prisma.user.upsert({
       where: { id: user.id },
       update: {},
       create: {
         id: user.id,
-        email: user.email ?? "",
-        nome: user.user_metadata?.full_name ?? null,
+        email: user.email, // CLERK
+        nome: user.nome, // CLERK
         plano: "gratis",
       },
     })
 
-    // ─── 3. Validar campos obrigatórios ────────────────────────────────────
+    // ─── 3. Validar campos obrigatorios ────────────────────────────────────
     const body = await request.json()
     const {
       nomeCliente,
@@ -70,7 +51,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Valor inválido." }, { status: 400 })
     }
 
-    // ─── 4. Verificar limite do plano grátis (5 recibos/mês) ──────────────
+    // ─── 4. Verificar limite do plano gratis (5 recibos/mes) ──────────────
     const inicioMes = new Date()
     inicioMes.setDate(1)
     inicioMes.setHours(0, 0, 0, 0)
@@ -87,7 +68,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "LIMITE_ATINGIDO" }, { status: 403 })
     }
 
-    // ─── 5. Gerar número sequencial DOK-0001 ──────────────────────────────
+    // ─── 5. Gerar numero sequencial DOK-0001 ──────────────────────────────
     const ultimoRecibo = await prisma.documento.findFirst({
       where: { userId: user.id, tipo: "recibo" },
       orderBy: { criadoEm: "desc" },
@@ -130,16 +111,9 @@ export async function POST(request: Request) {
   }
 }
 
-/**
- * GET /api/recibos
- * Lista todos os recibos do usuário logado.
- */
 export async function GET() {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getAuthUser() // CLERK
 
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })

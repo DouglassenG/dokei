@@ -1,13 +1,12 @@
-// Layout do dashboard — verifica sessao antes de renderizar
-// Se nao estiver logado → redireciona para login
+// Layout do dashboard — verifica sessao via Clerk antes de renderizar
+// Se nao estiver logado → middleware redireciona para login
 
 import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
-import { logout } from "@/app/(auth)/actions"
+import { getAuthUser } from "@/lib/auth"
 
 import { Sidebar } from "@/components/dashboard/Sidebar"
 import { ThemeToggle } from "@/components/dashboard/ThemeToggle"
-import { LogOut } from "lucide-react"
+import { LogoutButton } from "@/components/dashboard/LogoutButton"
 
 // Tipagem do layout — children e obrigatorio
 interface DashboardLayoutProps {
@@ -17,12 +16,9 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  // Verifica sessao no servidor — nunca no cliente
+  // Verifica sessao no servidor via Clerk
   // Garante que nenhuma rota do dashboard e acessivel sem login
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
 
   if (!user) {
     redirect("/login")
@@ -32,7 +28,7 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-background text-foreground">
       <div className="flex">
         {/* Sidebar fixa a esquerda */}
-        <Sidebar userEmail={user.email ?? ""} />
+        <Sidebar userEmail={user.email} />
 
         {/* Area de conteudo — margem esquerda apenas em desktop */}
         <div className="flex-1 lg:ml-64">
@@ -47,15 +43,7 @@ export default async function DashboardLayout({
                 {user.email}
               </span>
 
-              <form action={logout}>
-                <button
-                  type="submit"
-                  className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-destructive transition-colors flex items-center gap-1.5"
-                >
-                  <LogOut size={16} />
-                  <span className="hidden sm:inline">Sair</span>
-                </button>
-              </form>
+              <LogoutButton />
             </div>
           </header>
 

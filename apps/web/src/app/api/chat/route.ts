@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import Groq from "groq-sdk"
+import { getAuthUser } from "@/lib/auth"
+// ...
+const user = await getAuthUser()
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
