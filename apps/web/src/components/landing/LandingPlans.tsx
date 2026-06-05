@@ -18,8 +18,7 @@ const plans = [
       "Lembretes DAS + IRPF",
       "Calculadora de preço premium",
       "Relatório de rendimentos",
-      "Suporte prioritário",
-      "Exportar relatórios em PDF",
+      "Gráficos mensais de desempenho",
     ],
     cta: "Começar grátis",
     href: "/cadastro",
@@ -46,7 +45,7 @@ export function LandingPlans() {
   return (
     <section id="planos" ref={sectionRef} className="py-20 lg:py-28 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-2">
-        <div className="text-center max-w-1xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-[#7ba23f] font-semibold text-sm uppercase tracking-wider mb-4">
             Planos e Preços
           </span>
