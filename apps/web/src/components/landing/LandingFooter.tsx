@@ -98,7 +98,6 @@ export function LandingFooter() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-white/60 text-sm text-center">
             © {new Date().getFullYear()} Dokei. Todos os direitos reservados.
-            CNPJ: 00.000.000/0001-00
           </p>
         </div>
       </div>
