@@ -1,4 +1,10 @@
-import { FileText, TrendingUp, Bell, Calculator } from "lucide-react"
+import {
+  FileText,
+  TrendingUp,
+  Bell,
+  Calculator,
+  GitGraphIcon,
+} from "lucide-react"
 
 interface Feature {
   icon: React.ComponentType<{ size?: number; className?: string }>
@@ -10,7 +16,8 @@ const features: Feature[] = [
   {
     icon: FileText,
     title: "Emitir Recibo",
-    description: "Gere recibos profissionais em PDF e compartilhe pelo WhatsApp.",
+    description:
+      "Gere recibos profissionais em PDF e compartilhe pelo WhatsApp.",
   },
   {
     icon: TrendingUp,
@@ -26,6 +33,12 @@ const features: Feature[] = [
     icon: Calculator,
     title: "Calculadora de Preço",
     description: "Descubra quanto cobrar pelo seu serviço em 30 segundos.",
+  },
+  {
+    icon: GitGraphIcon,
+    title: "Gráficos de Desempenho",
+    description:
+      "Visualize seu crescimento com gráficos claros e fáceis de entender.",
   },
 ]
 
@@ -43,7 +56,9 @@ export function LandingFeatures() {
               <div className="w-10 h-10 bg-[#1B5E20] rounded-xl flex items-center justify-center mb-4">
                 <Icon size={20} className="text-white" />
               </div>
-              <h3 className="font-semibold text-[#1B5E20] mb-1">{feature.title}</h3>
+              <h3 className="font-semibold text-[#1B5E20] mb-1">
+                {feature.title}
+              </h3>
               <p className="text-sm text-[#2E7D32]">{feature.description}</p>
             </div>
           )

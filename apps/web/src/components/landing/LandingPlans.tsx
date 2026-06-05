@@ -3,30 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Check, Star, Zap } from "lucide-react"
+import { Check, Star } from "lucide-react"
 
 const plans = [
   {
-    name: "Free",
-    price: "R$ 0",
-    period: "/mês",
-    description: "Perfeito para começar sua jornada como MEI",
-    icon: Zap,
-    features: [
-      "5 recibos por mês",
-      "Controle financeiro básico",
-      "Lembrete DAS mensal",
-      "Calculadora de preço",
-      "Suporte por e-mail",
-    ],
-    cta: "Começar grátis",
-    href: "/cadastro",
-    popular: false,
-    highlighted: false,
-  },
-  {
     name: "Essencial",
-    price: "R$ 19,90",
+    price: "Freemium",
     period: "/mês",
     description: "Para MEIs que querem organização completa",
     icon: Star,
@@ -39,30 +21,10 @@ const plans = [
       "Suporte prioritário",
       "Exportar relatórios em PDF",
     ],
-    cta: "Assinar agora",
+    cta: "Começar grátis",
     href: "/cadastro",
     popular: true,
     highlighted: true,
-  },
-  {
-    name: "Profissional",
-    price: "R$ 39,90",
-    period: "/mês",
-    description: "Recursos avançados para crescer ainda mais",
-    icon: Star,
-    features: [
-      "Tudo do Essencial",
-      "Multi-negócios",
-      "Dashboard personalizado",
-      "Integrações bancárias",
-      "Consultoria mensal",
-      "API de acesso",
-      "Suporte 24/7",
-    ],
-    cta: "Assinar agora",
-    href: "/cadastro",
-    popular: false,
-    highlighted: false,
   },
 ]
 
@@ -89,11 +51,12 @@ export function LandingPlans() {
             Planos e Preços
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1a4d2e] mb-6 text-balance">
-            Escolha o plano ideal para seu negócio
+            Freemium
           </h2>
           <p className="text-lg text-[#4a6741] leading-relaxed">
-            Comece gratuitamente e faça upgrade quando precisar. Sem surpresas,
-            sem taxas escondidas.
+            O Dokei é 100% gratuito com todas as funcionalidades disponíveis.
+            Comece agora mesmo sem pagar nada e experimente a diferença que uma
+            gestão financeira eficiente pode fazer no seu MEI.
           </p>
         </div>
 
@@ -115,14 +78,6 @@ export function LandingPlans() {
                     : "border-[#d4e5c7] hover:border-[#7ba23f]/50"
                 }`}
               >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <span className="bg-[#7ba23f] text-white text-sm font-semibold px-4 py-1.5 rounded-full shadow-lg">
-                      Mais Popular
-                    </span>
-                  </div>
-                )}
-
                 <CardHeader className="pb-4 pt-8">
                   <div
                     className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${

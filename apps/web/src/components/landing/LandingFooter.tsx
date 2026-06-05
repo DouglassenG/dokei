@@ -47,9 +47,8 @@ export function LandingFooter() {
               <span className="text-2xl font-bold text-white">Dokei</span>
             </a>
             <p className="text-white/70 leading-relaxed mb-6 max-w-sm">
-              Simplifique a gestão do seu MEI. Ferramentas simples e poderosas
-              para você focar no que realmente importa: fazer seu negócio
-              crescer.
+              Simplifique a gestão do seu MEI. Ferramentas simples para você
+              focar no que realmente importa: fazer seu negócio crescer.
             </p>
 
             <div className="space-y-3">
