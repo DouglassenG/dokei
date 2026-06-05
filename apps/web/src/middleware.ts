@@ -1,60 +1,29 @@
-import { createServerClient } from "@supabase/ssr"
-import { NextResponse, type NextRequest } from "next/server"
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
+/**
+ * Rotas protegidas — exigem login via Clerk.
+ * Qualquer rota que comece com esses prefixos será bloqueada para visitantes.
+ */
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/recibos(.*)",
+  "/financeiro(.*)",
+  "/obrigacoes(.*)",
+  "/calculadora-preco(.*)",
+  "/rendimentos(.*)",
+])
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          )
-          supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
-          )
-        },
-      },
-    },
-  )
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // Se não está logado e tenta acessar rotas protegidas → redireciona para login
-  if (
-    !user &&
-    (request.nextUrl.pathname.startsWith("/dashboard") ||
-      request.nextUrl.pathname.startsWith("/recibos") ||
-      request.nextUrl.pathname.startsWith("/financeiro") ||
-      request.nextUrl.pathname.startsWith("/obrigacoes"))
-  ) {
-    return NextResponse.redirect(new URL("/login", request.url))
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect()
   }
-
-  // Se está logado e tenta acessar login/cadastro → redireciona para dashboard
-  if (user && ["/login", "/cadastro"].includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url))
-  }
-
-  return supabaseResponse
-}
+})
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/recibos/:path*",
-    "/financeiro/:path*",
-    "/obrigacoes/:path*",
-    "/login",
-    "/cadastro",
+    // Ignora arquivos estáticos do Next.js e assets
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Sempre roda para API routes
+    "/(api|trpc)(.*)",
   ],
 }

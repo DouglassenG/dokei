@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
+import { ClerkProvider } from "@clerk/nextjs"
+import { ptBR } from "@clerk/localizations"
 import "./globals.css"
 import { ChatWidget } from "@/components/chat/ChatWidget"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
@@ -33,18 +35,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" className="scroll-smooth bg-background" suppressHydrationWarning>
-      <body className={`${montserrat.variable} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <ChatWidget />
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider localization={ptBR}>
+      <html
+        lang="pt-BR"
+        className="scroll-smooth bg-background"
+        suppressHydrationWarning
+      >
+        <body className={`${montserrat.variable} font-sans antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <ChatWidget />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
