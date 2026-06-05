@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { FileText, Plus, ChevronRight } from "lucide-react"
@@ -15,11 +15,7 @@ interface DadosRecibo {
 
 export default async function RecibosPage() {
   // --- Verificar sessao ---
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const user = await getAuthUser()
   if (!user) return null
 
   // --- Buscar recibos do usuario ---

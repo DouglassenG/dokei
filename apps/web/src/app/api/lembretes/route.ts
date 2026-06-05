@@ -1,17 +1,10 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth" // CLERK
 import { prisma } from "@/lib/prisma"
 
-/**
- * GET /api/lembretes
- * Lista todos os lembretes do usuário logado ordenados por vencimento.
- */
 export async function GET() {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getAuthUser() // CLERK
     if (!user)
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
 
@@ -30,16 +23,9 @@ export async function GET() {
   }
 }
 
-/**
- * PATCH /api/lembretes/[id]
- * Marca um lembrete como concluído.
- */
 export async function PATCH(request: Request) {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getAuthUser() // CLERK
     if (!user)
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
 

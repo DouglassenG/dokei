@@ -1,25 +1,15 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth" // CLERK
 import { prisma } from "@/lib/prisma"
 
-/**
- * GET /api/financeiro
- * Lista todos os lançamentos do usuário logado.
- * Ordenado do mais recente para o mais antigo.
- */
 export async function GET(request: Request) {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getAuthUser() // CLERK
 
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
     }
 
-    // Lê filtros opcionais da URL
-    // Ex: /api/financeiro?carteira=negocio&tipo=entrada
     const { searchParams } = new URL(request.url)
     const carteira = searchParams.get("carteira")
     const tipo = searchParams.get("tipo")
@@ -27,7 +17,6 @@ export async function GET(request: Request) {
     const lancamentos = await prisma.financeiro.findMany({
       where: {
         userId: user.id,
-        // Aplica filtros apenas se fornecidos
         ...(carteira && carteira !== "todos" ? { carteira } : {}),
         ...(tipo && tipo !== "todos" ? { tipo } : {}),
       },
@@ -44,26 +33,9 @@ export async function GET(request: Request) {
   }
 }
 
-/**
- * POST /api/financeiro
- * Cria um novo lançamento financeiro para o usuário logado.
- *
- * Body esperado:
- * {
- *   tipo: "entrada" | "saida"
- *   categoria: string
- *   descricao: string
- *   valor: number
- *   carteira: "negocio" | "pessoal"
- *   data: string (YYYY-MM-DD)
- * }
- */
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getAuthUser() // CLERK
 
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
@@ -72,7 +44,6 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { tipo, categoria, descricao, valor, carteira, data } = body
 
-    // Valida campos obrigatórios
     if (!tipo || !descricao || !valor || !data) {
       return NextResponse.json(
         { error: "Preencha todos os campos obrigatórios." },
@@ -91,14 +62,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Valor inválido." }, { status: 400 })
     }
 
-    // Garante que o usuário existe na tabela users
     await prisma.user.upsert({
       where: { id: user.id },
       update: {},
       create: {
         id: user.id,
-        email: user.email ?? "",
-        nome: user.user_metadata?.full_name ?? null,
+        email: user.email, // CLERK
+        nome: user.nome, // CLERK
         plano: "gratis",
       },
     })

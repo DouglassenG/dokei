@@ -1,7 +1,4 @@
-// Página inicial do dashboard
-// Mostra boas vindas e atalhos para as funcionalidades do MVP
-
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import Link from "next/link"
 import { FileText, TrendingUp, Bell, Calculator, BarChart2 } from "lucide-react"
 
@@ -52,15 +49,11 @@ const funcionalidades: FuncionalidadeCard[] = [
 ]
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
+  if (!user) return null
 
   const primeiroNome =
-    user?.user_metadata?.full_name?.split(" ")[0] ??
-    user?.email?.split("@")[0] ??
-    "MEI"
+    user?.nome?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "MEI"
 
   return (
     <div className="space-y-10">

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import {
@@ -11,17 +11,6 @@ import {
 } from "lucide-react"
 import { LancamentoRapido } from "./LancamentoRapido"
 
-/**
- * Pagina principal do Controle Financeiro
- *
- * Exibe:
- * 1. 3 cards: entradas totais, saidas totais, saldo do mes
- * 2. 2 carteiras visuais: Negocio e Pessoal
- * 3. Ultimos 10 lancamentos
- * 4. Botao flutuante para novo lancamento (LancamentoRapido)
- */
-
-// Tipagem do resumo retornado pela API
 interface Resumo {
   totalEntradas: number
   totalSaidas: number
@@ -32,12 +21,8 @@ interface Resumo {
 
 export default async function FinanceiroPage() {
   // --- Verificar sessao ---
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
   if (!user) return null
-
   // --- Buscar resumo do mes ---
   const hoje = new Date()
   const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)

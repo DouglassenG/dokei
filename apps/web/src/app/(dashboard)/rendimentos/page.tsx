@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import {
@@ -32,12 +32,8 @@ export default async function RendimentosPage({
   const ano = Number(params.ano ?? anoAtual)
 
   // Verificar sessao
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
   if (!user) return null
-
   const inicioAno = new Date(ano, 0, 1)
   const fimAno = new Date(ano, 11, 31, 23, 59, 59)
 

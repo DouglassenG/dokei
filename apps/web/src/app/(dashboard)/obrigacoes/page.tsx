@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { AlertTriangle, CheckCircle, Clock } from "lucide-react"
 import { BotaoMarcarFeito } from "./BotaoMarcarFeito"
@@ -9,19 +9,15 @@ import { LinkDAS, LinkDASN } from "./LinksExternos"
  * Exibe checklist de lembretes (DAS + DASN) e monitor de faturamento anual
  */
 export default async function ObrigacoesPage() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
   if (!user) return null
-
   await prisma.user.upsert({
     where: { id: user.id },
     update: {},
     create: {
       id: user.id,
-      email: user.email ?? "",
-      nome: user.user_metadata?.full_name ?? null,
+      email: user.email,
+      nome: user.nome,
       plano: "gratis",
     },
   })

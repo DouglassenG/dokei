@@ -36,6 +36,6 @@ export async function getAuthUser(): Promise<AuthUser | null> {
   return {
     id: userId,
     email: primeiroEmail,
-    nome,
+    nome: nome,
   }
 }
