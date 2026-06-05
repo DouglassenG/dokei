@@ -53,7 +53,6 @@ export default function AuthLayout({
               </ClerkProvider>
             </ClerkProvider>
           </div>
-          {children}
         </div>
       </div>
     </div>
