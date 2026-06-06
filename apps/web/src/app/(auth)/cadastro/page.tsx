@@ -1,9 +1,10 @@
-import { SignIn } from "@clerk/nextjs"
+import { SignUp } from "@clerk/nextjs"
 
-export default function LoginPage() {
+export default function CadastroPage() {
   return (
     <div className="flex justify-center">
-      <SignIn
+      <SignUp
+        routing="hash"
         appearance={{
           elements: {
             rootBox: "w-full",
@@ -13,6 +14,7 @@ export default function LoginPage() {
             formButtonPrimary:
               "bg-[#1B5E20] hover:bg-[#145214] text-white rounded-lg",
             footerActionLink: "hidden",
+            footer: "hidden",
           },
         }}
       />
