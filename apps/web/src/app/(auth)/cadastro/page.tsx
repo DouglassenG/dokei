@@ -6,15 +6,20 @@ export default function CadastroPage() {
       <SignUp
         routing="hash"
         appearance={{
+          variables: {
+            colorPrimary: "#1B5E20",
+            colorText: "#1a1a1a",
+            borderRadius: "0.5rem",
+          },
           elements: {
-            rootBox: "w-full",
-            card: "shadow-none w-full bg-transparent",
-            headerTitle: "text-[#1B5E20]",
-            headerSubtitle: "text-[#2E7D32]",
-            formButtonPrimary:
-              "bg-[#1B5E20] hover:bg-[#145214] text-white rounded-lg",
-            footerActionLink: "text-[#1B5E20] hover:text-[#145214]",
-            footer: "hidden",
+            rootBox: { width: "100%" },
+            cardBox: {
+              boxShadow: "none",
+              border: "none",
+            },
+            card: {
+              boxShadow: "none",
+            },
           },
         }}
       />
