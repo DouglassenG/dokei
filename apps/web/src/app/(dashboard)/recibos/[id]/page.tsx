@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import {
@@ -31,12 +31,8 @@ interface ReciboPageProps {
 export default async function ReciboPage({ params }: ReciboPageProps) {
   const { id } = await params
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
   if (!user) notFound()
-
   const recibo = await prisma.documento.findFirst({
     where: { id, userId: user.id, tipo: "recibo" },
   })

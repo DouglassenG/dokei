@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { ArrowLeft, TrendingUp, TrendingDown, Trash2 } from "lucide-react"
@@ -19,12 +19,8 @@ export default async function ExtratoPage({
   const tipo = params.tipo ?? "todos"
 
   // Verificar sessao
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getAuthUser()
   if (!user) return null
-
   // Buscar lancamentos com filtros
   const lancamentos = await prisma.financeiro.findMany({
     where: {

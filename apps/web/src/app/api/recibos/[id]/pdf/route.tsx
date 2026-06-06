@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { renderToBuffer } from "@react-pdf/renderer"
 import { ReciboPDF } from "@/components/pdf/ReciboPDF"
@@ -18,11 +18,7 @@ export async function GET(
     const { id } = await params
 
     // ─── 1. Verificar sessão ─────────────────────────────────────────────
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
+    const user = await getAuthUser()
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
     }
