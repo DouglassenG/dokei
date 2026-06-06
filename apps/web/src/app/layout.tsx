@@ -35,7 +35,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider localization={ptBR}>
+    <ClerkProvider
+      localization={ptBR}
+      appearance={{
+        variables: {
+          colorPrimary: "#1B5E20",
+          colorText: "#1a1a1a",
+          colorTextSecondary: "#666666",
+          colorBackground: "#ffffff",
+          borderRadius: "0.5rem",
+        },
+      }}
+    >
       <html
         lang="pt-BR"
         className="scroll-smooth bg-background"
