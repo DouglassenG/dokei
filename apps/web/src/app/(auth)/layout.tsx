@@ -8,10 +8,10 @@ export default function AuthLayout({
 }) {
   return (
     <div
-      className="light min-h-screen flex items-center justify-center bg-[#8BC34A] px-3 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10"
+      className="light min-h-screen flex items-center justify-center bg-[#8BC34A] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10"
       style={{ colorScheme: "light" }}
     >
-      <div className="w-full max-w-[calc(100%-0.5rem)] sm:max-w-md lg:max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div className="w-full max-w-[27.72rem] lg:max-w-[31.68rem] bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="h-1 bg-[#1B5E20]" />
         <div className="px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-9">
           <div className="mb-3 sm:mb-4">
