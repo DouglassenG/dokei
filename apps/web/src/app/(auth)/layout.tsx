@@ -7,11 +7,13 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#8BC34A] px-4">
-      <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl ring-1 ring-white/10 overflow-hidden">
+    <div
+      className="light min-h-screen flex items-center justify-center bg-[#8BC34A] px-4"
+      style={{ colorScheme: "light" }}
+    >
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="h-1 bg-[#1B5E20]" />
         <div className="p-8">
-          {/* Botao voltar ao site */}
           <div className="mb-4">
             <Link
               href="/"
