@@ -16,14 +16,14 @@ export default function LoginPage() {
             cardBox: {
               boxShadow: "none",
               border: "none",
-              backgroundColor: "transparent",
+              backgroundColor: "white",
             },
             card: {
               boxShadow: "none",
-              backgroundColor: "transparent",
+              backgroundColor: "white",
             },
             footer: {
-              backgroundColor: "transparent",
+              backgroundColor: "white",
             },
           },
         }}
