@@ -9,6 +9,8 @@ export default function LoginPage() {
           variables: {
             colorPrimary: "#1B5E20",
             colorText: "#1a1a1a",
+            colorTextSecondary: "#666666",
+            colorBackground: "#ffffff",
             borderRadius: "0.5rem",
           },
           elements: {
@@ -16,11 +18,9 @@ export default function LoginPage() {
             cardBox: {
               boxShadow: "none",
               border: "none",
-              backgroundColor: "white",
             },
             card: {
               boxShadow: "none",
-              backgroundColor: "white",
             },
             footer: {
               backgroundColor: "white",

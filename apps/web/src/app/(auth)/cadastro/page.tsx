@@ -9,6 +9,8 @@ export default function CadastroPage() {
           variables: {
             colorPrimary: "#1B5E20",
             colorText: "#1a1a1a",
+            colorTextSecondary: "#666666",
+            colorBackground: "#ffffff",
             borderRadius: "0.5rem",
           },
           elements: {
@@ -19,6 +21,9 @@ export default function CadastroPage() {
             },
             card: {
               boxShadow: "none",
+            },
+            footer: {
+              backgroundColor: "white",
             },
           },
         }}
