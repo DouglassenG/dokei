@@ -13,7 +13,7 @@ export default function CadastroPage() {
             headerSubtitle: "text-[#2E7D32]",
             formButtonPrimary:
               "bg-[#1B5E20] hover:bg-[#145214] text-white rounded-lg",
-            footerActionLink: "hidden",
+            footerActionLink: "text-[#1B5E20] hover:text-[#145214]",
             footer: "hidden",
           },
         }}
