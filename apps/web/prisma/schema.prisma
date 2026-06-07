@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -12,8 +13,6 @@ model User {
   email      String       @unique
   nome       String?
   mei        String?
-  cnpj       String?      @unique
-  trialUsado Boolean      @default(false)
   plano      String       @default("gratis")
   criadoEm   DateTime     @default(now())
   documentos Documento[]

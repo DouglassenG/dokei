@@ -12,16 +12,20 @@ export async function POST(request: Request) {
     }
 
     // ─── 2. Garantir que o usuario existe na tabela users ─────────────────
-    const userDb = await prisma.user.upsert({
-      where: { id: user.id },
-      update: {},
-      create: {
-        id: user.id,
-        email: user.email, // CLERK
-        nome: user.nome, // CLERK
-        plano: "gratis",
-      },
+    const usuarioExiste = await prisma.user.findUnique({
+      where: { email: user.email },
     })
+
+    if (!usuarioExiste) {
+      await prisma.user.create({
+        data: {
+          id: user.id,
+          email: user.email,
+          nome: user.nome,
+          plano: "gratis",
+        },
+      })
+    }
 
     // ─── 3. Validar campos obrigatorios ────────────────────────────────────
     const body = await request.json()
@@ -55,18 +59,6 @@ export async function POST(request: Request) {
     const inicioMes = new Date()
     inicioMes.setDate(1)
     inicioMes.setHours(0, 0, 0, 0)
-
-    const totalMes = await prisma.documento.count({
-      where: {
-        userId: user.id,
-        tipo: "recibo",
-        criadoEm: { gte: inicioMes },
-      },
-    })
-
-    if (userDb.plano === "gratis" && totalMes >= 5) {
-      return NextResponse.json({ error: "LIMITE_ATINGIDO" }, { status: 403 })
-    }
 
     // ─── 5. Gerar numero sequencial DOK-0001 ──────────────────────────────
     const ultimoRecibo = await prisma.documento.findFirst({

@@ -11,16 +11,20 @@ import { LinkDAS, LinkDASN } from "./LinksExternos"
 export default async function ObrigacoesPage() {
   const user = await getAuthUser()
   if (!user) return null
-  await prisma.user.upsert({
-    where: { id: user.id },
-    update: {},
-    create: {
-      id: user.id,
-      email: user.email,
-      nome: user.nome,
-      plano: "gratis",
-    },
+  const usuarioExiste = await prisma.user.findUnique({
+    where: { email: user.email },
   })
+
+  if (!usuarioExiste) {
+    await prisma.user.create({
+      data: {
+        id: user.id,
+        email: user.email,
+        nome: user.nome,
+        plano: "gratis",
+      },
+    })
+  }
 
   const lembretes = await prisma.lembrete.findMany({
     where: { userId: user.id },
