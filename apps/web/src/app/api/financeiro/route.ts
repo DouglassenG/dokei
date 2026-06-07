@@ -62,17 +62,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Valor inválido." }, { status: 400 })
     }
 
-    await prisma.user.upsert({
-      where: { id: user.id },
-      update: {},
-      create: {
-        id: user.id,
-        email: user.email, // CLERK
-        nome: user.nome, // CLERK
-        plano: "gratis",
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ id: user.id }, { email: user.email }],
       },
+      select: { id: true },
     })
 
+    if (!existingUser) {
+      await prisma.user.create({
+        data: {
+          id: user.id,
+          email: user.email, // CLERK
+          nome: user.nome, // CLERK
+          plano: "gratis",
+        },
+      })
+    } else if (existingUser.id !== user.id) {
+      await prisma.user.update({
+        where: { id: existingUser.id },
+        data: { id: user.id },
+      })
+    }
     const lancamento = await prisma.financeiro.create({
       data: {
         userId: user.id,
