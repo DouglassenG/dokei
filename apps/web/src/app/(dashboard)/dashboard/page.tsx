@@ -35,7 +35,7 @@ const funcionalidades: FuncionalidadeCard[] = [
   {
     titulo: "Calculadora de Preço",
     descricao: "Descubra quanto cobrar pelo seu serviço em 30 segundos.",
-    href: "/calculadora-preco",
+    href: "/calculadora",
     icon: Calculator,
     disponivel: true,
   },

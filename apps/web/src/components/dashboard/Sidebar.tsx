@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   { label: "Recibos", href: "/recibos", icon: FileText },
   { label: "Financeiro", href: "/financeiro", icon: TrendingUp },
   { label: "Obrigacoes", href: "/obrigacoes", icon: Bell },
-  { label: "Calculadora", href: "/calculadora-preco", icon: Calculator },
+  { label: "Calculadora", href: "/calculadora", icon: Calculator },
   { label: "Rendimentos", href: "/rendimentos", icon: BarChart2 },
 ]
 
