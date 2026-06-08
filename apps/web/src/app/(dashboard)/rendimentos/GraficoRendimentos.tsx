@@ -49,18 +49,43 @@ function TooltipCustomizado({
   active,
   payload,
   label,
+  escuro,
 }: {
   active?: boolean
   payload?: Array<{ name: string; value: number; color: string }>
   label?: string
+  escuro?: boolean
 }) {
   if (!active || !payload?.length) return null
 
   return (
-    <div className="bg-card border border-border rounded-xl p-3 shadow-lg space-y-1">
-      <p className="text-xs font-semibold text-foreground">{label}</p>
+    <div
+      style={{
+        backgroundColor: escuro ? "#132117" : "#ffffff",
+        border: `1px solid ${escuro ? "#243d28" : "#e5e7eb"}`,
+        borderRadius: "0.75rem",
+        padding: "0.75rem",
+        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.3)",
+      }}
+    >
+      <p
+        style={{
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          color: escuro ? "#e4ede6" : "#374151",
+          marginBottom: "0.25rem",
+        }}
+      >
+        {label}
+      </p>
       {payload.map((entry) => (
-        <p key={entry.name} className="text-xs" style={{ color: entry.color }}>
+        <p
+          key={entry.name}
+          style={{
+            fontSize: "0.75rem",
+            color: entry.color,
+          }}
+        >
           {entry.name}: {formatBRL(entry.value)}
         </p>
       ))}
@@ -81,7 +106,6 @@ export function GraficoRendimentos({ meses }: GraficoRendimentosProps) {
   const escuro = montado && temaAtual === "dark"
 
   // Cores adaptativas para SVG inline do Recharts
-  // Light: cinza claro | Dark: verde escuro (--border do globals.css)
   const corGrid = escuro ? "#243d28" : "#f3f4f6"
   const corTextoEixo = escuro ? "#8a9f8e" : "#9ca3af"
 
@@ -117,7 +141,13 @@ export function GraficoRendimentos({ meses }: GraficoRendimentosProps) {
           tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
           width={32}
         />
-        <Tooltip content={<TooltipCustomizado />} />
+        <Tooltip
+          content={<TooltipCustomizado escuro={escuro} />}
+          wrapperStyle={{ outline: "none", border: "none", background: "none" }}
+          cursor={{
+            fill: escuro ? "rgba(139,195,74,0.08)" : "rgba(0,0,0,0.04)",
+          }}
+        />
         <Legend
           formatter={(value) => (
             <span className="text-xs text-muted-foreground">{value}</span>

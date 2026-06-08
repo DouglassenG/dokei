@@ -107,15 +107,15 @@ export default async function RendimentosPage({
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-muted rounded-lg transition-colors"
         >
-          <ArrowLeft size={20} className="text-gray-500" />
+          <ArrowLeft size={20} className="text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-gray-900">
+          <h1 className="text-xl font-bold text-foreground">
             Declaracao de Rendimentos
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Carteira Negocio — base para sua declaracao MEI
           </p>
         </div>
@@ -125,50 +125,51 @@ export default async function RendimentosPage({
       <div className="flex items-center justify-center gap-4">
         <Link
           href={`/rendimentos?ano=${ano - 1}`}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-muted rounded-lg transition-colors"
         >
-          <ChevronLeft size={20} className="text-gray-500" />
+          <ChevronLeft size={20} className="text-muted-foreground" />
         </Link>
-        <span className="text-lg font-bold text-gray-900">{ano}</span>
+        <span className="text-lg font-bold text-foreground">{ano}</span>
         <Link
           href={`/rendimentos?ano=${ano + 1}`}
           className={`p-2 rounded-lg transition-colors ${
-            ano >= anoAtual
-              ? "opacity-30 cursor-not-allowed"
-              : "hover:bg-gray-100"
+            ano >= anoAtual ? "opacity-30 cursor-not-allowed" : "hover:bg-muted"
           }`}
         >
-          <ChevronRight size={20} className="text-gray-500" />
+          <ChevronRight size={20} className="text-muted-foreground" />
         </Link>
       </div>
 
       {/* 3 Cards totais do ano */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingUp size={14} className="text-green-500" />
-            <p className="text-xs text-gray-400">Entradas</p>
+            <p className="text-xs text-muted-foreground/70">Entradas</p>
           </div>
-          <p className="text-sm font-bold text-green-600">
+          <p className="text-sm font-bold text-green-600 dark:text-green-400">
             {formatBRL(totalEntradas)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500" />
-            <p className="text-xs text-gray-400">Saidas</p>
+            <p className="text-xs text-muted-foreground/70">Saidas</p>
           </div>
           <p className="text-sm font-bold text-red-500">
             {formatBRL(totalSaidas)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
-            <DollarSign size={14} className="text-[#1B5E20]" />
-            <p className="text-xs text-gray-400">Saldo</p>
+            <DollarSign
+              size={14}
+              className="text-[#1B5E20] dark:text-[#8BC34A]"
+            />
+            <p className="text-xs text-muted-foreground/70">Saldo</p>
           </div>
           <p
-            className={`text-sm font-bold ${saldoTotal >= 0 ? "text-[#1B5E20]" : "text-red-500"}`}
+            className={`text-sm font-bold ${saldoTotal >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
           >
             {formatBRL(saldoTotal)}
           </p>
@@ -176,29 +177,29 @@ export default async function RendimentosPage({
       </div>
 
       {/* Grafico mensal */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-4">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Movimentacao Mensal {ano}
         </h2>
         <GraficoRendimentos meses={meses} />
       </div>
 
       {/* Historico mes a mes */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div className="px-4 sm:px-6 py-4 border-b border-gray-100">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="px-4 sm:px-6 py-4 border-b border-border">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Historico por Mes
           </h2>
         </div>
 
         {mesesComMovimento.length === 0 && (
           <div className="p-10 text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Nenhum lancamento registrado em {ano}.
             </p>
             <Link
               href="/financeiro"
-              className="text-sm text-[#1B5E20] hover:underline mt-2 inline-block"
+              className="text-sm text-[#1B5E20] dark:text-[#8BC34A] hover:underline mt-2 inline-block"
             >
               Ir para o Controle Financeiro
             </Link>
@@ -208,28 +209,28 @@ export default async function RendimentosPage({
         {mesesComMovimento.map((m) => (
           <div
             key={m.mes}
-            className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-b border-gray-100 last:border-0 gap-2 sm:gap-0"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-b border-border last:border-0 gap-2 sm:gap-0"
           >
-            <p className="text-sm font-medium text-gray-900 sm:w-28">
+            <p className="text-sm font-medium text-foreground sm:w-28">
               {m.nomeMes}
             </p>
             <div className="flex items-center gap-4 sm:gap-6">
               <div className="text-right">
-                <p className="text-xs text-gray-400">Entradas</p>
-                <p className="text-sm font-medium text-green-600">
+                <p className="text-xs text-muted-foreground/70">Entradas</p>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">
                   {formatBRL(m.entradas)}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-400">Saidas</p>
+                <p className="text-xs text-muted-foreground/70">Saidas</p>
                 <p className="text-sm font-medium text-red-500">
                   {formatBRL(m.saidas)}
                 </p>
               </div>
               <div className="text-right sm:w-24">
-                <p className="text-xs text-gray-400">Saldo</p>
+                <p className="text-xs text-muted-foreground/70">Saldo</p>
                 <p
-                  className={`text-sm font-bold ${m.saldo >= 0 ? "text-[#1B5E20]" : "text-red-500"}`}
+                  className={`text-sm font-bold ${m.saldo >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
                 >
                   {formatBRL(m.saldo)}
                 </p>
@@ -240,12 +241,12 @@ export default async function RendimentosPage({
       </div>
 
       {/* CTA — ir para a declaracao */}
-      <div className="bg-[#1B5E20]/5 rounded-2xl border border-[#1B5E20]/10 p-4 sm:p-6 space-y-3">
+      <div className="bg-[#1B5E20]/5 dark:bg-[#8BC34A]/10 rounded-2xl border border-[#1B5E20]/10 dark:border-[#8BC34A]/20 p-4 sm:p-6 space-y-3">
         <div>
-          <p className="text-sm font-semibold text-gray-900">
+          <p className="text-sm font-semibold text-foreground">
             Pronto para fazer sua declaracao?
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Use os valores acima como base para preencher a DASN-SIMEI no portal
             do governo. O total de entradas da carteira Negocio e o seu
             faturamento bruto anual.
