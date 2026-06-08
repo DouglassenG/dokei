@@ -145,7 +145,7 @@ export function ChatWidget() {
 
       {/* Janela do chat */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 max-h-[70vh]">
+        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border max-h-[70vh]">
           {/* Header */}
           <div className="bg-[#2E7D32] px-4 py-3 flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
@@ -160,7 +160,7 @@ export function ChatWidget() {
           </div>
 
           {/* Mensagens */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -170,7 +170,7 @@ export function ChatWidget() {
                   className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
                     msg.role === "user"
                       ? "bg-[#2E7D32] text-white rounded-br-sm"
-                      : "bg-white text-gray-800 shadow-sm rounded-bl-sm border border-gray-100"
+                      : "bg-card text-foreground shadow-sm rounded-bl-sm border border-border"
                   }`}
                 >
                   {renderContent(msg.content)}
@@ -181,7 +181,7 @@ export function ChatWidget() {
             {/* Três pontinhos enquanto aguarda a API */}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
+                <div className="bg-card px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-border">
                   <TypingDots />
                 </div>
               </div>
@@ -190,7 +190,7 @@ export function ChatWidget() {
             {/* Typewriter da resposta chegando */}
             {typingText !== null && (
               <div className="flex justify-start">
-                <div className="max-w-[85%] px-3 py-2 rounded-2xl rounded-bl-sm text-sm leading-relaxed bg-white text-gray-800 shadow-sm border border-gray-100">
+                <div className="max-w-[85%] px-3 py-2 rounded-2xl rounded-bl-sm text-sm leading-relaxed bg-card text-foreground shadow-sm border border-border">
                   {renderContent(typingText)}
                 </div>
               </div>
@@ -200,7 +200,7 @@ export function ChatWidget() {
           </div>
 
           {/* Input */}
-          <div className="p-3 bg-white border-t border-gray-100 flex items-end gap-2">
+          <div className="p-3 bg-card border-t border-border flex items-end gap-2">
             <textarea
               ref={inputRef}
               value={input}
@@ -209,12 +209,12 @@ export function ChatWidget() {
               placeholder="Digite sua mensagem..."
               rows={1}
               disabled={isLoading || typingText !== null}
-              className="flex-1 resize-none text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 max-h-24 overflow-y-auto disabled:opacity-50"
+              className="flex-1 resize-none text-sm border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 dark:focus:ring-[#8BC34A]/40 max-h-24 overflow-y-auto disabled:opacity-50"
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading || typingText !== null}
-              className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-gray-200 text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
+              className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-muted text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
             >
               <Send size={15} />
             </button>

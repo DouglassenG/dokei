@@ -16,7 +16,7 @@ export function Button({
   const styles = {
     primary:
       "cursor-pointer bg-[#1B5E20] text-white hover:bg-[#145214] shadow-lg hover:shadow-xl",
-    secondary: "bg-gray-100 text-gray-700 hover:bg-gray-200",
+    secondary: "bg-muted text-foreground hover:bg-muted/80",
   }
 
   return (

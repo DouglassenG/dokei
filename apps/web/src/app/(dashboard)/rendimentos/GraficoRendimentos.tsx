@@ -6,6 +6,9 @@
  * Gráfico de barras agrupado com Recharts.
  * Exibe entradas (verde) e saídas (vermelho) por mês do ano.
  * Separado como Client Component pois Recharts precisa do browser.
+ *
+ * Recharts usa cores inline em SVG — não responde a CSS variables.
+ * Por isso usa useTheme() para detectar dark mode e adaptar as cores.
  */
 
 import {
@@ -18,6 +21,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 interface MesData {
   mes: number
@@ -52,8 +57,8 @@ function TooltipCustomizado({
   if (!active || !payload?.length) return null
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-lg space-y-1">
-      <p className="text-xs font-semibold text-gray-700">{label}</p>
+    <div className="bg-card border border-border rounded-xl p-3 shadow-lg space-y-1">
+      <p className="text-xs font-semibold text-foreground">{label}</p>
       {payload.map((entry) => (
         <p key={entry.name} className="text-xs" style={{ color: entry.color }}>
           {entry.name}: {formatBRL(entry.value)}
@@ -64,6 +69,22 @@ function TooltipCustomizado({
 }
 
 export function GraficoRendimentos({ meses }: GraficoRendimentosProps) {
+  const { theme, systemTheme } = useTheme()
+  const [montado, setMontado] = useState(false)
+
+  useEffect(() => {
+    setMontado(true)
+  }, [])
+
+  // Resolve o tema real (system pode ser light ou dark)
+  const temaAtual = theme === "system" ? systemTheme : theme
+  const escuro = montado && temaAtual === "dark"
+
+  // Cores adaptativas para SVG inline do Recharts
+  // Light: cinza claro | Dark: verde escuro (--border do globals.css)
+  const corGrid = escuro ? "#243d28" : "#f3f4f6"
+  const corTextoEixo = escuro ? "#8a9f8e" : "#9ca3af"
+
   // Abrevia o nome do mês para 3 letras no eixo X
   const dados = meses.map((m) => ({
     ...m,
@@ -80,17 +101,17 @@ export function GraficoRendimentos({ meses }: GraficoRendimentosProps) {
       >
         <CartesianGrid
           strokeDasharray="3 3"
-          stroke="#f3f4f6"
+          stroke={corGrid}
           vertical={false}
         />
         <XAxis
           dataKey="nomeMes"
-          tick={{ fontSize: 11, fill: "#9ca3af" }}
+          tick={{ fontSize: 11, fill: corTextoEixo }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 10, fill: "#9ca3af" }}
+          tick={{ fontSize: 10, fill: corTextoEixo }}
           axisLine={false}
           tickLine={false}
           tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
@@ -99,7 +120,7 @@ export function GraficoRendimentos({ meses }: GraficoRendimentosProps) {
         <Tooltip content={<TooltipCustomizado />} />
         <Legend
           formatter={(value) => (
-            <span className="text-xs text-gray-500">{value}</span>
+            <span className="text-xs text-muted-foreground">{value}</span>
           )}
         />
         <Bar
