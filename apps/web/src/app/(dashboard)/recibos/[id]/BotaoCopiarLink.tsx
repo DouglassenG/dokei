@@ -26,11 +26,11 @@ export function BotaoCopiarLink({ link }: BotaoCopiarLinkProps) {
   }
 
   return (
-    <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
-      <p className="text-xs text-gray-600 flex-1 truncate">{link}</p>
+    <div className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2">
+      <p className="text-xs text-muted-foreground flex-1 truncate">{link}</p>
       <button
         onClick={copiar}
-        className="flex items-center gap-1 text-xs text-[#1B5E20] font-medium hover:underline shrink-0 transition-colors"
+        className="flex items-center gap-1 text-xs text-[#1B5E20] dark:text-[#8BC34A] font-medium hover:underline shrink-0 transition-colors"
       >
         {copiado ? (
           <>

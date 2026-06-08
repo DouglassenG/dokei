@@ -62,46 +62,55 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-center gap-3">
           <Link
             href="/recibos"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-muted rounded-lg transition-colors"
           >
-            <ArrowLeft size={20} className="text-gray-500" />
+            <ArrowLeft size={20} className="text-muted-foreground" />
           </Link>
           <div className="flex items-center gap-2">
-            <FileText size={22} className="text-[#1B5E20]" />
+            <FileText
+              size={22}
+              className="text-[#1B5E20] dark:text-[#8BC34A]"
+            />
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-foreground">
                 Recibo {recibo.numero}
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Emitido em {dataFormatada}
               </p>
             </div>
           </div>
         </div>
-        <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700 self-start sm:self-auto">
+        <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 self-start sm:self-auto">
           Ativo
         </span>
       </div>
 
       {/* Dados do servico */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-5">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-5">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Dados do Servico
         </h2>
         <div className="flex items-start gap-3">
-          <User size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
+          <User
+            size={16}
+            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+          />
           <div>
-            <p className="text-xs text-gray-400">Cliente</p>
-            <p className="text-sm font-medium text-gray-900">
+            <p className="text-xs text-muted-foreground/70">Cliente</p>
+            <p className="text-sm font-medium text-foreground">
               {dados.nomeCliente}
             </p>
           </div>
         </div>
         <div className="flex items-start gap-3">
-          <Briefcase size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
+          <Briefcase
+            size={16}
+            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+          />
           <div>
-            <p className="text-xs text-gray-400">Servico</p>
-            <p className="text-sm font-medium text-gray-900">
+            <p className="text-xs text-muted-foreground/70">Servico</p>
+            <p className="text-sm font-medium text-foreground">
               {dados.servicoDescricao}
             </p>
           </div>
@@ -110,11 +119,11 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
           <div className="flex items-start gap-3">
             <MessageSquare
               size={16}
-              className="text-[#1B5E20] mt-0.5 shrink-0"
+              className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
             />
             <div>
-              <p className="text-xs text-gray-400">Observacoes</p>
-              <p className="text-sm font-medium text-gray-900">
+              <p className="text-xs text-muted-foreground/70">Observacoes</p>
+              <p className="text-sm font-medium text-foreground">
                 {dados.observacoes}
               </p>
             </div>
@@ -123,45 +132,60 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
       </div>
 
       {/* Valor e pagamento */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-5">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-5">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Valor e Pagamento
         </h2>
         <div className="flex items-start gap-3">
-          <DollarSign size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
+          <DollarSign
+            size={16}
+            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+          />
           <div>
-            <p className="text-xs text-gray-400">Valor</p>
-            <p className="text-2xl font-bold text-[#1B5E20]">
+            <p className="text-xs text-muted-foreground/70">Valor</p>
+            <p className="text-2xl font-bold text-[#1B5E20] dark:text-[#8BC34A]">
               {valorFormatado}
             </p>
           </div>
         </div>
         <div className="flex items-start gap-3">
-          <CreditCard size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
+          <CreditCard
+            size={16}
+            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+          />
           <div>
-            <p className="text-xs text-gray-400">Forma de pagamento</p>
-            <p className="text-sm font-medium text-gray-900">
+            <p className="text-xs text-muted-foreground/70">
+              Forma de pagamento
+            </p>
+            <p className="text-sm font-medium text-foreground">
               {dados.formaPagamento}
             </p>
           </div>
         </div>
         <div className="flex items-start gap-3">
-          <Calendar size={16} className="text-[#1B5E20] mt-0.5 shrink-0" />
+          <Calendar
+            size={16}
+            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+          />
           <div>
-            <p className="text-xs text-gray-400">Data de emissao</p>
-            <p className="text-sm font-medium text-gray-900">{dataFormatada}</p>
+            <p className="text-xs text-muted-foreground/70">Data de emissao</p>
+            <p className="text-sm font-medium text-foreground">
+              {dataFormatada}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Acoes de compartilhamento */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-3">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Compartilhar
         </h2>
         <BotoesCompartilhar msgWhatsApp={msgWhatsApp} linkPdf={linkPdf} />
-        <div className="pt-2 border-t border-gray-100">
-          <p className="text-xs text-gray-400 mb-1">Link publico do recibo</p>
+        <div className="pt-2 border-t border-border">
+          <p className="text-xs text-muted-foreground/70 mb-1">
+            Link publico do recibo
+          </p>
           <BotaoCopiarLink link={linkPublico} />
         </div>
       </div>

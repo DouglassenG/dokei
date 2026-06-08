@@ -25,7 +25,7 @@ export function BotaoDeletar({ id }: { id: string }) {
     <button
       onClick={deletar}
       disabled={loading}
-      className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-60"
+      className="p-1.5 text-muted-foreground/70 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 rounded-lg transition-colors disabled:opacity-60"
     >
       {loading ? (
         <Loader2 size={15} className="animate-spin" />

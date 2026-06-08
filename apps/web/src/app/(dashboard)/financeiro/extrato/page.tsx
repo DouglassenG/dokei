@@ -53,11 +53,11 @@ export default async function ExtratoPage({
       <div className="flex items-center gap-3">
         <Link
           href="/financeiro"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-muted rounded-lg transition-colors"
         >
-          <ArrowLeft size={20} className="text-gray-500" />
+          <ArrowLeft size={20} className="text-muted-foreground" />
         </Link>
-        <h1 className="text-xl font-bold text-gray-900">Extrato</h1>
+        <h1 className="text-xl font-bold text-foreground">Extrato</h1>
       </div>
 
       {/* Filtros */}
@@ -70,14 +70,14 @@ export default async function ExtratoPage({
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               carteira === c
                 ? "bg-[#1B5E20] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-muted text-muted-foreground hover:bg-muted"
             }`}
           >
             {c === "todos" ? "Todas" : c === "negocio" ? "Negocio" : "Pessoal"}
           </Link>
         ))}
 
-        <span className="text-gray-300">|</span>
+        <span className="text-muted-foreground/50">|</span>
 
         {/* Filtro tipo */}
         {["todos", "entrada", "saida"].map((t) => (
@@ -87,7 +87,7 @@ export default async function ExtratoPage({
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               tipo === t
                 ? "bg-[#1B5E20] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-muted text-muted-foreground hover:bg-muted"
             }`}
           >
             {t === "todos" ? "Todos" : t === "entrada" ? "Entradas" : "Saidas"}
@@ -96,12 +96,12 @@ export default async function ExtratoPage({
       </div>
 
       {/* Totais dos filtros */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 flex flex-col sm:flex-row sm:justify-between gap-2 text-sm">
-        <span className="text-gray-500">
+      <div className="bg-card rounded-2xl border border-border p-4 flex flex-col sm:flex-row sm:justify-between gap-2 text-sm">
+        <span className="text-muted-foreground">
           {lancamentos.length} lancamento{lancamentos.length !== 1 ? "s" : ""}
         </span>
         <div className="flex gap-4">
-          <span className="text-green-600 font-medium">
+          <span className="text-green-600 dark:text-green-400 font-medium">
             +{formatBRL(totalEntradas)}
           </span>
           <span className="text-red-500 font-medium">
@@ -112,14 +112,16 @@ export default async function ExtratoPage({
 
       {/* Lista vazia */}
       {lancamentos.length === 0 && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-          <p className="text-sm text-gray-500">Nenhum lancamento encontrado.</p>
+        <div className="bg-card rounded-2xl border border-border p-10 text-center">
+          <p className="text-sm text-muted-foreground">
+            Nenhum lancamento encontrado.
+          </p>
         </div>
       )}
 
       {/* Lista de lancamentos */}
       {lancamentos.length > 0 && (
-        <div className="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
+        <div className="bg-card rounded-2xl border border-border divide-y divide-border">
           {lancamentos.map((item) => {
             const isEntrada = item.tipo === "entrada"
             const dataFormatada = new Date(item.data).toLocaleDateString(
@@ -138,7 +140,9 @@ export default async function ExtratoPage({
                 <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                      isEntrada ? "bg-green-50" : "bg-red-50"
+                      isEntrada
+                        ? "bg-green-50 dark:bg-green-950/50"
+                        : "bg-red-50 dark:bg-red-950/50"
                     }`}
                   >
                     {isEntrada ? (
@@ -148,23 +152,23 @@ export default async function ExtratoPage({
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {item.descricao}
                     </p>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-muted-foreground/70">
                         {dataFormatada}
                       </span>
                       {item.categoria && (
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-muted-foreground/70">
                           · {item.categoria}
                         </span>
                       )}
                       <span
                         className={`text-xs px-1.5 py-0.5 rounded-full ${
                           item.carteira === "negocio"
-                            ? "bg-blue-50 text-blue-600"
-                            : "bg-gray-100 text-gray-500"
+                            ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                            : "bg-muted text-muted-foreground"
                         }`}
                       >
                         {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
@@ -177,7 +181,9 @@ export default async function ExtratoPage({
                 <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-3">
                   <p
                     className={`text-sm font-semibold ${
-                      isEntrada ? "text-green-600" : "text-red-500"
+                      isEntrada
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-500"
                     }`}
                   >
                     {isEntrada ? "+" : "-"}

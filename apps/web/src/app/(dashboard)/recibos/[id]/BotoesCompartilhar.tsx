@@ -31,7 +31,7 @@ export function BotoesCompartilhar({
 
       <button
         onClick={baixarPdf}
-        className="w-full flex items-center justify-center gap-2 border border-[#1B5E20] text-[#1B5E20] hover:bg-[#1B5E20]/5 py-3 px-4 rounded-lg text-sm font-medium transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-[#1B5E20] text-[#1B5E20] dark:border-[#8BC34A] dark:text-[#8BC34A] hover:bg-[#1B5E20]/5 dark:hover:bg-[#8BC34A]/10 py-3 px-4 rounded-lg text-sm font-medium transition-colors"
       >
         <Download size={18} />
         Baixar PDF

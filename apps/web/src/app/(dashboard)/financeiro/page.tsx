@@ -115,14 +115,14 @@ export default async function FinanceiroPage() {
       {/* Cabecalho */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">
+          <h1 className="text-xl font-bold text-foreground">
             Controle Financeiro
           </h1>
-          <p className="text-sm text-gray-500 capitalize">{nomeMes}</p>
+          <p className="text-sm text-muted-foreground capitalize">{nomeMes}</p>
         </div>
         <Link
           href="/financeiro/extrato"
-          className="flex items-center gap-1 text-sm text-[#1B5E20] hover:underline"
+          className="flex items-center gap-1 text-sm text-[#1B5E20] dark:text-[#8BC34A] hover:underline"
         >
           Ver extrato
           <ChevronRight size={16} />
@@ -132,21 +132,21 @@ export default async function FinanceiroPage() {
       {/* 3 Cards — entradas, saidas, saldo */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Entradas */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingUp size={14} className="text-green-500" />
-            <p className="text-xs text-gray-400">Entradas</p>
+            <p className="text-xs text-muted-foreground/70">Entradas</p>
           </div>
-          <p className="text-base font-bold text-green-600">
+          <p className="text-base font-bold text-green-600 dark:text-green-400">
             {formatBRL(resumo.totalEntradas)}
           </p>
         </div>
 
         {/* Saidas */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500" />
-            <p className="text-xs text-gray-400">Saidas</p>
+            <p className="text-xs text-muted-foreground/70">Saidas</p>
           </div>
           <p className="text-base font-bold text-red-500">
             {formatBRL(resumo.totalSaidas)}
@@ -154,13 +154,16 @@ export default async function FinanceiroPage() {
         </div>
 
         {/* Saldo */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-1">
+        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
-            <DollarSign size={14} className="text-[#1B5E20]" />
-            <p className="text-xs text-gray-400">Saldo</p>
+            <DollarSign
+              size={14}
+              className="text-[#1B5E20] dark:text-[#8BC34A]"
+            />
+            <p className="text-xs text-muted-foreground/70">Saldo</p>
           </div>
           <p
-            className={`text-base font-bold ${resumo.saldo >= 0 ? "text-[#1B5E20]" : "text-red-500"}`}
+            className={`text-base font-bold ${resumo.saldo >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
           >
             {formatBRL(resumo.saldo)}
           </p>
@@ -170,30 +173,32 @@ export default async function FinanceiroPage() {
       {/* 2 Carteiras — Negocio e Pessoal */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Carteira Negocio */}
-        <div className="bg-blue-50 rounded-2xl border border-blue-100 p-4 space-y-3">
+        <div className="bg-blue-50 dark:bg-blue-950/50 rounded-2xl border border-blue-100 dark:border-blue-800 p-4 space-y-3">
           <div className="flex items-center gap-2">
-            <Briefcase size={16} className="text-blue-600" />
-            <p className="text-sm font-semibold text-blue-700">Negocio</p>
+            <Briefcase size={16} className="text-blue-600 dark:text-blue-400" />
+            <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+              Negocio
+            </p>
           </div>
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Entradas</span>
-              <span className="text-green-600 font-medium">
+              <span className="text-muted-foreground">Entradas</span>
+              <span className="text-green-600 dark:text-green-400 font-medium">
                 {formatBRL(resumo.negocio.entradas)}
               </span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Saidas</span>
+              <span className="text-muted-foreground">Saidas</span>
               <span className="text-red-500 font-medium">
                 {formatBRL(resumo.negocio.saidas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs border-t border-blue-100 pt-1 mt-1">
-              <span className="text-gray-600 font-medium">Saldo</span>
+            <div className="flex justify-between text-xs border-t border-blue-100 dark:border-blue-800 pt-1 mt-1">
+              <span className="text-muted-foreground font-medium">Saldo</span>
               <span
                 className={`font-bold text-sm ${
                   resumo.negocio.entradas - resumo.negocio.saidas >= 0
-                    ? "text-blue-700"
+                    ? "text-blue-700 dark:text-blue-300"
                     : "text-red-500"
                 }`}
               >
@@ -204,30 +209,30 @@ export default async function FinanceiroPage() {
         </div>
 
         {/* Carteira Pessoal */}
-        <div className="bg-gray-50 rounded-2xl border border-gray-200 p-4 space-y-3">
+        <div className="bg-muted rounded-2xl border border-border p-4 space-y-3">
           <div className="flex items-center gap-2">
-            <User size={16} className="text-gray-600" />
-            <p className="text-sm font-semibold text-gray-700">Pessoal</p>
+            <User size={16} className="text-muted-foreground" />
+            <p className="text-sm font-semibold text-foreground">Pessoal</p>
           </div>
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Entradas</span>
-              <span className="text-green-600 font-medium">
+              <span className="text-muted-foreground">Entradas</span>
+              <span className="text-green-600 dark:text-green-400 font-medium">
                 {formatBRL(resumo.pessoal.entradas)}
               </span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Saidas</span>
+              <span className="text-muted-foreground">Saidas</span>
               <span className="text-red-500 font-medium">
                 {formatBRL(resumo.pessoal.saidas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs border-t border-gray-200 pt-1 mt-1">
-              <span className="text-gray-600 font-medium">Saldo</span>
+            <div className="flex justify-between text-xs border-t border-border pt-1 mt-1">
+              <span className="text-muted-foreground font-medium">Saldo</span>
               <span
                 className={`font-bold text-sm ${
                   resumo.pessoal.entradas - resumo.pessoal.saidas >= 0
-                    ? "text-gray-700"
+                    ? "text-foreground"
                     : "text-red-500"
                 }`}
               >
@@ -240,16 +245,21 @@ export default async function FinanceiroPage() {
 
       {/* Ultimos lancamentos */}
       <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Ultimos lancamentos
         </h2>
 
         {/* Lista vazia */}
         {ultimosLancamentos.length === 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center space-y-2">
-            <DollarSign size={32} className="text-gray-300 mx-auto" />
-            <p className="text-sm text-gray-500">Nenhum lancamento ainda</p>
-            <p className="text-xs text-gray-400">
+          <div className="bg-card rounded-2xl border border-border p-8 text-center space-y-2">
+            <DollarSign
+              size={32}
+              className="text-muted-foreground/50 mx-auto"
+            />
+            <p className="text-sm text-muted-foreground">
+              Nenhum lancamento ainda
+            </p>
+            <p className="text-xs text-muted-foreground/70">
               Clique em "Novo lancamento" para comecar.
             </p>
           </div>
@@ -257,7 +267,7 @@ export default async function FinanceiroPage() {
 
         {/* Lista de lancamentos */}
         {ultimosLancamentos.length > 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
+          <div className="bg-card rounded-2xl border border-border divide-y divide-border">
             {ultimosLancamentos.map((item) => {
               const dataFormatada = new Date(item.data).toLocaleDateString(
                 "pt-BR",
@@ -276,7 +286,9 @@ export default async function FinanceiroPage() {
                   <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                        isEntrada ? "bg-green-50" : "bg-red-50"
+                        isEntrada
+                          ? "bg-green-50 dark:bg-green-950/50"
+                          : "bg-red-50 dark:bg-red-950/50"
                       }`}
                     >
                       {isEntrada ? (
@@ -286,18 +298,18 @@ export default async function FinanceiroPage() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {item.descricao}
                       </p>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-muted-foreground/70">
                           {dataFormatada}
                         </span>
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded-full ${
                             item.carteira === "negocio"
-                              ? "bg-blue-50 text-blue-600"
-                              : "bg-gray-100 text-gray-500"
+                              ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                              : "bg-muted text-muted-foreground"
                           }`}
                         >
                           {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
@@ -309,7 +321,9 @@ export default async function FinanceiroPage() {
                   {/* Lado direito — valor */}
                   <p
                     className={`text-sm font-semibold shrink-0 ml-3 ${
-                      isEntrada ? "text-green-600" : "text-red-500"
+                      isEntrada
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-500"
                     }`}
                   >
                     {isEntrada ? "+" : "-"}

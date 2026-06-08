@@ -99,27 +99,27 @@ export function LancamentoRapido() {
       )}
 
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl z-50 transition-transform duration-300 ${aberto ? "translate-y-0" : "translate-y-full"}`}
+        className={`fixed bottom-0 left-0 right-0 bg-card rounded-t-2xl shadow-2xl z-50 transition-transform duration-300 ${aberto ? "translate-y-0" : "translate-y-full"}`}
       >
         <div className="p-6 space-y-4 max-w-2xl mx-auto">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-base font-semibold text-foreground">
               Novo lançamento
             </h2>
             <button
               onClick={() => setAberto(false)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-muted rounded-lg transition-colors"
             >
-              <X size={18} className="text-gray-500" />
+              <X size={18} className="text-muted-foreground" />
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex rounded-lg overflow-hidden border border-gray-200">
+            <div className="flex rounded-lg overflow-hidden border border-border">
               <button
                 type="button"
                 onClick={() => setForm((p) => ({ ...p, tipo: "entrada" }))}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${form.tipo === "entrada" ? "bg-green-500 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${form.tipo === "entrada" ? "bg-green-500 text-white" : "bg-card text-muted-foreground hover:bg-muted"}`}
               >
                 <TrendingUp size={16} />
                 Entrada
@@ -127,15 +127,15 @@ export function LancamentoRapido() {
               <button
                 type="button"
                 onClick={() => setForm((p) => ({ ...p, tipo: "saida" }))}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${form.tipo === "saida" ? "bg-red-500 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${form.tipo === "saida" ? "bg-red-500 text-white" : "bg-card text-muted-foreground hover:bg-muted"}`}
               >
                 <TrendingDown size={16} />
                 Saída
               </button>
             </div>
 
-            <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#1B5E20]">
-              <span className="px-4 py-3 bg-gray-50 text-sm text-gray-500 border-r border-gray-200">
+            <div className="flex items-center border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#1B5E20]">
+              <span className="px-4 py-3 bg-muted text-sm text-muted-foreground border-r border-border">
                 R$
               </span>
               <input
@@ -158,21 +158,21 @@ export function LancamentoRapido() {
               value={form.descricao}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20]"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A]"
             />
 
-            <div className="flex rounded-lg overflow-hidden border border-gray-200">
+            <div className="flex rounded-lg overflow-hidden border border-border">
               <button
                 type="button"
                 onClick={() => setForm((p) => ({ ...p, carteira: "negocio" }))}
-                className={`flex-1 py-2 text-sm font-medium transition-colors ${form.carteira === "negocio" ? "bg-blue-500 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                className={`flex-1 py-2 text-sm font-medium transition-colors ${form.carteira === "negocio" ? "bg-blue-500 text-white" : "bg-card text-muted-foreground hover:bg-muted"}`}
               >
                 Negócio
               </button>
               <button
                 type="button"
                 onClick={() => setForm((p) => ({ ...p, carteira: "pessoal" }))}
-                className={`flex-1 py-2 text-sm font-medium transition-colors ${form.carteira === "pessoal" ? "bg-gray-500 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                className={`flex-1 py-2 text-sm font-medium transition-colors ${form.carteira === "pessoal" ? "bg-gray-500 text-white" : "bg-card text-muted-foreground hover:bg-muted"}`}
               >
                 Pessoal
               </button>
@@ -182,7 +182,7 @@ export function LancamentoRapido() {
               name="categoria"
               value={form.categoria}
               onChange={handleChangeSelect}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] bg-white"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A] bg-card"
             >
               {CATEGORIAS[form.carteira].map((cat) => (
                 <option key={cat} value={cat}>
@@ -192,8 +192,8 @@ export function LancamentoRapido() {
             </select>
 
             {alertaMistura && (
-              <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <p className="text-xs text-yellow-700">
+              <div className="p-3 bg-yellow-50 dark:bg-yellow-950/50 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                <p className="text-xs text-yellow-700 dark:text-yellow-300">
                   Parece uma despesa pessoal. Considere mover para a carteira
                   Pessoal.
                 </p>
@@ -206,7 +206,7 @@ export function LancamentoRapido() {
               value={form.data}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20]"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A]"
             />
 
             {status === "error" && (

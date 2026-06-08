@@ -73,35 +73,42 @@ export default async function ObrigacoesPage() {
   }
 
   function getCardStyle(status: string, vencimento: Date) {
-    if (status === "concluido") return "border-green-200 bg-green-50"
+    if (status === "concluido")
+      return "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/50"
     const dias = diasAteVencimento(vencimento)
-    if (dias < 0) return "border-red-200 bg-red-50"
-    if (dias <= 5) return "border-orange-200 bg-orange-50"
-    return "border-gray-100 bg-white"
+    if (dias < 0)
+      return "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/50"
+    if (dias <= 5)
+      return "border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-950/50"
+    return "border-border bg-card"
   }
 
   return (
     <div className="space-y-6">
       {/* Cabecalho */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900">Obrigacoes Fiscais</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-xl font-bold text-foreground">
+          Obrigacoes Fiscais
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
           Nunca perca um prazo importante do seu MEI.
         </p>
       </div>
 
       {/* Monitor de faturamento anual */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+      <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-3">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Faturamento Anual {new Date().getFullYear()}
         </h2>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">{formatBRL(faturamentoAnual)}</span>
-          <span className="text-gray-400">
+          <span className="text-muted-foreground">
+            {formatBRL(faturamentoAnual)}
+          </span>
+          <span className="text-muted-foreground/70">
             limite: {formatBRL(limiteAnualMEI)}
           </span>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-3">
+        <div className="w-full bg-muted rounded-full h-3">
           <div
             className={`h-3 rounded-full transition-all ${
               percentualFaturamento >= 90
@@ -116,10 +123,10 @@ export default async function ObrigacoesPage() {
         <p
           className={`text-xs ${
             percentualFaturamento >= 90
-              ? "text-red-600"
+              ? "text-red-600 dark:text-red-400"
               : percentualFaturamento >= 70
-                ? "text-orange-600"
-                : "text-gray-500"
+                ? "text-orange-600 dark:text-orange-400"
+                : "text-muted-foreground"
           }`}
         >
           {percentualFaturamento >= 90
@@ -132,17 +139,20 @@ export default async function ObrigacoesPage() {
 
       {/* Checklist de obrigacoes */}
       <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Obrigacoes
         </h2>
 
         {lembretes.length === 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-            <Clock size={32} className="text-gray-300 mx-auto mb-2" />
-            <p className="text-sm text-gray-500">
+          <div className="bg-card rounded-2xl border border-border p-10 text-center">
+            <Clock
+              size={32}
+              className="text-muted-foreground/50 mx-auto mb-2"
+            />
+            <p className="text-sm text-muted-foreground">
               Nenhuma obrigacao cadastrada ainda.
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground/70 mt-1">
               Os lembretes sao gerados automaticamente no dia 1 de cada mes.
             </p>
           </div>
@@ -174,12 +184,12 @@ export default async function ObrigacoesPage() {
                     <Clock size={18} className="text-orange-400 shrink-0" />
                   )}
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">
+                    <p className="text-sm font-semibold text-foreground">
                       {lembrete.tipo === "DAS"
                         ? "DAS — Pagamento Mensal"
                         : "DASN-SIMEI — Declaracao Anual"}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       Vence em {formatData(lembrete.vencimento)}
                       {!concluido && (
                         <span
@@ -188,7 +198,7 @@ export default async function ObrigacoesPage() {
                               ? "text-red-500"
                               : dias <= 5
                                 ? "text-orange-500"
-                                : "text-gray-400"
+                                : "text-muted-foreground/70"
                           }`}
                         >
                           {atrasado
@@ -202,17 +212,19 @@ export default async function ObrigacoesPage() {
                 <span
                   className={`text-xs px-2 py-1 rounded-full font-medium self-start ${
                     concluido
-                      ? "bg-green-100 text-green-700"
+                      ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300"
                       : atrasado
-                        ? "bg-red-100 text-red-700"
-                        : "bg-orange-100 text-orange-700"
+                        ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
+                        : "bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300"
                   }`}
                 >
                   {concluido ? "Pago" : atrasado ? "Atrasado" : "Pendente"}
                 </span>
               </div>
 
-              <p className="text-xs text-gray-500">{lembrete.descricao}</p>
+              <p className="text-xs text-muted-foreground">
+                {lembrete.descricao}
+              </p>
 
               {!concluido && (
                 <div className="flex items-center gap-3 flex-wrap">
