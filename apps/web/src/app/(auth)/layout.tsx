@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
 
 export default function AuthLayout({
   children,
@@ -25,9 +26,14 @@ export default function AuthLayout({
           </div>
 
           <div className="mb-6 sm:mb-8 text-center">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1B5E20]">
-              Dokei
-            </h1>
+            <Image
+              src="/vetor_site.svg"
+              alt="Dokei"
+              width={400}
+              height={100}
+              className="mx-auto w-32 sm:w-40 lg:w-[480px] h-auto object-contain drop-shadow-[0_4px_32px_rgba(27,94,32,0.7)] [filter:brightness(0)_saturate(100%)_invert(25%)_sepia(76%)_saturate(600%)_hue-rotate(86deg)_brightness(60%)]"
+              priority
+            />
             <p className="text-xs sm:text-sm lg:text-base text-[#2E7D32] mt-1">
               Gestao simples para MEI
             </p>
