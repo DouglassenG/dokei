@@ -31,7 +31,7 @@ export default function AuthLayout({
               alt="Dokei"
               width={180}
               height={40}
-              className="h-10 w-auto sm:h-12 lg:h-14 object-contain"
+              className="mx-auto w-32 sm:w-40 lg:w-[480px] h-auto object-contain drop-shadow-[0_4px_32px_rgba(27,94,32,0.7)] [filter:brightness(0)_saturate(100%)_invert(25%)_sepia(76%)_saturate(600%)_hue-rotate(86deg)_brightness(60%)]"
               priority
             />
             <p className="text-xs sm:text-sm lg:text-base text-[#2E7D32] mt-2">
