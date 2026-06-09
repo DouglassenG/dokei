@@ -29,11 +29,12 @@ export default function AuthLayout({
             <Image
               src="/vetor_site.svg"
               alt="Dokei"
-              width={180}
-              height={40}
-              className="mx-auto w-32 sm:w-40 lg:w-[480px] h-auto object-contain drop-shadow-[0_4px_32px_rgba(27,94,32,0.7)] [filter:brightness(0)_saturate(100%)_invert(25%)_sepia(76%)_saturate(600%)_hue-rotate(86deg)_brightness(60%)]"
+              width={280}
+              height={60}
+              className="mx-auto w-44 sm:w-52 lg:w-64 h-auto object-contain [filter:invert(22%)_sepia(97%)_saturate(1400%)_hue-rotate(111deg)_brightness(45%)_contrast(105%)]"
               priority
             />
+
             <p className="text-xs sm:text-sm lg:text-base text-[#2E7D32] mt-2">
               Gestão simples para MEI
             </p>
