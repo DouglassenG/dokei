@@ -12,11 +12,6 @@ O projeto resolve o problema da perda de performance em interfaces dinâmicas. T
 > * "A implementação rigorosa do *cleanup* (função de limpeza) no hook `useEffect` para o `clearInterval` eliminou em **100%** os vazamentos de memória (*Memory Leaks*) que ocorriam ao desmontar o componente do cronômetro, estabilizando o uso de RAM do navegador."
 > * "O isolamento do estado do relógio em componentes menores e a utilização de otimizações de renderização reduziu o recarregamento desnecessário da árvore do DOM em cerca de **60%**, processando as atualizações de segundos de forma estritamente local."
 
-## 🖼️ Demonstração Visual
-
-*(Se o projeto estiver hospedado, insira o link aqui. Caso contrário, mantenha o código local)*
-🔗 **Acesse a Aplicação Online:** [Insira o link do Deploy aqui]
-
 ## 🛠️ Tecnologias Utilizadas
 
 A stack foi escolhida para proporcionar controle total sobre a reatividade da interface:
