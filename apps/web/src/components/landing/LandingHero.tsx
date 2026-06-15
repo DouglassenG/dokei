@@ -85,7 +85,7 @@ export function LandingHero() {
                 />
                 <div>
                   <p className="font-medium text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">
-                    100% Free
+                    100% Gratuito
                   </p>
                 </div>
               </div>
