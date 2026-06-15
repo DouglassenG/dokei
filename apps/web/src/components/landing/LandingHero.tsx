@@ -25,11 +25,6 @@ export function LandingHero() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          {/* <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <CheckCircle size={16} />
-            <span>+10.000 MEIs já confiam na Dokei</span>
-          </div> */}
-
           <div className="mb-6 flex justify-center">
             <Image
               src="/vetor_site.svg"
