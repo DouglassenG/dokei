@@ -76,12 +76,12 @@ export function LandingHero() {
               <span>Já tenho conta</span>
             </Link>
           </div>
-          <div className="sm:hidden">
+          <div className="hidden sm:block">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12">
               <div className="flex items-start gap-2">
                 <CheckCircle
                   size={20}
-                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
+                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]"
                 />
                 <div>
                   <p className="font-medium text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">
@@ -92,7 +92,7 @@ export function LandingHero() {
               <div className="flex items-start gap-2">
                 <CheckCircle
                   size={20}
-                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
+                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]"
                 />
                 <div>
                   <p className="font-medium text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">
@@ -103,7 +103,7 @@ export function LandingHero() {
               <div className="flex items-start gap-2">
                 <CheckCircle
                   size={20}
-                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
+                  className="text-emerald-500 mt-0.5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]"
                 />
                 <div>
                   <p className="font-medium text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">
