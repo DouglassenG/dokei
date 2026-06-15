@@ -65,15 +65,15 @@ export function LandingHero() {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm">
             <div className="flex items-center gap-2">
               <CheckCircle size={16} className="text-white" />
-              <span>Sem cartão de crédito</span>
+              <span>100 % Free</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle size={16} className="text-white" />
-              <span>Cancele quando quiser</span>
+              <span>Dashboard Intuitivo</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle size={16} className="text-white" />
-              <span>Suporte humanizado</span>
+              <span>Fácil de usar</span>
             </div>
           </div>
         </div>
