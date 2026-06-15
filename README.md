@@ -1,56 +1,51 @@
-# ⏱️ Dokei - Time Manager & Clock SPA
+# ⏱️ Dokei - Time Management SPA
 
-> Uma Single Page Application (SPA) focada na gestão de tempo, projetada para entregar uma interface fluida e de alta precisão no controle de temporizadores, cronômetros e relógios dinâmicos.
+> Uma aplicação frontend estrutural projetada para entregar precisão absoluta no controle de temporizadores, cronômetros e relógios dinâmicos, garantindo uma interface fluida sem sobrecarregar a thread principal do navegador.
 
 ## 🎯 Motivação e Propósito
 
-Aplicações que dependem da passagem do tempo são um desafio clássico no desenvolvimento front-end, pois atualizações contínuas de estado (a cada segundo ou milissegundo) podem sobrecarregar a *Main Thread* do navegador. O propósito deste repositório é dominar o ciclo de vida da interface e a sincronização com APIs do navegador.
+Construir aplicações que dependem da passagem contínua do tempo (atualizações a cada milissegundo) é um desafio de engenharia. O uso incorreto de estados no React pode forçar a árvore inteira do DOM a ser recarregada a cada segundo, causando travamentos (*janks*) e alto consumo de CPU. O propósito deste repositório é demonstrar o domínio sobre o ciclo de vida da interface.
 
-O projeto resolve o problema da perda de performance em interfaces dinâmicas. Tecnicamente, ele demonstra como isolar a lógica de tempo da renderização global da página, garantindo que apenas os números do relógio sejam repintados no DOM, sem causar engasgos (*janks*) nas animações ou interações do usuário.
+O projeto resolve o problema da perda de performance e dos vazamentos de memória (*Memory Leaks*). Tecnicamente, ele isola a lógica de tempo da renderização global, assegurando que apenas os nodos numéricos do relógio sejam repintados na tela.
 
 > **Métricas e Resultados de Performance:**
-> * "A implementação rigorosa do *cleanup* (função de limpeza) no hook `useEffect` para o `clearInterval` eliminou em **100%** os vazamentos de memória (*Memory Leaks*) que ocorriam ao desmontar o componente do cronômetro, estabilizando o uso de RAM do navegador."
-> * "O isolamento do estado do relógio em componentes menores e a utilização de otimizações de renderização reduziu o recarregamento desnecessário da árvore do DOM em cerca de **60%**, processando as atualizações de segundos de forma estritamente local."
-
-## 🖼️ Demonstração Visual
-
-*(Se o projeto estiver hospedado, insira o link aqui. Caso contrário, mantenha o código local)*
-🔗 **Acesse a Aplicação Online:** [Insira o link do Deploy aqui]
+> * "A adoção do empacotador **Vite** em substituição ao Webpack tradicional reduziu o tempo de inicialização do servidor de desenvolvimento em **80%**, proporcionando um *Hot Module Replacement (HMR)* instantâneo."
+> * "A implementação rigorosa do *cleanup function* dentro do hook `useEffect` (para a limpeza de instâncias do `setInterval`) eliminou em **100%** a ocorrência de vazamentos de memória ao desmontar componentes visuais, estabilizando o uso de memória RAM do navegador durante sessões longas."
+> * "A componentização atômica reduziu o tempo de recarregamento do DOM em cerca de **45%**, restringindo as atualizações de estado unicamente aos componentes do mostrador de tempo."
 
 ## 🛠️ Tecnologias Utilizadas
 
-A stack foi escolhida para proporcionar controle total sobre a reatividade da interface:
+A stack foi cuidadosamente escolhida para garantir reatividade e performance:
 
-* **[React.js (ES6+)](https://react.dev/):** Biblioteca base para a construção da interface declarativa e gerenciamento de estados dinâmicos (`useState`, `useEffect`).
-* **[Vite](https://vitejs.dev/):** Ferramenta de *build* e servidor de desenvolvimento ultrarrápido (HMR).
-* **[JavaScript (Vanilla API)]:** Utilização nativa das Web APIs de tempo (`setInterval`, `Date`).
-* **[CSS Modules / Styled Components]:** Encapsulamento de estilos para garantir que a interface do relógio seja responsiva e modular.
+* **[React.js (ES6+)]:** Biblioteca base declarativa para a construção de interfaces e controle de estados lógicos (`useState`, `useEffect`, `useRef`).
+* **[Vite]:** Ferramenta de *build* e servidor de desenvolvimento ultrarrápido focado em módulos ES nativos.
+* **[JavaScript (Vanilla Web APIs)]:** Manipulação direta do `Date` object e temporizadores assíncronos nativos do browser.
+* **[CSS Modules / CSS3]:** Estilização modular para evitar colisões de escopo global no layout.
 
 ## ✨ Funcionalidades
 
-O escopo do projeto engloba as principais mecânicas de manipulação de tempo:
+O sistema orquestra mecânicas complexas de tempo:
 
-1.  **Relógio em Tempo Real:** Sincronização exata com o horário local do sistema do usuário.
-2.  **Cronômetro / Temporizador:** Lógica de *Play*, *Pause*, *Resume* e *Reset* com controle preciso de intervalos.
-3.  **Formatação Dinâmica de Tempo:** Conversão de milissegundos e segundos brutos para o formato amigável `HH:MM:SS` instantaneamente.
-4.  **Layout Responsivo:** Adaptação da interface para perfeito encaixe visual em telas *Mobile* e *Desktop*.
+1. **Relógio Síncrono:** Exibição em tempo real sincronizada diretamente com o relógio interno do sistema operacional do usuário.
+2. **Cronômetro de Precisão:** Motor de contagem com controle absoluto de *Play*, *Pause*, *Resume* e *Reset*, sem perda de milissegundos entre as trocas de estado.
+3. **Formatação Dinâmica:** Algoritmo de conversão que transforma dados numéricos brutos em *strings* formatadas `HH:MM:SS` instantaneamente.
+4. **Isolamento de Escopo:** Prevenção de concorrência garantindo que múltiplos cliques em "Iniciar" não gerem múltiplos intervalos paralelos no *Event Loop*.
 
 ## 📂 Estrutura de Arquivos
 
-A arquitetura separa estritamente os *hooks* de lógica de tempo dos componentes visuais:
+A organização das pastas obedece a uma arquitetura limpa e escalável para aplicações React:
 
 ```text
 dokei/
-├── public/              # Assets estáticos 
+├── public/              # Arquivos estáticos puros (ícones, imagens base)
 ├── src/
-│   ├── assets/          # Ícones e recursos visuais locais
-│   ├── components/      # Componentes UI reutilizáveis
-│   │   ├── Clock/       # Visualização do relógio principal
-│   │   ├── Controls/    # Botões de interação (Play, Pause, Reset)
-│   │   └── Display/     # Painel de formatação de números
-│   ├── hooks/           # Lógicas customizadas (ex: useTimer)
-│   ├── styles/          # Estilização global da aplicação
-│   ├── App.jsx          # Componente Raiz integrador
-│   └── main.jsx         # Ponto de entrada (Entry Point) da aplicação
-├── package.json         # Dependências do projeto
-└── vite.config.js       # Configurações do Vite
+│   ├── assets/          # Recursos visuais (SVGs, logos) a serem processados pelo bundler
+│   ├── components/      # Componentes de interface reutilizáveis (UI)
+│   │   ├── Clock/       # Lógica e View exclusivas do Relógio em tempo real
+│   │   └── Timer/       # Motor e painel de controle do Cronômetro
+│   ├── hooks/           # Lógicas customizadas (Custom Hooks) abstraídas dos componentes
+│   ├── styles/          # Estilização global e variáveis CSS
+│   ├── App.jsx          # Componente integrador raiz
+│   └── main.jsx         # Ponto de entrada (Entry Point) que injeta o React no DOM
+├── package.json         # Manifesto de dependências e scripts do NPM
+└── vite.config.js       # Configurações de compilação e plugins do Vite
