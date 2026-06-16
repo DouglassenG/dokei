@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
 
-  // Seções
+  //Seções
   secao: {
     marginBottom: 24,
   },
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  // Linhas de dado
+  //Linhas de dado
   linha: {
     flexDirection: "row",
     marginBottom: 8,
