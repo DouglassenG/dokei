@@ -10,6 +10,7 @@ import {
   FileSpreadsheet,
   ArrowRight,
 } from "lucide-react"
+import Image from "next/image"
 
 const services = [
   {
@@ -76,16 +77,30 @@ export function LandingServices() {
   }, [])
 
   return (
-    <section id="servicos" className="py-20 lg:py-28 bg-[#f4f7f0]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="servicos"
+      className="relative py-20 lg:py-28 overflow-hidden bg-[#1a4d2e]"
+    >
+      {/* Background image com overlay */}
+      <div className="absolute inset-0">
+        <Image
+          src="/features_dokei.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a4d2e] via-[#1a4d2e]/80 to-[#1a4d2e]" />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-[#7ba23f] font-semibold text-sm uppercase tracking-wider mb-4">
             Nossos Serviços
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1a4d2e] mb-6 text-balance">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 text-balance drop-shadow-[0_2px_2px_rgba(0,0,0,0.4)]">
             Tudo que você precisa para gerir seu MEI
           </h2>
-          <p className="text-lg text-[#4a6741] leading-relaxed">
+          <p className="text-lg text-white/70 leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
             Ferramentas simples e poderosas pensadas especialmente para quem
             empreende sozinho. Foque no que importa: fazer seu negócio crescer.
           </p>
@@ -105,17 +120,17 @@ export function LandingServices() {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <Card className="h-full bg-white border-0 shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer overflow-hidden">
+              <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm hover:shadow-xl hover:bg-white/20 transition-all duration-300 group cursor-pointer overflow-hidden">
                 <CardContent className="p-6 lg:p-8">
-                  <div className="w-14 h-14 bg-[#1a4d2e] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <service.icon className="w-7 h-7 text-white" />
+                  <div className="w-14 h-14 bg-[#7ba23f]/20 border border-[#7ba23f]/30 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <service.icon className="w-7 h-7 text-[#7ba23f] drop-shadow-[0_0_6px_rgba(123,162,63,0.5)]" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-[#1a4d2e] mb-3 group-hover:text-[#7ba23f] transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#7ba23f] transition-colors drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
                     {service.title}
                   </h3>
 
-                  <p className="text-[#4a6741] leading-relaxed mb-4">
+                  <p className="text-white/70 leading-relaxed mb-4">
                     {service.description}
                   </p>
 
