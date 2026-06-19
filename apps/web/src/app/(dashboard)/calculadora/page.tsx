@@ -88,7 +88,7 @@ function CalculadoraConteudo() {
         <div className="flex items-center gap-2">
           <Calculator
             size={22}
-            className="text-[#1B5E20] dark:text-[#8BC34A]"
+            className="text-primary"
           />
           <h1 className="text-xl font-bold text-foreground">
             Calculadora de Preco
@@ -103,7 +103,7 @@ function CalculadoraConteudo() {
       <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-6">
         {/* Custo por hora */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20] dark:text-[#8BC34A]">
+          <label className="flex items-center gap-2 text-sm font-medium text-primary">
             <DollarSign size={16} />
             Quanto vale 1 hora do seu trabalho?
           </label>
@@ -115,7 +115,7 @@ function CalculadoraConteudo() {
               step={5}
               value={custoPorHora}
               onChange={(e) => setCustoPorHora(Number(e.target.value))}
-              className="cursor-pointer flex-1 accent-[#1B5E20] dark:accent-[#8BC34A]"
+              className="cursor-pointer flex-1 accent-primary"
             />
             <div className="flex items-center border border-border rounded-lg overflow-hidden">
               <span className="px-3 py-2 bg-muted text-sm text-muted-foreground">
@@ -135,7 +135,7 @@ function CalculadoraConteudo() {
 
         {/* Horas do servico */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20] dark:text-[#8BC34A]">
+          <label className="flex items-center gap-2 text-sm font-medium text-primary">
             <Clock size={16} />
             Quantas horas vai levar o servico?
           </label>
@@ -145,13 +145,13 @@ function CalculadoraConteudo() {
             step={0.5}
             value={horas}
             onChange={(e) => setHoras(Number(e.target.value))}
-            className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A] hover:border-[#1B5E20]/40 dark:hover:border-[#8BC34A]/40 transition-colors"
+            className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors"
           />
         </div>
 
         {/* Custos extras */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20] dark:text-[#8BC34A]">
+          <label className="flex items-center gap-2 text-sm font-medium text-primary">
             <Plus size={16} />
             Custos extras (material, transporte...)
           </label>
@@ -164,7 +164,7 @@ function CalculadoraConteudo() {
                 onChange={(e) =>
                   atualizarCusto(custo.id, "nome", e.target.value)
                 }
-                className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A]"
+                className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <div className="flex items-center border border-border rounded-lg overflow-hidden">
                 <span className="px-2 py-2 bg-muted text-sm text-muted-foreground">
@@ -190,7 +190,7 @@ function CalculadoraConteudo() {
           ))}
           <button
             onClick={adicionarCusto}
-            className="flex items-center gap-1 text-sm text-[#1B5E20] dark:text-[#8BC34A] hover:underline"
+            className="flex items-center gap-1 text-sm text-primary hover:underline"
           >
             <Plus size={14} />
             Adicionar custo
@@ -199,7 +199,7 @@ function CalculadoraConteudo() {
 
         {/* Margem de lucro */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-[#1B5E20] dark:text-[#8BC34A]">
+          <label className="flex items-center gap-2 text-sm font-medium text-primary">
             <Percent size={16} />
             Margem de lucro desejada:{" "}
             <span className="font-bold">{margem}%</span>
@@ -211,7 +211,7 @@ function CalculadoraConteudo() {
             step={5}
             value={margem}
             onChange={(e) => setMargem(Number(e.target.value))}
-            className="cursor-pointer w-full accent-[#1B5E20] dark:accent-[#8BC34A]"
+            className="cursor-pointer w-full accent-primary"
           />
           <div className="flex justify-between text-xs text-muted-foreground/70">
             <span>10%</span>
@@ -225,7 +225,7 @@ function CalculadoraConteudo() {
         <div className="flex items-center gap-2">
           <TrendingUp
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A]"
+            className="text-primary"
           />
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Resultado
@@ -241,7 +241,7 @@ function CalculadoraConteudo() {
           <p className="text-sm text-muted-foreground">
             Preco minimo recomendado
           </p>
-          <p className="text-3xl sm:text-4xl font-bold text-[#1B5E20] dark:text-[#8BC34A]">
+          <p className="text-3xl sm:text-4xl font-bold text-primary">
             {formatBRL(resultado.precoMinimo)}
           </p>
           <p className="text-sm text-muted-foreground/70">

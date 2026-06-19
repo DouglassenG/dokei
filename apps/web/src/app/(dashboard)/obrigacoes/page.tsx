@@ -115,7 +115,7 @@ export default async function ObrigacoesPage() {
                 ? "bg-red-500"
                 : percentualFaturamento >= 70
                   ? "bg-orange-400"
-                  : "bg-[#1B5E20]"
+                  : "bg-primary"
             }`}
             style={{ width: `${percentualFaturamento}%` }}
           />

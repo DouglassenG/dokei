@@ -69,7 +69,7 @@ export default async function ExtratoPage({
             href={`/financeiro/extrato?carteira=${c}&tipo=${tipo}`}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               carteira === c
-                ? "bg-[#1B5E20] text-white"
+                ? "bg-primary text-white"
                 : "bg-muted text-muted-foreground hover:bg-muted"
             }`}
           >
@@ -86,7 +86,7 @@ export default async function ExtratoPage({
             href={`/financeiro/extrato?carteira=${carteira}&tipo=${t}`}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               tipo === t
-                ? "bg-[#1B5E20] text-white"
+                ? "bg-primary text-white"
                 : "bg-muted text-muted-foreground hover:bg-muted"
             }`}
           >

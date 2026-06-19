@@ -85,7 +85,7 @@ export function LancamentoRapido() {
     <>
       <button
         onClick={() => setAberto(true)}
-        className="fixed bottom-6 right-6 flex items-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] px-5 py-3 rounded-full shadow-lg text-sm font-medium transition-colors z-40"
+        className="fixed bottom-6 right-6 flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-5 py-3 rounded-full shadow-lg text-sm font-medium transition-colors z-40"
       >
         <Plus size={18} />
         Novo lançamento
@@ -134,7 +134,7 @@ export function LancamentoRapido() {
               </button>
             </div>
 
-            <div className="flex items-center border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#1B5E20]">
+            <div className="flex items-center border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary">
               <span className="px-4 py-3 bg-muted text-sm text-muted-foreground border-r border-border">
                 R$
               </span>
@@ -158,7 +158,7 @@ export function LancamentoRapido() {
               value={form.descricao}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A]"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
             <div className="flex rounded-lg overflow-hidden border border-border">
@@ -182,7 +182,7 @@ export function LancamentoRapido() {
               name="categoria"
               value={form.categoria}
               onChange={handleChangeSelect}
-              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A] bg-card"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-card"
             >
               {CATEGORIAS[form.carteira].map((cat) => (
                 <option key={cat} value={cat}>
@@ -206,7 +206,7 @@ export function LancamentoRapido() {
               value={form.data}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B5E20] dark:focus:ring-[#8BC34A]"
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
             {status === "error" && (
@@ -216,7 +216,7 @@ export function LancamentoRapido() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="w-full flex items-center justify-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 bg-primary text-white hover:bg-primary/90 py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-60"
             >
               {status === "loading" ? (
                 <Loader2 size={16} className="animate-spin" />

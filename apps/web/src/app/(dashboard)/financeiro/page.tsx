@@ -122,7 +122,7 @@ export default async function FinanceiroPage() {
         </div>
         <Link
           href="/financeiro/extrato"
-          className="flex items-center gap-1 text-sm text-[#1B5E20] dark:text-[#8BC34A] hover:underline"
+          className="flex items-center gap-1 text-sm text-primary hover:underline"
         >
           Ver extrato
           <ChevronRight size={16} />
@@ -158,12 +158,12 @@ export default async function FinanceiroPage() {
           <div className="flex items-center gap-1">
             <DollarSign
               size={14}
-              className="text-[#1B5E20] dark:text-[#8BC34A]"
+              className="text-primary"
             />
             <p className="text-xs text-muted-foreground/70">Saldo</p>
           </div>
           <p
-            className={`text-base font-bold ${resumo.saldo >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
+            className={`text-base font-bold ${resumo.saldo >= 0 ? "text-primary" : "text-red-500"}`}
           >
             {formatBRL(resumo.saldo)}
           </p>

@@ -15,7 +15,7 @@ export function BotaoDeclarar() {
           "_blank",
         )
       }
-      className="flex items-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+      className="flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-6 py-3 rounded-lg text-sm font-medium transition-colors"
     >
       <ExternalLink size={16} />
       Fazer declaração no gov.br

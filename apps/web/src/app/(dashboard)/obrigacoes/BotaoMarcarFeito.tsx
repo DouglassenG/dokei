@@ -27,7 +27,7 @@ export function BotaoMarcarFeito({ id }: { id: string }) {
     <button
       onClick={marcarFeito}
       disabled={loading}
-      className="flex items-center gap-1 text-xs text-[#1B5E20] hover:underline disabled:opacity-60"
+      className="flex items-center gap-1 text-xs text-primary hover:underline disabled:opacity-60"
     >
       {loading ? (
         <Loader2 size={12} className="animate-spin" />

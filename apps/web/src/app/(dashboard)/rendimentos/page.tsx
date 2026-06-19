@@ -164,12 +164,12 @@ export default async function RendimentosPage({
           <div className="flex items-center gap-1">
             <DollarSign
               size={14}
-              className="text-[#1B5E20] dark:text-[#8BC34A]"
+              className="text-primary"
             />
             <p className="text-xs text-muted-foreground/70">Saldo</p>
           </div>
           <p
-            className={`text-sm font-bold ${saldoTotal >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
+            className={`text-sm font-bold ${saldoTotal >= 0 ? "text-primary" : "text-red-500"}`}
           >
             {formatBRL(saldoTotal)}
           </p>
@@ -199,7 +199,7 @@ export default async function RendimentosPage({
             </p>
             <Link
               href="/financeiro"
-              className="text-sm text-[#1B5E20] dark:text-[#8BC34A] hover:underline mt-2 inline-block"
+              className="text-sm text-primary hover:underline mt-2 inline-block"
             >
               Ir para o Controle Financeiro
             </Link>
@@ -230,7 +230,7 @@ export default async function RendimentosPage({
               <div className="text-right sm:w-24">
                 <p className="text-xs text-muted-foreground/70">Saldo</p>
                 <p
-                  className={`text-sm font-bold ${m.saldo >= 0 ? "text-[#1B5E20] dark:text-[#8BC34A]" : "text-red-500"}`}
+                  className={`text-sm font-bold ${m.saldo >= 0 ? "text-primary" : "text-red-500"}`}
                 >
                   {formatBRL(m.saldo)}
                 </p>
@@ -241,7 +241,7 @@ export default async function RendimentosPage({
       </div>
 
       {/* CTA — ir para a declaracao */}
-      <div className="bg-[#1B5E20]/5 dark:bg-[#8BC34A]/10 rounded-2xl border border-[#1B5E20]/10 dark:border-[#8BC34A]/20 p-4 sm:p-6 space-y-3">
+      <div className="bg-primary/5 rounded-2xl border border-primary/10 p-4 sm:p-6 space-y-3">
         <div>
           <p className="text-sm font-semibold text-foreground">
             Pronto para fazer sua declaracao?

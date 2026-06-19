@@ -69,7 +69,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
           <div className="flex items-center gap-2">
             <FileText
               size={22}
-              className="text-[#1B5E20] dark:text-[#8BC34A]"
+              className="text-primary"
             />
             <div>
               <h1 className="text-xl font-bold text-foreground">
@@ -94,7 +94,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <User
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+            className="text-primary mt-0.5 shrink-0"
           />
           <div>
             <p className="text-xs text-muted-foreground/70">Cliente</p>
@@ -106,7 +106,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <Briefcase
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+            className="text-primary mt-0.5 shrink-0"
           />
           <div>
             <p className="text-xs text-muted-foreground/70">Servico</p>
@@ -119,7 +119,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
           <div className="flex items-start gap-3">
             <MessageSquare
               size={16}
-              className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+              className="text-primary mt-0.5 shrink-0"
             />
             <div>
               <p className="text-xs text-muted-foreground/70">Observacoes</p>
@@ -139,11 +139,11 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <DollarSign
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+            className="text-primary mt-0.5 shrink-0"
           />
           <div>
             <p className="text-xs text-muted-foreground/70">Valor</p>
-            <p className="text-2xl font-bold text-[#1B5E20] dark:text-[#8BC34A]">
+            <p className="text-2xl font-bold text-primary">
               {valorFormatado}
             </p>
           </div>
@@ -151,7 +151,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <CreditCard
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+            className="text-primary mt-0.5 shrink-0"
           />
           <div>
             <p className="text-xs text-muted-foreground/70">
@@ -165,7 +165,7 @@ export default async function ReciboPage({ params }: ReciboPageProps) {
         <div className="flex items-start gap-3">
           <Calendar
             size={16}
-            className="text-[#1B5E20] dark:text-[#8BC34A] mt-0.5 shrink-0"
+            className="text-primary mt-0.5 shrink-0"
           />
           <div>
             <p className="text-xs text-muted-foreground/70">Data de emissao</p>

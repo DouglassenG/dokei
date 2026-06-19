@@ -12,7 +12,7 @@ export function LinkDAS() {
   return (
     <button
       onClick={() => window.open("https://gov.br/mei", "_blank")}
-      className="flex items-center gap-1 text-xs text-[#1B5E20] hover:underline"
+      className="flex items-center gap-1 text-xs text-primary hover:underline"
     >
       <ExternalLink size={12} />
       Pagar no gov.br
@@ -29,7 +29,7 @@ export function LinkDASN() {
           "_blank",
         )
       }
-      className="flex items-center gap-1 text-xs text-[#1B5E20] hover:underline"
+      className="flex items-center gap-1 text-xs text-primary hover:underline"
     >
       <ExternalLink size={12} />
       Fazer declaração

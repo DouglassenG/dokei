@@ -1,135 +1,265 @@
-import { getAuthUser } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import { FileText, Plus, ChevronRight } from "lucide-react"
+"use client"
 
 /**
- * Tipagem dos dados armazenados no dadosJson do recibo
+ * Formulário de criação de novo recibo
+ *
+ * Campos obrigatórios: nome do cliente, descrição do serviço, valor, forma de pagamento
+ * Ao submeter: POST /api/recibos → redireciona para /recibos/[id]
  */
-interface DadosRecibo {
-  nomeCliente: string
-  valor: number
-  formaPagamento: string
-  data: string
-}
 
-export default async function RecibosPage() {
-  // --- Verificar sessao ---
-  const user = await getAuthUser()
-  if (!user) return null
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import {
+  ArrowLeft,
+  FileText,
+  User,
+  Briefcase,
+  DollarSign,
+  CreditCard,
+  Calendar,
+  MessageSquare,
+  Loader2,
+  Send,
+} from "lucide-react"
 
-  // --- Buscar recibos do usuario ---
-  const recibos = await prisma.documento.findMany({
-    where: { userId: user.id, tipo: "recibo" },
-    orderBy: { criadoEm: "desc" },
-    select: {
-      id: true,
-      numero: true,
-      status: true,
-      criadoEm: true,
-      dadosJson: true,
-    },
+// Formas de pagamento disponíveis para o MEI
+const FORMAS_PAGAMENTO = [
+  "Pix",
+  "Transferência Bancária",
+  "Dinheiro",
+  "Cartão de Débito",
+  "Cartão de Crédito",
+  "Boleto",
+]
+
+export default function NovoReciboPage() {
+  const router = useRouter()
+
+  // Estado do formulário
+  const [form, setForm] = useState({
+    nomeCliente: "",
+    servicoDescricao: "",
+    valor: "",
+    formaPagamento: "Pix",
+    data: new Date().toISOString().split("T")[0],
+    observacoes: "",
   })
 
-  // Formata valor para BRL
-  function formatBRL(valor: number) {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(valor)
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle")
+  const [erroMsg, setErroMsg] = useState("")
+
+  // Handler genérico para todos os campos do formulário
+  // Tipagem inline evita o problema de corrupção do union type
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  function handleChangeTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  function handleChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  // Envia o formulário para a API
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setStatus("loading")
+    setErroMsg("")
+
+    try {
+      const response = await fetch("/api/recibos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          valor: Number(form.valor.replace(",", ".")),
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setErroMsg(data.error ?? "Erro ao criar recibo.")
+        setStatus("error")
+        return
+      }
+
+      router.push(`/recibos/${data.id}`)
+    } catch {
+      setErroMsg("Erro de conexão. Tente novamente.")
+      setStatus("error")
+    }
   }
 
   return (
     <div className="space-y-6">
-      {/* Cabecalho */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <FileText size={22} className="text-[#1B5E20] dark:text-[#8BC34A]" />
-          <h1 className="text-xl font-bold text-foreground">Meus Recibos</h1>
-        </div>
+      {/* Cabeçalho */}
+      <div className="flex items-center gap-3">
         <Link
-          href="/recibos/novo"
-          className="flex items-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors shrink-0"
+          href="/recibos"
+          className="p-2 hover:bg-muted rounded-lg transition-colors"
         >
-          <Plus size={16} />
-          <span className="hidden sm:inline">Novo recibo</span>
-          <span className="sm:hidden">Novo</span>
+          <ArrowLeft size={20} className="text-muted-foreground" />
         </Link>
+        <div className="flex items-center gap-2">
+          <FileText size={22} className="text-primary" />
+          <h1 className="text-xl font-bold text-foreground">Novo Recibo</h1>
+        </div>
       </div>
 
-      {/* Lista vazia */}
-      {recibos.length === 0 && (
-        <div className="bg-card rounded-2xl border border-border p-8 sm:p-12 text-center space-y-3">
-          <FileText size={40} className="text-muted-foreground/50 mx-auto" />
-          <p className="text-muted-foreground font-medium">
-            Nenhum recibo emitido ainda
-          </p>
-          <p className="text-sm text-muted-foreground/70">
-            Crie seu primeiro recibo e compartilhe pelo WhatsApp.
-          </p>
-          <Link
-            href="/recibos/novo"
-            className="inline-flex items-center gap-2 bg-[#1B5E20] text-white hover:bg-[#145214] px-4 py-2 rounded-lg text-sm font-medium transition-colors mt-2"
-          >
-            <Plus size={16} />
-            Criar primeiro recibo
-          </Link>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Bloco: dados do cliente e serviço */}
+        <div className="bg-card rounded-2xl border border-border p-6 space-y-4">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            Dados do Serviço
+          </h2>
+
+          {/* Nome do cliente */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <User size={15} />
+              Nome do cliente
+            </label>
+            <input
+              name="nomeCliente"
+              type="text"
+              placeholder="Ex: João Silva"
+              value={form.nomeCliente}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors"
+            />
+          </div>
+
+          {/* Descrição do serviço */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <Briefcase size={15} />
+              Descrição do serviço
+            </label>
+            <textarea
+              name="servicoDescricao"
+              placeholder="Ex: Instalação elétrica residencial"
+              value={form.servicoDescricao}
+              onChange={handleChangeTextarea}
+              required
+              rows={3}
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors resize-none"
+            />
+          </div>
+
+          {/* Observações */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <MessageSquare size={15} />
+              Observações
+              <span className="text-muted-foreground/70 font-normal">
+                (opcional)
+              </span>
+            </label>
+            <textarea
+              name="observacoes"
+              placeholder="Ex: Serviço realizado conforme combinado"
+              value={form.observacoes}
+              onChange={handleChangeTextarea}
+              rows={2}
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors resize-none"
+            />
+          </div>
         </div>
-      )}
 
-      {/* Lista de recibos */}
-      {recibos.length > 0 && (
-        <div className="bg-card rounded-2xl border border-border divide-y divide-border">
-          {recibos.map((recibo) => {
-            const dados = recibo.dadosJson as unknown as DadosRecibo
-            const dataFormatada = new Date(recibo.criadoEm).toLocaleDateString(
-              "pt-BR",
-            )
+        {/* Bloco: valor e pagamento */}
+        <div className="bg-card rounded-2xl border border-border p-6 space-y-4">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            Valor e Pagamento
+          </h2>
 
-            return (
-              <Link
-                key={recibo.id}
-                href={`/recibos/${recibo.id}`}
-                className="flex items-center justify-between px-4 sm:px-6 py-4 hover:bg-muted transition-colors"
-              >
-                {/* Lado esquerdo — numero e cliente */}
-                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                  <div className="w-10 h-10 bg-[#1B5E20]/10 dark:bg-[#8BC34A]/15 rounded-xl flex items-center justify-center shrink-0">
-                    <FileText
-                      size={18}
-                      className="text-[#1B5E20] dark:text-[#8BC34A]"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-foreground">
-                      {recibo.numero}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {dados?.nomeCliente ?? "Cliente nao informado"}
-                    </p>
-                  </div>
-                </div>
+          {/* Valor */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <DollarSign size={15} />
+              Valor do serviço
+            </label>
+            <div className="flex items-center border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary hover:border-primary/40 transition-colors">
+              <span className="px-4 py-3 bg-muted text-sm text-muted-foreground border-r border-border">
+                R$
+              </span>
+              <input
+                name="valor"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0,00"
+                value={form.valor}
+                onChange={handleChange}
+                required
+                className="flex-1 px-4 py-3 text-sm focus:outline-none"
+              />
+            </div>
+          </div>
 
-                {/* Lado direito — valor e data */}
-                <div className="flex items-center gap-2 sm:gap-4 shrink-0 ml-3">
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-[#1B5E20] dark:text-[#8BC34A]">
-                      {formatBRL(dados?.valor ?? 0)}
-                    </p>
-                    <p className="text-xs text-muted-foreground/70">
-                      {dataFormatada}
-                    </p>
-                  </div>
-                  <ChevronRight
-                    size={16}
-                    className="text-muted-foreground/70 hidden sm:block"
-                  />
-                </div>
-              </Link>
-            )
-          })}
+          {/* Forma de pagamento */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <CreditCard size={15} />
+              Forma de pagamento
+            </label>
+            <select
+              name="formaPagamento"
+              value={form.formaPagamento}
+              onChange={handleChangeSelect}
+              required
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors bg-card"
+            >
+              {FORMAS_PAGAMENTO.map((forma) => (
+                <option key={forma} value={forma}>
+                  {forma}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Data */}
+          <div className="space-y-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-primary">
+              <Calendar size={15} />
+              Data de emissão
+            </label>
+            <input
+              name="data"
+              type="date"
+              value={form.data}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary hover:border-primary/40 transition-colors"
+            />
+          </div>
         </div>
-      )}
+
+        {/* Mensagem de erro */}
+        {status === "error" && (
+          <div className="p-3 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-sm text-red-700 dark:text-red-300">{erroMsg}</p>
+          </div>
+        )}
+
+        {/* Botão de envio */}
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="w-full flex items-center justify-center gap-2 bg-primary text-white hover:bg-primary/90 py-3 px-4 rounded-lg text-sm font-medium transition-colors disabled:opacity-60"
+        >
+          {status === "loading" ? (
+            <Loader2 size={18} className="animate-spin" />
+          ) : (
+            <Send size={18} />
+          )}
+          {status === "loading" ? "Gerando recibo..." : "Gerar recibo"}
+        </button>
+      </form>
     </div>
   )
 }
