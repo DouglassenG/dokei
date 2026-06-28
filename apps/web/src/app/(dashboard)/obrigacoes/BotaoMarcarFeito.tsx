@@ -34,7 +34,7 @@ export function BotaoMarcarFeito({ id }: { id: string }) {
       ) : (
         <CheckCircle size={12} />
       )}
-      Marcar como pago
+      MARCAR COMO FEITO
     </button>
   )
 }
