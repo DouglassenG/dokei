@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
@@ -75,11 +76,13 @@ export function Sidebar({ userEmail }: SidebarProps) {
             className="flex items-center gap-2"
             onClick={fechar}
           >
-            <div className="w-8 h-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-              <span className="text-sidebar-primary-foreground font-bold text-sm">
-                D
-              </span>
-            </div>
+            <Image
+              src="/vetor_site.svg"
+              alt="Dokei"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <span className="text-lg font-bold text-sidebar-foreground">
               Dokei
             </span>

@@ -61,7 +61,7 @@ export function LandingHero() {
           <div className="flex flex-col sm:flex-row sm:justify-start gap-4 mb-12 sm:mb-16">
             <Link
               href="/cadastro"
-              className="inline-flex items-center justify-center bg-emerald-800 text-white hover:bg-emerald-900 font-semibold px-6 py-3 sm:px-8 sm:py-4 text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-[#7ba23f] transition duration-300"
+              className="group inline-flex items-center justify-center bg-emerald-800 text-white hover:bg-emerald-900 font-semibold px-6 py-3 sm:px-8 sm:py-4 text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-[#7ba23f] transition duration-300"
             >
               <span>Começar grátis</span>
               <ArrowRight

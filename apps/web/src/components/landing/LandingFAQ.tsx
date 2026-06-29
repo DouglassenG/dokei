@@ -15,14 +15,14 @@ const faqs = [
       "A Dokei é uma plataforma de gestão completa criada especialmente para Microempreendedores Individuais (MEI). Com ela, você pode emitir recibos profissionais, controlar suas finanças, receber lembretes do DAS, calcular preços dos seus serviços e muito mais. Tudo de forma simples e intuitiva, sem precisar de conhecimento técnico.",
   },
   {
-    question: "Preciso de cartão de crédito para usar o plano Free?",
+    question: "Como emito um recibo na Dokei?",
     answer:
-      "Não! O plano Free é totalmente gratuito e você não precisa cadastrar nenhum cartão de crédito para começar a usar. Basta criar sua conta e aproveitar os recursos disponíveis. Quando sentir necessidade, você pode fazer upgrade para um plano pago a qualquer momento.",
+      "É muito simples! Acesse a seção 'Recibos' no dashboard, clique em 'Novo Recibo' e preencha os dados do cliente e do serviço prestado. Em segundos você gera um PDF profissional que pode ser enviado diretamente pelo WhatsApp ou e-mail, sem nenhum custo.",
   },
   {
-    question: "Posso cancelar minha assinatura a qualquer momento?",
+    question: "O que são as obrigações DAS e DASN?",
     answer:
-      "Sim, você pode cancelar sua assinatura quando quiser, sem multas ou taxas de cancelamento. Após o cancelamento, você continuará tendo acesso aos recursos premium até o final do período já pago. Depois disso, sua conta será convertida automaticamente para o plano Free.",
+      "O DAS (Documento de Arrecadação do Simples Nacional) é o boleto mensal que todo MEI precisa pagar para manter o CNPJ ativo. Já a DASN (Declaração Anual do Simples Nacional) é entregue até maio de cada ano. A Dokei monitora esses prazos e envia lembretes automáticos para você nunca esquecer.",
   },
   {
     question: "Os recibos emitidos pela Dokei têm validade legal?",
@@ -94,7 +94,7 @@ export function LandingFAQ() {
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
-                key={index}
+                key={faq.question}
                 value={`item-${index}`}
                 className="bg-white border border-[#d4e5c7] rounded-xl px-6 data-[state=open]:shadow-md transition-shadow duration-300"
               >
@@ -117,7 +117,7 @@ export function LandingFAQ() {
           <p className="text-[#4a6741]">
             Ainda tem dúvidas?{" "}
             <a
-              href="#"
+              href="mailto:contato@dokei.com.br"
               className="text-[#7ba23f] font-semibold hover:text-[#1a4d2e] transition-colors underline underline-offset-4"
             >
               Fale com nosso suporte

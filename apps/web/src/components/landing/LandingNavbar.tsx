@@ -45,12 +45,6 @@ export function LandingNavbar() {
               Serviços
             </a>
             <a
-              href="#planos"
-              className="text-white/90 hover:text-white transition-colors text-sm font-medium"
-            >
-              Planos
-            </a>
-            <a
               href="#faq"
               className="text-white/90 hover:text-white transition-colors text-sm font-medium"
             >
@@ -75,6 +69,7 @@ export function LandingNavbar() {
             className="md:hidden text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -93,13 +88,6 @@ export function LandingNavbar() {
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Serviços
-          </a>
-          <a
-            href="#planos"
-            className="block text-white/90 hover:text-white transition-colors text-sm font-medium"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Planos
           </a>
           <a
             href="#faq"

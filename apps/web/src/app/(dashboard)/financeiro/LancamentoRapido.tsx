@@ -85,7 +85,7 @@ export function LancamentoRapido() {
     <>
       <button
         onClick={() => setAberto(true)}
-        className="fixed bottom-6 right-6 flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-5 py-3 rounded-full shadow-lg text-sm font-medium transition-colors z-40"
+        className="fixed bottom-6 right-24 flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-5 py-3 rounded-full shadow-lg text-sm font-medium transition-colors z-40"
       >
         <Plus size={18} />
         Novo lançamento

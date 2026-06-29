@@ -1,8 +1,10 @@
 import { getAuthUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
-import { ArrowLeft, TrendingUp, TrendingDown, Trash2 } from "lucide-react"
+import { Suspense } from "react"
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react"
 import { BotaoDeletar } from "./BotaoDeletar"
+import { FiltrosExtrato } from "./FiltrosExtrato"
 
 /**
  * Pagina de extrato completo
@@ -61,39 +63,9 @@ export default async function ExtratoPage({
       </div>
 
       {/* Filtros */}
-      <div className="flex gap-2 flex-wrap">
-        {/* Filtro carteira */}
-        {["todos", "negocio", "pessoal"].map((c) => (
-          <Link
-            key={c}
-            href={`/financeiro/extrato?carteira=${c}&tipo=${tipo}`}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              carteira === c
-                ? "bg-primary text-white"
-                : "bg-muted text-muted-foreground hover:bg-muted"
-            }`}
-          >
-            {c === "todos" ? "Todas" : c === "negocio" ? "Negocio" : "Pessoal"}
-          </Link>
-        ))}
-
-        <span className="text-muted-foreground/50">|</span>
-
-        {/* Filtro tipo */}
-        {["todos", "entrada", "saida"].map((t) => (
-          <Link
-            key={t}
-            href={`/financeiro/extrato?carteira=${carteira}&tipo=${t}`}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              tipo === t
-                ? "bg-primary text-white"
-                : "bg-muted text-muted-foreground hover:bg-muted"
-            }`}
-          >
-            {t === "todos" ? "Todos" : t === "entrada" ? "Entradas" : "Saidas"}
-          </Link>
-        ))}
-      </div>
+      <Suspense>
+        <FiltrosExtrato />
+      </Suspense>
 
       {/* Totais dos filtros */}
       <div className="bg-card rounded-2xl border border-border p-4 flex flex-col sm:flex-row sm:justify-between gap-2 text-sm">

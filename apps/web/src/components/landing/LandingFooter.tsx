@@ -5,29 +5,13 @@ interface FooterLink {
 
 interface FooterSections {
   produto: FooterLink[]
-  empresa: FooterLink[]
-  suporte: FooterLink[]
   legal: FooterLink[]
 }
 
 const footerLinks: FooterSections = {
   produto: [
     { label: "Recursos", href: "#servicos" },
-    { label: "Planos", href: "#planos" },
-    { label: "Integrações", href: "#" },
-    { label: "Atualizações", href: "#" },
-  ],
-  empresa: [
-    // { label: "Sobre nós", href: "#" },
-    // { label: "Blog", href: "#" },
-    // { label: "Carreiras", href: "#" },
-    // { label: "Imprensa", href: "#" },
-  ],
-  suporte: [
-    // { label: "Central de Ajuda", href: "#" },
-    // { label: "FAQ", href: "#faq" },
-    // { label: "Contato", href: "#" },
-    // { label: "Status", href: "#" },
+    { label: "FAQ", href: "#faq" },
   ],
   legal: [
     { label: "Termos de Uso", href: "#" },
@@ -57,12 +41,6 @@ export function LandingFooter() {
                 className="block text-white/70 hover:text-white transition-colors"
               >
                 <span>contato@dokei.com.br</span>
-              </a>
-              <a
-                href="tel:+551199999999"
-                className="block text-white/70 hover:text-white transition-colors"
-              >
-                <span>(11) 99999-9999</span>
               </a>
               <div className="text-white/70">
                 <span>São Paulo, Brasil</span>

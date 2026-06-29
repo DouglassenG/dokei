@@ -45,12 +45,11 @@ export function LandingCTA() {
           </h2>
 
           <p className="text-lg sm:text-xl text-white/90 mb-10 leading-relaxed">
-            Junte-se a milhares de microempreendedores que já organizaram suas
-            finanças, nunca mais perderam prazos e aumentaram seus lucros com a
-            Dokei.
+            Junte-se aos MEIs que já organizaram suas finanças, nunca mais
+            perderam prazos e aumentaram seus lucros com a Dokei.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex items-center justify-center">
             <Link
               href="/cadastro"
               className="inline-flex items-center justify-center bg-white text-[#1a4d2e] hover:bg-white/90 font-semibold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
@@ -61,23 +60,21 @@ export function LandingCTA() {
                 className="ml-2 group-hover:translate-x-1 transition-transform"
               />
             </Link>
-            <button className="inline-flex items-center justify-center bg-transparent border border-white/40 text-white hover:bg-white/10 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300">
-              Ver demonstração
-            </button>
           </div>
 
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-8">
             {[
-              { value: "100+", label: "MEIs ativos", delay: "200" },
-              { value: "379+", label: "Recibos emitidos", delay: "300" },
+              { value: "100+", label: "MEIs ativos", delay: 200 },
+              { value: "379+", label: "Recibos emitidos", delay: 300 },
             ].map((stat) => (
               <div
                 key={stat.label}
-                className={`transition-all duration-700 delay-${stat.delay} ${
+                className={`transition-all duration-700 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
+                style={{ transitionDelay: `${stat.delay}ms` }}
               >
                 <div className="text-4xl lg:text-5xl font-bold text-white mb-2">
                   {stat.value}

@@ -18,15 +18,15 @@ function TypingDots() {
   return (
     <div className="flex items-center gap-1 px-1 py-1 cursor-pointer">
       <span
-        className=" w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        className="w-2 h-2 bg-primary rounded-full animate-bounce"
         style={{ animationDelay: "0ms" }}
       />
       <span
-        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        className="w-2 h-2 bg-primary rounded-full animate-bounce"
         style={{ animationDelay: "150ms" }}
       />
       <span
-        className="w-2 h-2 bg-[#2E7D32] rounded-full animate-bounce"
+        className="w-2 h-2 bg-primary rounded-full animate-bounce"
         style={{ animationDelay: "300ms" }}
       />
     </div>
@@ -138,7 +138,7 @@ export function ChatWidget() {
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="Abrir chat de suporte"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#2E7D32] hover:bg-[#1B5E20] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
@@ -147,7 +147,7 @@ export function ChatWidget() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border max-h-[70vh]">
           {/* Header */}
-          <div className="bg-[#2E7D32] px-4 py-3 flex items-center gap-3">
+          <div className="bg-primary px-4 py-3 flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
               <Bot size={18} className="text-white" />
             </div>
@@ -169,7 +169,7 @@ export function ChatWidget() {
                 <div
                   className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-[#2E7D32] text-white rounded-br-sm"
+                      ? "bg-primary text-primary-foreground rounded-br-sm"
                       : "bg-card text-foreground shadow-sm rounded-bl-sm border border-border"
                   }`}
                 >
@@ -209,12 +209,12 @@ export function ChatWidget() {
               placeholder="Digite sua mensagem..."
               rows={1}
               disabled={isLoading || typingText !== null}
-              className="flex-1 resize-none text-sm border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2E7D32]/40 dark:focus:ring-[#8BC34A]/40 max-h-24 overflow-y-auto disabled:opacity-50"
+              className="flex-1 resize-none text-sm border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-24 overflow-y-auto disabled:opacity-50"
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading || typingText !== null}
-              className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] disabled:bg-muted text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
+              className="w-9 h-9 bg-primary hover:bg-primary/90 disabled:bg-muted text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
             >
               <Send size={15} />
             </button>

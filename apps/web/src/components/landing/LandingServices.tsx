@@ -8,7 +8,6 @@ import {
   Bell,
   Calculator,
   FileSpreadsheet,
-  ArrowRight,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -120,7 +119,7 @@ export function LandingServices() {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm hover:shadow-xl hover:bg-white/20 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm hover:shadow-xl hover:bg-white/20 transition-all duration-300 group overflow-hidden">
                 <CardContent className="p-6 lg:p-8">
                   <div className="w-14 h-14 bg-[#7ba23f]/20 border border-[#7ba23f]/30 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <service.icon className="w-7 h-7 text-[#7ba23f] drop-shadow-[0_0_6px_rgba(123,162,63,0.5)]" />
@@ -134,13 +133,7 @@ export function LandingServices() {
                     {service.description}
                   </p>
 
-                  <div className="flex items-center text-[#7ba23f] font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span>Saiba mais</span>
-                    <ArrowRight
-                      size={16}
-                      className="ml-2 group-hover:translate-x-1 transition-transform"
-                    />
-                  </div>
+
                 </CardContent>
               </Card>
             </div>

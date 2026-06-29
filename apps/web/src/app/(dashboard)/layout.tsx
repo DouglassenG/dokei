@@ -34,7 +34,7 @@ export default async function DashboardLayout({
         <div className="flex-1 lg:ml-64">
           {/* Barra superior */}
           <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
-            <div className="pl-16 pr-4 sm:px-6 lg:px-8 py-4 flex items-center justify-end gap-4">
+            <div className="pl-16 lg:pl-0 pr-4 sm:pr-6 lg:pr-8 py-4 flex items-center justify-end gap-4">
               <ThemeToggle />
 
               <div className="h-6 w-px bg-border" />
