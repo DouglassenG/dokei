@@ -18,10 +18,10 @@ setup("autenticar e salvar sessão", async ({ page }) => {
   ).toBeVisible({ timeout: 15_000 })
 
   await page.getByLabel(/e-?mail/i).fill(email)
-  await page.getByRole("button", { name: /continuar/i }).click()
+  await page.getByRole("button", { name: "Continuar", exact: true }).click()
 
   await page.getByLabel(/senha/i).fill(password)
-  await page.getByRole("button", { name: /entrar/i }).click()
+  await page.getByRole("button", { name: "Continuar", exact: true }).click()
 
   await page.waitForURL("**/dashboard", { timeout: 20_000 })
 
