@@ -1,30 +1,53 @@
 /// <reference types="cypress" />
 
 Cypress.Commands.add("login", () => {
-  const email = Cypress.env("E2E_EMAIL") as string | undefined
-  const password = Cypress.env("E2E_PASSWORD") as string | undefined
+  const secretKey = Cypress.env("CLERK_SECRET_KEY") as string | undefined
+  const userId = Cypress.env("CLERK_USER_ID") as string | undefined
 
-  if (!email || !password) {
+  if (!secretKey || !userId) {
     throw new Error(
-      "Defina E2E_EMAIL e E2E_PASSWORD no cypress.env.json antes de rodar os testes.",
+      "Defina CLERK_SECRET_KEY e CLERK_USER_ID no cypress.env.json antes de rodar os testes.",
     )
   }
 
   cy.session(
-    "dokei-login",
+    `clerk-session-${userId}`,
     () => {
-      cy.visit("/login")
+      cy.request({
+        method: "POST",
+        url: `https://api.clerk.com/v1/sessions`,
+        headers: {
+          Authorization: `Bearer ${secretKey}`,
+          "Content-Type": "application/json",
+        },
+        body: { user_id: userId },
+      }).then((sessionRes) => {
+        const sessionId = sessionRes.body.id as string
 
-      cy.contains("h1", /entrar/i, { timeout: 15_000 }).should("be.visible")
+        cy.request({
+          method: "POST",
+          url: `https://api.clerk.com/v1/sessions/${sessionId}/tokens`,
+          headers: {
+            Authorization: `Bearer ${secretKey}`,
+            "Content-Type": "application/json",
+          },
+        }).then((tokenRes) => {
+          const jwt = tokenRes.body.jwt as string
 
-      cy.findByLabelText(/e-?mail/i).type(email)
-      cy.contains("button", "Continuar", { matchCase: false }).click()
+          cy.visit("/")
 
-      cy.findByLabelText(/senha/i).type(password, { log: false })
-      cy.contains("button", "Continuar", { matchCase: false }).click()
+          cy.setCookie("__session", jwt, {
+            domain: "localhost",
+            path: "/",
+            secure: false,
+            httpOnly: false,
+          })
 
-      cy.url({ timeout: 20_000 }).should("include", "/dashboard")
-      cy.contains(/olá/i).should("be.visible")
+          cy.visit("/dashboard")
+          cy.url({ timeout: 15_000 }).should("include", "/dashboard")
+          cy.contains(/olá/i).should("be.visible")
+        })
+      })
     },
     {
       validate() {

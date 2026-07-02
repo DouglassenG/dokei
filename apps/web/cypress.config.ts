@@ -14,9 +14,10 @@ export default defineConfig({
       openMode: 0,
     },
     setupNodeEvents(on, config) {
-      config.env.E2E_EMAIL = config.env.E2E_EMAIL ?? process.env.E2E_EMAIL
-      config.env.E2E_PASSWORD =
-        config.env.E2E_PASSWORD ?? process.env.E2E_PASSWORD
+      config.env.CLERK_SECRET_KEY =
+        config.env.CLERK_SECRET_KEY ?? process.env.CLERK_SECRET_KEY
+      config.env.CLERK_USER_ID =
+        config.env.CLERK_USER_ID ?? process.env.CLERK_USER_ID
       return config
     },
   },
