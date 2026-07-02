@@ -49,16 +49,18 @@ describe("Login e Dashboard", () => {
     cy.viewport(375, 812)
     cy.visit("/dashboard")
 
-    // Antes de abrir: botão de fechar não está visível
-    cy.get("button[aria-label='Fechar menu']").should("not.be.visible")
+    // Antes de abrir: aside contém -translate-x-full
+    cy.get("aside")
+      .invoke("attr", "class")
+      .should("include", "-translate-x-full")
 
     // Clica no botão hamburguer
     cy.get("button[aria-label='Abrir menu']").click()
 
-    // Depois de abrir: botão de fechar fica visível
-    // Usamos o botão de fechar como indicador — o overlay usa bg-black/40
-    // cuja barra é inválida em seletores CSS e não pode ser usada no cy.get()
-    cy.get("button[aria-label='Fechar menu']").should("be.visible")
+    // Depois de abrir: aside não contém mais -translate-x-full (translate-x-0)
+    cy.get("aside")
+      .invoke("attr", "class")
+      .should("not.include", "-translate-x-full")
   })
 })
 
