@@ -1,6 +1,7 @@
 import { LandingNavbar } from "@/components/landing/LandingNavbar"
 import { LandingHero } from "@/components/landing/LandingHero"
 import { LandingServices } from "@/components/landing/LandingServices"
+import { LandingMockup } from "@/components/landing/LandingMockup"
 import { LandingFAQ } from "@/components/landing/LandingFAQ"
 import { LandingCTA } from "@/components/landing/LandingCTA"
 import { LandingFooter } from "@/components/landing/LandingFooter"
@@ -11,6 +12,7 @@ export default function Home() {
       <LandingNavbar />
       <LandingHero />
       <LandingServices />
+      <LandingMockup />
       <LandingFAQ />
       <LandingCTA />
       <LandingFooter />
