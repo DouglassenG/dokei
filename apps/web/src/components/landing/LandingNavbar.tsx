@@ -38,6 +38,14 @@ export function LandingNavbar() {
             />
           </a>
           <nav className="hidden md:flex items-center space-x-8">
+            <Link
+              href="/quem-somos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/90 hover:text-white transition-colors text-sm font-medium"
+            >
+              Quem Somos
+            </Link>
             <a
               href="#servicos"
               className="text-white/90 hover:text-white transition-colors text-sm font-medium"
@@ -50,6 +58,14 @@ export function LandingNavbar() {
             >
               FAQ
             </a>
+            <Link
+              href="/lgpd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/90 hover:text-white transition-colors text-sm font-medium"
+            >
+              LGPD
+            </Link>
           </nav>
           <div className="hidden md:flex items-center space-x-4">
             <Link
@@ -82,6 +98,15 @@ export function LandingNavbar() {
         }`}
       >
         <nav className="px-4 py-4 space-y-4 bg-[#1a4d2e] border-t border-white/10">
+          <Link
+            href="/quem-somos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-white/90 hover:text-white transition-colors text-sm font-medium"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Quem Somos
+          </Link>
           <a
             href="#servicos"
             className="block text-white/90 hover:text-white transition-colors text-sm font-medium"
@@ -96,6 +121,15 @@ export function LandingNavbar() {
           >
             FAQ
           </a>
+          <Link
+            href="/lgpd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-white/90 hover:text-white transition-colors text-sm font-medium"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            LGPD
+          </Link>
           <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
             <Link
               href="/login"

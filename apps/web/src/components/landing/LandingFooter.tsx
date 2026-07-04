@@ -1,6 +1,7 @@
 interface FooterLink {
   label: string
   href: string
+  newTab?: boolean
 }
 
 interface FooterSections {
@@ -10,6 +11,7 @@ interface FooterSections {
 
 const footerLinks: FooterSections = {
   produto: [
+    { label: "Quem Somos", href: "/quem-somos", newTab: true },
     { label: "Recursos", href: "#servicos" },
     { label: "FAQ", href: "#faq" },
   ],
@@ -17,7 +19,7 @@ const footerLinks: FooterSections = {
     { label: "Termos de Uso", href: "#" },
     { label: "Privacidade", href: "#" },
     { label: "Cookies", href: "#" },
-    { label: "LGPD", href: "#" },
+    { label: "LGPD", href: "/lgpd", newTab: true },
   ],
 }
 
@@ -59,6 +61,8 @@ export function LandingFooter() {
                     <li key={link.label}>
                       <a
                         href={link.href}
+                        target={link.newTab ? "_blank" : undefined}
+                        rel={link.newTab ? "noopener noreferrer" : undefined}
                         className="text-white/70 hover:text-white transition-colors"
                       >
                         {link.label}
