@@ -22,7 +22,7 @@ A stack foi cuidadosamente escolhida para garantir reatividade e performance:
 * **[JavaScript (Vanilla Web APIs)]:** Manipulação direta do `Date` object e temporizadores assíncronos nativos do browser.
 * **[CSS Modules / CSS3]:** Estilização modular para evitar colisões de escopo global no layout.
 
-## ✨ Funcionalidades
+## ✨ Funcionalidadess
 
 O sistema orquestra mecânicas complexas de tempo:
 
