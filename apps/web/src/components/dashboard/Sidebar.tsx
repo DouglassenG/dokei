@@ -11,9 +11,11 @@ import {
   Bell,
   Calculator,
   BarChart2,
+  MessageCircleQuestion,
   Menu,
   X,
 } from "lucide-react"
+import { ChatWidget } from "@/components/chat/ChatWidget"
 
 interface NavItem {
   label: string
@@ -37,6 +39,7 @@ const navItems: NavItem[] = [
 export function Sidebar({ userEmail }: SidebarProps) {
   const pathname = usePathname()
   const [aberto, setAberto] = useState(false)
+  const [chatAberto, setChatAberto] = useState(false)
 
   const fechar = useCallback(() => setAberto(false), [])
 
@@ -125,6 +128,26 @@ export function Sidebar({ userEmail }: SidebarProps) {
               </Link>
             )
           })}
+
+          <button
+            type="button"
+            onClick={() => {
+              setChatAberto(true)
+              fechar()
+            }}
+            className={`
+              w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+              transition-all duration-200
+              ${
+                chatAberto
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10 hover:text-sidebar-foreground"
+              }
+            `}
+          >
+            <MessageCircleQuestion size={18} />
+            Ajuda
+          </button>
         </nav>
 
         <div className="px-4 py-4 border-t border-sidebar-border">
@@ -143,6 +166,8 @@ export function Sidebar({ userEmail }: SidebarProps) {
           </div>
         </div>
       </aside>
+
+      <ChatWidget open={chatAberto} onOpenChange={setChatAberto} />
     </>
   )
 }

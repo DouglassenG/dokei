@@ -3,7 +3,6 @@ import { Montserrat } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import { ptBR } from "@clerk/localizations"
 import "./globals.css"
-import { ChatWidget } from "@/components/chat/ChatWidget"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 
 const montserrat = Montserrat({
@@ -60,7 +59,6 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-            <ChatWidget />
           </ThemeProvider>
         </body>
       </html>

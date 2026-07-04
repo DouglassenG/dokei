@@ -1,11 +1,23 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, Send, Bot } from "lucide-react"
+import { Bot, Send, X } from "lucide-react"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet"
 
 interface Message {
   role: "user" | "assistant"
   content: string
+}
+
+interface ChatWidgetProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 const WELCOME_MESSAGE: Message = {
@@ -33,8 +45,7 @@ function TypingDots() {
   )
 }
 
-export function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false)
+export function ChatWidget({ open, onOpenChange }: ChatWidgetProps) {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -47,8 +58,8 @@ export function ChatWidget() {
   }, [messages, typingText, isLoading])
 
   useEffect(() => {
-    if (isOpen) inputRef.current?.focus()
-  }, [isOpen])
+    if (open) inputRef.current?.focus()
+  }, [open])
 
   function typewriterEffect(text: string, onDone: () => void) {
     let index = 0
@@ -133,94 +144,93 @@ export function ChatWidget() {
   }
 
   return (
-    <>
-      {/* Botão flutuante */}
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        aria-label="Abrir chat de suporte"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-      >
-        {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
-      </button>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right" showCloseButton={false}>
+        <SheetTitle className="sr-only">
+          Kauane - Assistente do Dokei
+        </SheetTitle>
+        <SheetDescription className="sr-only">
+          Chat de suporte para tirar dúvidas sobre o Dokei
+        </SheetDescription>
 
-      {/* Janela do chat */}
-      {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border max-h-[70vh]">
-          {/* Header */}
-          <div className="bg-primary px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
-              <Bot size={18} className="text-white" />
-            </div>
-            <div>
-              <p className="text-white font-semibold text-sm leading-tight">
-                Kauane - Assistente do Dokei
-              </p>
-              <p className="text-white/70 text-xs">Assistente Dokei • Online</p>
-            </div>
+        {/* Header */}
+        <div className="bg-primary px-4 py-3 flex items-center gap-3">
+          <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+            <Bot size={18} className="text-white" />
           </div>
-
-          {/* Mensagens */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-primary text-primary-foreground rounded-br-sm"
-                      : "bg-card text-foreground shadow-sm rounded-bl-sm border border-border"
-                  }`}
-                >
-                  {renderContent(msg.content)}
-                </div>
-              </div>
-            ))}
-
-            {/* Três pontinhos enquanto aguarda a API */}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-card px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-border">
-                  <TypingDots />
-                </div>
-              </div>
-            )}
-
-            {/* Typewriter da resposta chegando */}
-            {typingText !== null && (
-              <div className="flex justify-start">
-                <div className="max-w-[85%] px-3 py-2 rounded-2xl rounded-bl-sm text-sm leading-relaxed bg-card text-foreground shadow-sm border border-border">
-                  {renderContent(typingText)}
-                </div>
-              </div>
-            )}
-
-            <div ref={messagesEndRef} />
+          <div className="flex-1 min-w-0">
+            <p className="text-white font-semibold text-sm leading-tight">
+              Kauane - Assistente do Dokei
+            </p>
+            <p className="text-white/70 text-xs">Assistente Dokei • Online</p>
           </div>
-
-          {/* Input */}
-          <div className="p-3 bg-card border-t border-border flex items-end gap-2">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Digite sua mensagem..."
-              rows={1}
-              disabled={isLoading || typingText !== null}
-              className="flex-1 resize-none text-sm border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-24 overflow-y-auto disabled:opacity-50"
-            />
-            <button
-              onClick={sendMessage}
-              disabled={!input.trim() || isLoading || typingText !== null}
-              className="w-9 h-9 bg-primary hover:bg-primary/90 disabled:bg-muted text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
-            >
-              <Send size={15} />
-            </button>
-          </div>
+          <SheetClose className="text-white/80 hover:text-white transition-colors shrink-0">
+            <X size={20} />
+            <span className="sr-only">Fechar</span>
+          </SheetClose>
         </div>
-      )}
-    </>
+
+        {/* Mensagens */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            >
+              <div
+                className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-primary text-primary-foreground rounded-br-sm"
+                    : "bg-card text-foreground shadow-sm rounded-bl-sm border border-border"
+                }`}
+              >
+                {renderContent(msg.content)}
+              </div>
+            </div>
+          ))}
+
+          {/* Três pontinhos enquanto aguarda a API */}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-card px-3 py-2 rounded-2xl rounded-bl-sm shadow-sm border border-border">
+                <TypingDots />
+              </div>
+            </div>
+          )}
+
+          {/* Typewriter da resposta chegando */}
+          {typingText !== null && (
+            <div className="flex justify-start">
+              <div className="max-w-[85%] px-3 py-2 rounded-2xl rounded-bl-sm text-sm leading-relaxed bg-card text-foreground shadow-sm border border-border">
+                {renderContent(typingText)}
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <div className="p-3 bg-card border-t border-border flex items-end gap-2">
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Digite sua mensagem..."
+            rows={1}
+            disabled={isLoading || typingText !== null}
+            className="flex-1 resize-none text-sm border border-border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-24 overflow-y-auto disabled:opacity-50"
+          />
+          <button
+            onClick={sendMessage}
+            disabled={!input.trim() || isLoading || typingText !== null}
+            className="w-9 h-9 bg-primary hover:bg-primary/90 disabled:bg-muted text-white rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
+          >
+            <Send size={15} />
+          </button>
+        </div>
+      </SheetContent>
+    </Sheet>
   )
 }
