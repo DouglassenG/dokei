@@ -17,7 +17,7 @@ export function FiltrosExtrato() {
   }
 
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+    <div className="w-full flex flex-wrap gap-2">
       {["todos", "negocio", "pessoal"].map((c) => (
         <button
           key={c}

@@ -10,13 +10,6 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { LancamentoRapido } from "./LancamentoRapido"
-import {
-  Key,
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-} from "react"
 
 interface Resumo {
   totalEntradas: number
@@ -139,36 +132,36 @@ export default async function FinanceiroPage() {
       {/* Entradas + Saidas — mesma linha, tamanho equilibrado */}
       <div className="grid grid-cols-2 gap-3">
         {/* Entradas */}
-        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
+        <div className="min-w-0 bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
-            <TrendingUp size={14} className="text-green-500" />
+            <TrendingUp size={14} className="text-green-500 shrink-0" />
             <p className="text-xs text-muted-foreground/70">Entradas</p>
           </div>
-          <p className="text-base font-bold text-green-600 dark:text-green-400">
+          <p className="text-base font-bold text-green-600 dark:text-green-400 truncate">
             {formatBRL(resumo.totalEntradas)}
           </p>
         </div>
 
         {/* Saidas */}
-        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
+        <div className="min-w-0 bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
-            <TrendingDown size={14} className="text-red-500" />
+            <TrendingDown size={14} className="text-red-500 shrink-0" />
             <p className="text-xs text-muted-foreground/70">Saidas</p>
           </div>
-          <p className="text-base font-bold text-red-500">
+          <p className="text-base font-bold text-red-500 truncate">
             {formatBRL(resumo.totalSaidas)}
           </p>
         </div>
       </div>
 
       {/* Saldo — linha propria abaixo, em destaque */}
-      <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
+      <div className="min-w-0 bg-card rounded-2xl border border-border p-4 space-y-1">
         <div className="flex items-center gap-1">
-          <DollarSign size={14} className="text-primary" />
+          <DollarSign size={14} className="text-primary shrink-0" />
           <p className="text-xs text-muted-foreground/70">Saldo</p>
         </div>
         <p
-          className={`text-lg font-bold ${resumo.saldo >= 0 ? "text-primary" : "text-red-500"}`}
+          className={`text-lg font-bold truncate ${resumo.saldo >= 0 ? "text-primary" : "text-red-500"}`}
         >
           {formatBRL(resumo.saldo)}
         </p>
@@ -185,22 +178,22 @@ export default async function FinanceiroPage() {
             </p>
           </div>
           <div className="space-y-1">
-            <div className="flex justify-between text-xs">
+            <div className="flex justify-between gap-2 text-xs">
               <span className="text-muted-foreground">Entradas</span>
-              <span className="text-green-600 dark:text-green-400 font-medium">
+              <span className="shrink-0 text-green-600 dark:text-green-400 font-medium">
                 {formatBRL(resumo.negocio.entradas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs">
+            <div className="flex justify-between gap-2 text-xs">
               <span className="text-muted-foreground">Saidas</span>
-              <span className="text-red-500 font-medium">
+              <span className="shrink-0 text-red-500 font-medium">
                 {formatBRL(resumo.negocio.saidas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs border-t border-blue-100 dark:border-blue-800 pt-1 mt-1">
+            <div className="flex justify-between gap-2 text-xs border-t border-blue-100 dark:border-blue-800 pt-1 mt-1">
               <span className="text-muted-foreground font-medium">Saldo</span>
               <span
-                className={`font-bold text-sm ${
+                className={`shrink-0 font-bold text-sm ${
                   resumo.negocio.entradas - resumo.negocio.saidas >= 0
                     ? "text-blue-700 dark:text-blue-300"
                     : "text-red-500"
@@ -219,22 +212,22 @@ export default async function FinanceiroPage() {
             <p className="text-sm font-semibold text-foreground">Pessoal</p>
           </div>
           <div className="space-y-1">
-            <div className="flex justify-between text-xs">
+            <div className="flex justify-between gap-2 text-xs">
               <span className="text-muted-foreground">Entradas</span>
-              <span className="text-green-600 dark:text-green-400 font-medium">
+              <span className="shrink-0 text-green-600 dark:text-green-400 font-medium">
                 {formatBRL(resumo.pessoal.entradas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs">
+            <div className="flex justify-between gap-2 text-xs">
               <span className="text-muted-foreground">Saidas</span>
-              <span className="text-red-500 font-medium">
+              <span className="shrink-0 text-red-500 font-medium">
                 {formatBRL(resumo.pessoal.saidas)}
               </span>
             </div>
-            <div className="flex justify-between text-xs border-t border-border pt-1 mt-1">
+            <div className="flex justify-between gap-2 text-xs border-t border-border pt-1 mt-1">
               <span className="text-muted-foreground font-medium">Saldo</span>
               <span
-                className={`font-bold text-sm ${
+                className={`shrink-0 font-bold text-sm ${
                   resumo.pessoal.entradas - resumo.pessoal.saidas >= 0
                     ? "text-foreground"
                     : "text-red-500"
@@ -272,104 +265,70 @@ export default async function FinanceiroPage() {
         {/* Lista de lancamentos */}
         {ultimosLancamentos.length > 0 && (
           <div className="bg-card rounded-2xl border border-border divide-y divide-border">
-            {ultimosLancamentos.map(
-              (item: {
-                data: string | number | Date
-                tipo: string
-                id: Key | null | undefined
-                descricao:
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactElement<unknown, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | ReactPortal
-                  | Promise<
-                      | string
-                      | number
-                      | bigint
-                      | boolean
-                      | ReactPortal
-                      | ReactElement<
-                          unknown,
-                          string | JSXElementConstructor<any>
-                        >
-                      | Iterable<ReactNode>
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined
-                carteira: string
-                valor: any
-              }) => {
-                const dataFormatada = new Date(item.data).toLocaleDateString(
-                  "pt-BR",
-                  {
-                    timeZone: "UTC",
-                  },
-                )
-                const isEntrada = item.tipo === "entrada"
+            {ultimosLancamentos.map((item) => {
+              const dataFormatada = new Date(item.data).toLocaleDateString(
+                "pt-BR",
+                {
+                  timeZone: "UTC",
+                },
+              )
+              const isEntrada = item.tipo === "entrada"
 
-                return (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between px-3 sm:px-4 py-3"
-                  >
-                    {/* Lado esquerdo — icone + descricao */}
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                          isEntrada
-                            ? "bg-green-50 dark:bg-green-950/50"
-                            : "bg-red-50 dark:bg-red-950/50"
-                        }`}
-                      >
-                        {isEntrada ? (
-                          <TrendingUp size={15} className="text-green-500" />
-                        ) : (
-                          <TrendingDown size={15} className="text-red-500" />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">
-                          {item.descricao}
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground/70">
-                            {dataFormatada}
-                          </span>
-                          <span
-                            className={`text-xs px-1.5 py-0.5 rounded-full ${
-                              item.carteira === "negocio"
-                                ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
-                                : "bg-muted text-muted-foreground"
-                            }`}
-                          >
-                            {item.carteira === "negocio"
-                              ? "Negocio"
-                              : "Pessoal"}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Lado direito — valor */}
-                    <p
-                      className={`text-sm font-semibold shrink-0 ml-3 ${
+              return (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between px-3 sm:px-4 py-3"
+                >
+                  {/* Lado esquerdo — icone + descricao */}
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                         isEntrada
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-red-500"
+                          ? "bg-green-50 dark:bg-green-950/50"
+                          : "bg-red-50 dark:bg-red-950/50"
                       }`}
                     >
-                      {isEntrada ? "+" : "-"}
-                      {formatBRL(Number(item.valor))}
-                    </p>
+                      {isEntrada ? (
+                        <TrendingUp size={15} className="text-green-500" />
+                      ) : (
+                        <TrendingDown size={15} className="text-red-500" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {item.descricao}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground/70">
+                          {dataFormatada}
+                        </span>
+                        <span
+                          className={`text-xs px-1.5 py-0.5 rounded-full ${
+                            item.carteira === "negocio"
+                              ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                              : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                )
-              },
-            )}
+
+                  {/* Lado direito — valor */}
+                  <p
+                    className={`text-sm font-semibold shrink-0 ml-3 ${
+                      isEntrada
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {isEntrada ? "+" : "-"}
+                    {formatBRL(Number(item.valor))}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         )}
       </div>
