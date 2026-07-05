@@ -155,3 +155,14 @@
     text-decoration: none;
   }
 }
+
+@layer utilities {
+  /* Esconde a barra de rolagem mantendo o scroll funcional — usado em filtros horizontais no mobile */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

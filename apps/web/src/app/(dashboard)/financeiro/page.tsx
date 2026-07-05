@@ -10,6 +10,13 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { LancamentoRapido } from "./LancamentoRapido"
+import {
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+} from "react"
 
 interface Resumo {
   totalEntradas: number
@@ -129,8 +136,8 @@ export default async function FinanceiroPage() {
         </Link>
       </div>
 
-      {/* 3 Cards — entradas, saidas, saldo */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* Entradas + Saidas — mesma linha, tamanho equilibrado */}
+      <div className="grid grid-cols-2 gap-3">
         {/* Entradas */}
         <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
@@ -152,22 +159,19 @@ export default async function FinanceiroPage() {
             {formatBRL(resumo.totalSaidas)}
           </p>
         </div>
+      </div>
 
-        {/* Saldo */}
-        <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
-          <div className="flex items-center gap-1">
-            <DollarSign
-              size={14}
-              className="text-primary"
-            />
-            <p className="text-xs text-muted-foreground/70">Saldo</p>
-          </div>
-          <p
-            className={`text-base font-bold ${resumo.saldo >= 0 ? "text-primary" : "text-red-500"}`}
-          >
-            {formatBRL(resumo.saldo)}
-          </p>
+      {/* Saldo — linha propria abaixo, em destaque */}
+      <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
+        <div className="flex items-center gap-1">
+          <DollarSign size={14} className="text-primary" />
+          <p className="text-xs text-muted-foreground/70">Saldo</p>
         </div>
+        <p
+          className={`text-lg font-bold ${resumo.saldo >= 0 ? "text-primary" : "text-red-500"}`}
+        >
+          {formatBRL(resumo.saldo)}
+        </p>
       </div>
 
       {/* 2 Carteiras — Negocio e Pessoal */}
@@ -257,10 +261,10 @@ export default async function FinanceiroPage() {
               className="text-muted-foreground/50 mx-auto"
             />
             <p className="text-sm text-muted-foreground">
-              Nenhum lancamento ainda
+              Nenhum lançamento ainda
             </p>
             <p className="text-xs text-muted-foreground/70">
-              Clique em "Novo lancamento" para comecar.
+              Clique em "Novo lançamento" para começar.
             </p>
           </div>
         )}
@@ -268,70 +272,104 @@ export default async function FinanceiroPage() {
         {/* Lista de lancamentos */}
         {ultimosLancamentos.length > 0 && (
           <div className="bg-card rounded-2xl border border-border divide-y divide-border">
-            {ultimosLancamentos.map((item) => {
-              const dataFormatada = new Date(item.data).toLocaleDateString(
-                "pt-BR",
-                {
-                  timeZone: "UTC",
-                },
-              )
-              const isEntrada = item.tipo === "entrada"
-
-              return (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between px-3 sm:px-4 py-3"
-                >
-                  {/* Lado esquerdo — icone + descricao */}
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                        isEntrada
-                          ? "bg-green-50 dark:bg-green-950/50"
-                          : "bg-red-50 dark:bg-red-950/50"
-                      }`}
-                    >
-                      {isEntrada ? (
-                        <TrendingUp size={15} className="text-green-500" />
-                      ) : (
-                        <TrendingDown size={15} className="text-red-500" />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">
-                        {item.descricao}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground/70">
-                          {dataFormatada}
-                        </span>
-                        <span
-                          className={`text-xs px-1.5 py-0.5 rounded-full ${
-                            item.carteira === "negocio"
-                              ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
-                              : "bg-muted text-muted-foreground"
-                          }`}
+            {ultimosLancamentos.map(
+              (item: {
+                data: string | number | Date
+                tipo: string
+                id: Key | null | undefined
+                descricao:
+                  | string
+                  | number
+                  | bigint
+                  | boolean
+                  | ReactElement<unknown, string | JSXElementConstructor<any>>
+                  | Iterable<ReactNode>
+                  | ReactPortal
+                  | Promise<
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | ReactPortal
+                      | ReactElement<
+                          unknown,
+                          string | JSXElementConstructor<any>
                         >
-                          {item.carteira === "negocio" ? "Negocio" : "Pessoal"}
-                        </span>
+                      | Iterable<ReactNode>
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined
+                carteira: string
+                valor: any
+              }) => {
+                const dataFormatada = new Date(item.data).toLocaleDateString(
+                  "pt-BR",
+                  {
+                    timeZone: "UTC",
+                  },
+                )
+                const isEntrada = item.tipo === "entrada"
+
+                return (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between px-3 sm:px-4 py-3"
+                  >
+                    {/* Lado esquerdo — icone + descricao */}
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          isEntrada
+                            ? "bg-green-50 dark:bg-green-950/50"
+                            : "bg-red-50 dark:bg-red-950/50"
+                        }`}
+                      >
+                        {isEntrada ? (
+                          <TrendingUp size={15} className="text-green-500" />
+                        ) : (
+                          <TrendingDown size={15} className="text-red-500" />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {item.descricao}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground/70">
+                            {dataFormatada}
+                          </span>
+                          <span
+                            className={`text-xs px-1.5 py-0.5 rounded-full ${
+                              item.carteira === "negocio"
+                                ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                                : "bg-muted text-muted-foreground"
+                            }`}
+                          >
+                            {item.carteira === "negocio"
+                              ? "Negocio"
+                              : "Pessoal"}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Lado direito — valor */}
-                  <p
-                    className={`text-sm font-semibold shrink-0 ml-3 ${
-                      isEntrada
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {isEntrada ? "+" : "-"}
-                    {formatBRL(Number(item.valor))}
-                  </p>
-                </div>
-              )
-            })}
+                    {/* Lado direito — valor */}
+                    <p
+                      className={`text-sm font-semibold shrink-0 ml-3 ${
+                        isEntrada
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {isEntrada ? "+" : "-"}
+                      {formatBRL(Number(item.valor))}
+                    </p>
+                  </div>
+                )
+              },
+            )}
           </div>
         )}
       </div>

@@ -17,12 +17,12 @@ export function FiltrosExtrato() {
   }
 
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
       {["todos", "negocio", "pessoal"].map((c) => (
         <button
           key={c}
           onClick={() => filtrarCarteira(c)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
             carteira === c
               ? "bg-primary text-white"
               : "bg-muted text-muted-foreground hover:bg-muted"
@@ -32,13 +32,13 @@ export function FiltrosExtrato() {
         </button>
       ))}
 
-      <span className="text-muted-foreground/50">|</span>
+      <span className="shrink-0 text-muted-foreground/50">|</span>
 
       {["todos", "entrada", "saida"].map((t) => (
         <button
           key={t}
           onClick={() => filtrarTipo(t)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
             tipo === t
               ? "bg-primary text-white"
               : "bg-muted text-muted-foreground hover:bg-muted"
