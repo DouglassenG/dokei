@@ -130,25 +130,25 @@ export default async function FinanceiroPage() {
       </div>
 
       {/* Entradas + Saidas — mesma linha, tamanho equilibrado */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         {/* Entradas */}
-        <div className="min-w-0 bg-card rounded-2xl border border-border p-4 space-y-1">
+        <div className="min-w-0 bg-card rounded-2xl border border-border p-3 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingUp size={14} className="text-green-500 shrink-0" />
             <p className="text-xs text-muted-foreground/70">Entradas</p>
           </div>
-          <p className="text-base font-bold text-green-600 dark:text-green-400 truncate">
+          <p className="text-sm font-bold text-green-600 dark:text-green-400 truncate">
             {formatBRL(resumo.totalEntradas)}
           </p>
         </div>
 
         {/* Saidas */}
-        <div className="min-w-0 bg-card rounded-2xl border border-border p-4 space-y-1">
+        <div className="min-w-0 bg-card rounded-2xl border border-border p-3 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500 shrink-0" />
             <p className="text-xs text-muted-foreground/70">Saidas</p>
           </div>
-          <p className="text-base font-bold text-red-500 truncate">
+          <p className="text-sm font-bold text-red-500 truncate">
             {formatBRL(resumo.totalSaidas)}
           </p>
         </div>
