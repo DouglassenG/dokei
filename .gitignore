@@ -27,6 +27,7 @@ out/
 build
 dist
 Prompts/
+.claude
 
 
 # Debug
