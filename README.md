@@ -13,16 +13,6 @@ O projeto ganha urgência real com a reforma tributária (LC 214/2025), que esta
 * Suíte de testes E2E migrada de Playwright para **Cypress**, com autenticação real via API do Clerk (sem depender de formulário ou OTP), tornando os testes mais rápidos e determinísticos.
 * Uso de `next/image`, `React.Suspense` e memoização (`useMemo`/`useCallback`) em pontos-chave da interface (landing page, calculadora, sidebar) como boas práticas de performance do React/Next.js.
 
-## 🖼️ Demonstração Visual
-
-Produto em produção: **[dokei.com.br](https://dokei.com.br)** *(domínio referenciado diretamente no código-fonte — metadados, footer e templates de PDF/e-mail).*
-
-Telas presentes no repositório (`apps/web/public/`):
-
-| Landing Page (Hero) | Funcionalidades |
-|---|---|
-| ![Hero Dokei](apps/web/public/hero_dokei.jpg) | ![Funcionalidades Dokei](apps/web/public/features_dokei.jpg) |
-
 ## 🛠️ Tecnologias Utilizadas
 
 * **Next.js 16 (App Router) + React 19** — framework principal, com Server Components e streaming via `Suspense`.
