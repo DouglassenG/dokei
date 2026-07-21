@@ -111,7 +111,7 @@ export default async function FinanceiroPage() {
   })
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6">
       {/* Cabecalho */}
       <div className="flex items-center justify-between">
         <div>
@@ -130,7 +130,7 @@ export default async function FinanceiroPage() {
       </div>
 
       {/* Entradas + Saidas — mesma linha, tamanho equilibrado */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className=" grid grid-cols-2 gap-2">
         {/* Entradas */}
         <div className="min-w-0 bg-card rounded-2xl border border-border p-3 space-y-1">
           <div className="flex items-center gap-1">
@@ -143,7 +143,7 @@ export default async function FinanceiroPage() {
         </div>
 
         {/* Saidas */}
-        <div className="min-w-0 bg-card rounded-2xl border border-border p-3 space-y-1">
+        <div className="sticky min-w-0 bg-card rounded-2xl border border-border p-3 space-y-1">
           <div className="flex items-center gap-1">
             <TrendingDown size={14} className="text-red-500 shrink-0" />
             <p className="text-xs text-muted-foreground/70">Saidas</p>
