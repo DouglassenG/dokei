@@ -91,7 +91,7 @@ export default async function ObrigacoesPage() {
           Obrigacoes Fiscais
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Nunca perca um prazo importante do seu MEI.
+          Prazos e Pagamentos
         </p>
       </div>
 

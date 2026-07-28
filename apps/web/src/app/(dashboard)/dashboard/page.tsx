@@ -7,7 +7,7 @@ import {
 
 const funcionalidades: FuncionalidadeCardProps[] = [
   {
-    titulo: "Emitir Recibo",
+    titulo: "Emissão de Recibos",
     descricao: "Gere recibos profissionais em PDF e compartilhe pelo WhatsApp.",
     href: "/recibos/novo",
     icon: FileText,
@@ -28,7 +28,7 @@ const funcionalidades: FuncionalidadeCardProps[] = [
     disponivel: true,
   },
   {
-    titulo: "Calculadora de Preço",
+    titulo: "Seu lucro %",
     descricao: "Descubra quanto cobrar pelo seu serviço em 30 segundos.",
     href: "/calculadora",
     icon: Calculator,

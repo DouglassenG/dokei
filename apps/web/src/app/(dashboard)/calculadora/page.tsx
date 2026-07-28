@@ -86,16 +86,13 @@ function CalculadoraConteudo() {
       {/* Cabecalho */}
       <div>
         <div className="flex items-center gap-2">
-          <Calculator
-            size={22}
-            className="text-primary"
-          />
+          <Calculator size={22} className="text-primary" />
           <h1 className="text-xl font-bold text-foreground">
             Calculadora de Preco
           </h1>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
-          Descubra quanto cobrar pelo seu servico em 30 segundos.
+          Quanto você gasta para fazer o serviço
         </p>
       </div>
 
@@ -223,10 +220,7 @@ function CalculadoraConteudo() {
       {/* Resultado */}
       <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 space-y-4">
         <div className="flex items-center gap-2">
-          <TrendingUp
-            size={16}
-            className="text-primary"
-          />
+          <TrendingUp size={16} className="text-primary" />
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Resultado
           </h2>

@@ -115,9 +115,7 @@ export default async function RendimentosPage({
           <h1 className="text-xl font-bold text-foreground">
             Declaracao de Rendimentos
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Carteira Negocio — base para sua declaracao MEI
-          </p>
+          <p className="text-sm text-muted-foreground">Meu Faturamento Anual</p>
         </div>
       </div>
 
@@ -162,10 +160,7 @@ export default async function RendimentosPage({
         </div>
         <div className="bg-card rounded-2xl border border-border p-4 space-y-1">
           <div className="flex items-center gap-1">
-            <DollarSign
-              size={14}
-              className="text-primary"
-            />
+            <DollarSign size={14} className="text-primary" />
             <p className="text-xs text-muted-foreground/70">Saldo</p>
           </div>
           <p
