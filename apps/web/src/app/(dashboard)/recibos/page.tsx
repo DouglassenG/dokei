@@ -45,7 +45,7 @@ export default async function RecibosPage() {
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <FileText size={22} className="text-primary" />
-          <h1 className="text-xl font-bold text-foreground">Meus Recibos</h1>
+          <h1 className="text-xl font-bold text-foreground">Emitir recibo</h1>
         </div>
         <Link
           href="/recibos/novo"
@@ -95,10 +95,7 @@ export default async function RecibosPage() {
                 {/* Lado esquerdo — numero e cliente */}
                 <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                   <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                    <FileText
-                      size={18}
-                      className="text-primary"
-                    />
+                    <FileText size={18} className="text-primary" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-foreground">
