@@ -1,6 +1,6 @@
 # 🧾 Dokei — Gestão Completa para MEI
 
-**Dokei** é uma plataforma SaaS **100% gratuita** para Microempreendedores Individuais (MEI) brasileiros gerenciarem recibos, finanças, obrigações fiscais e declarações — tudo em um único lugar, com uma assistente de IA integrada para tirar dúvidas.
+**Dokei** é uma plataforma SaaS **100% gratuita** para Microempreendedores Individuais (MEI) brasileiros gerenciarem recibos, finanças, obrigações fiscais e declarações, tudo em um único lugar, com uma assistente de IA integrada para tirar dúvidas.
 
 ## 🎯 Motivação e Propósito
 
