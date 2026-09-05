@@ -1,12 +1,5 @@
 package com.dokei.api.entity;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import org.springframework.data.domain.Persistable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,14 +7,13 @@ import jakarta.persistence.PostLoad;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.springframework.data.domain.Persistable;
 
-/**
- * Mapeia a tabela "documentos", que ja existe e e administrada pelo Prisma
- * (apps/web/prisma/schema.prisma). E um modelo polimorfico: um "recibo" e
- * um Documento com tipo = "recibo", com os campos especificos guardados em
- * dadosJson (jsonb). O Hibernate nunca cria/altera essa tabela — ver
- * spring.jpa.hibernate.ddl-auto=none em application.properties.
- */
+import java.time.LocalDateTime;
+import java.util.Map;
+
 @Entity
 @Table(name = "documentos")
 public class Documento implements Persistable<String> {
@@ -30,14 +22,14 @@ public class Documento implements Persistable<String> {
     @Column(name = "id", length = 30)
     private String id;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "`userId`", nullable = false)
     private String userId;
 
     @Column(name = "tipo", nullable = false)
     private String tipo;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "dadosJson", columnDefinition = "jsonb", nullable = false)
+    @Column(name = "`dadosJson`", columnDefinition = "jsonb", nullable = false)
     private Map<String, Object> dadosJson;
 
     @Column(name = "status", nullable = false)
@@ -46,7 +38,7 @@ public class Documento implements Persistable<String> {
     @Column(name = "numero")
     private String numero;
 
-    @Column(name = "criadoEm", nullable = false)
+    @Column(name = "`criadoEm`", nullable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
 
     @Transient
