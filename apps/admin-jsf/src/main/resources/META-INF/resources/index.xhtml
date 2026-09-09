@@ -10,8 +10,40 @@
   </h:head>
 
   <h:body>
-    <p:panel header="Painel Dokei - Admin (JSF)">
-      <h:outputText value="Modulo administrativo em construcao." />
+    <p:panel header="Painel Dokei - Recibos emitidos">
+      <p:dataTable
+        var="recibo"
+        value="#{reciboListBean.recibos}"
+        emptyMessage="Nenhum recibo emitido ainda."
+      >
+        <p:column headerText="Numero">
+          <h:outputText value="#{recibo.numero}" />
+        </p:column>
+
+        <p:column headerText="Cliente">
+          <h:outputText value="#{recibo.nomeCliente}" />
+        </p:column>
+
+        <p:column headerText="Servico">
+          <h:outputText value="#{recibo.servicoDescricao}" />
+        </p:column>
+
+        <p:column headerText="Valor">
+          <h:outputText value="#{recibo.valor}">
+            <f:convertNumber type="currency" currencySymbol="R$ " />
+          </h:outputText>
+        </p:column>
+
+        <p:column headerText="Status">
+          <h:outputText value="#{recibo.status}" />
+        </p:column>
+
+        <p:column headerText="Emitido em">
+          <h:outputText value="#{recibo.criadoEm}">
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+          </h:outputText>
+        </p:column>
+      </p:dataTable>
     </p:panel>
   </h:body>
 </html>
