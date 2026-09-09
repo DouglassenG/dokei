@@ -35,7 +35,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
+        <dependencies>
         <!-- Traz JSF (Mojarra) + PrimeFaces + servlet embarcado -->
         <dependency>
             <groupId>org.joinfaces</groupId>
@@ -51,6 +51,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Necessario para o Hibernate ler a coluna jsonb (dadosJson) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

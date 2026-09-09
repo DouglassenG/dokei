@@ -40,7 +40,10 @@
 
         <p:column headerText="Emitido em">
           <h:outputText value="#{recibo.criadoEm}">
-            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+            <f:convertDateTime
+              type="localDateTime"
+              pattern="dd/MM/yyyy HH:mm"
+            />
           </h:outputText>
         </p:column>
       </p:dataTable>
